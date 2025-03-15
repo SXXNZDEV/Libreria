@@ -105,4 +105,16 @@ public class VentanaPrincipal extends JFrame {
     public void activarCarrito() {
         panelVenta.activarPanelCarrito();
     }
+
+    public void activarPanelCompras() {
+        JOptionPane.showMessageDialog(this, "Panel Compras...");
+    }
+
+    public void activarEliminarLibros() {
+        JOptionPane.showMessageDialog(this, "Eliminar libros...");
+    }
+
+    public void activarActualizarDatosUsuario() {
+        JOptionPane.showMessageDialog(this, "Actualización datos del usuario en curso...");
+    }
 }

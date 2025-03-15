@@ -3,6 +3,8 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PanelCatalogo extends JPanel{
 
@@ -60,6 +62,13 @@ public class PanelCatalogo extends JPanel{
                 JLabel labelCategoriaPaginas = new JLabel("Categoria-Pag");
                 JLabel labelPrecioVenta = new JLabel("Precio");
                 JButton botonAgregar = new JButton("Agregar al carrito");
+
+                botonAgregar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JOptionPane.showMessageDialog(null, "Agregado al carrito...");
+                    }
+                });
 
                 gbc.gridy = 0;
                 gbc.gridx = 0;

@@ -17,6 +17,9 @@ public class PanelPerfil extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+        botonActualizacionDatos.addActionListener(eventos);
+        botonActualizacionDatos.setActionCommand(eventos.ACTUALIZAR_DATOS_USUARIO);
+
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 1.0;

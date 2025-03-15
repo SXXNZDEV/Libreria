@@ -15,26 +15,28 @@ public class PanelVenta extends JPanel {
     private PanelCatalogo panelCatalogo;
     private PanelCarrito panelCarrito;
     private PanelPerfil panelPerfil;
-    private JScrollPane scrollPane;
+    private JScrollPane scrollCatalogo;
+    private JScrollPane scrollCarrito;
     private CardLayout cardLayout;
     private JPanel panelCL;
-
 
 
     public PanelVenta(Eventos eventos) {
         setLayout(new BorderLayout());
 
         panelCatalogo = new PanelCatalogo();
-        scrollPane = new JScrollPane(panelCatalogo);
+        scrollCatalogo = new JScrollPane(panelCatalogo);
 
         panelPerfil = new PanelPerfil(eventos);
-        panelCarrito = new PanelCarrito(eventos);
+
+        panelCarrito = new PanelCarrito();
+        scrollCarrito = new JScrollPane(panelCarrito);
 
         cardLayout = new CardLayout();
         panelCL = new JPanel(cardLayout);
-        panelCL.add(scrollPane, "Catalogo");
+        panelCL.add(scrollCatalogo, "Catalogo");
         panelCL.add(panelPerfil, "Perfil");
-        panelCL.add(panelCarrito, "Carrito");
+        panelCL.add(scrollCarrito, "Carrito");
 
         add(panelIzquierda(eventos), BorderLayout.WEST);
         add(panelCL, BorderLayout.CENTER);
@@ -59,6 +61,8 @@ public class PanelVenta extends JPanel {
         botonCarrito.setActionCommand(eventos.CARRITO);
         botonCerrarSesion.addActionListener(eventos);
         botonCerrarSesion.setActionCommand(eventos.CERRAR_SESION);
+        botonCompras.addActionListener(eventos);
+        botonCompras.setActionCommand(eventos.COMPRAS);
 
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;

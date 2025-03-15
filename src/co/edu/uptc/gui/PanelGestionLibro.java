@@ -25,6 +25,8 @@ public class PanelGestionLibro extends JPanel {
         botonRegresar = new JButton("Regresar");
         botonRegresar.addActionListener(eventos);
         botonRegresar.setActionCommand(eventos.REGRESAR);
+        botonEliminar.addActionListener(eventos);
+        botonEliminar.setActionCommand(eventos.ELIMINAR_LIBRO);
 
 
         add(botonRegistrar, gbc);
