@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class PanelCarrito extends JPanel {
 
     private JLabel labelTitulo;
+    private JScrollPane scrollPane;
+    private JPanel panelProductos;
 
     private ArrayList<ProductoCarrito> productosCarrito;
     private ArrayList<JPanel> panelesProductos;
@@ -23,6 +25,15 @@ public class PanelCarrito extends JPanel {
         productosCarrito.add(new ProductoCarrito("Libro 1"));
         productosCarrito.add(new ProductoCarrito("Libro 2"));
         productosCarrito.add(new ProductoCarrito("Libro 3"));
+        productosCarrito.add(new ProductoCarrito("Libro 4"));
+        productosCarrito.add(new ProductoCarrito("Libro 5"));
+        productosCarrito.add(new ProductoCarrito("Libro 6"));
+        productosCarrito.add(new ProductoCarrito("Libro 7"));
+        productosCarrito.add(new ProductoCarrito("Libro 8"));
+        productosCarrito.add(new ProductoCarrito("Libro 9"));
+        productosCarrito.add(new ProductoCarrito("Libro 10"));
+        productosCarrito.add(new ProductoCarrito("Libro 11"));
+        productosCarrito.add(new ProductoCarrito("Libro 12"));
 
         agregarPaneles();
     }
@@ -36,39 +47,58 @@ public class PanelCarrito extends JPanel {
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(5, 5, 5, 5);
 
         labelTitulo = new JLabel("Mi carrito");
         Font fontTitulo = new Font("Arial", Font.BOLD, 30);
         labelTitulo.setFont(fontTitulo);
         add(labelTitulo, gbc);
 
-        if (productosCarrito.isEmpty()) {
-            gbc.gridy = 1;
-            gbc.weighty = 1.0;
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.fill = GridBagConstraints.NONE;
-            JLabel label = new JLabel("No hay productos seleccionados");
-            add(label, gbc);
-            return;
-        }
+        gbc.gridy = 1;
+        gbc.gridheight = 3;
+        gbc.weighty = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        for (ProductoCarrito productoCarrito : productosCarrito) {
-            JPanel panel = crearPanelProducto(productoCarrito);
-            gbc.gridy++;
-            add(panel, gbc);
-            panelesProductos.add(panel);
-        }
+        JPanel paneProductos = anadirProductosPanel();
+        scrollPane = new JScrollPane(paneProductos);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        add(scrollPane, gbc);
 
-        gbc.gridy++;
-        gbc.gridwidth = 1;
-        gbc.weighty = 0.3;
+
+        gbc.weighty = 0.1;
+        gbc.gridy = 2;
         gbc.gridx = 0;
 
-        gbc.anchor = GridBagConstraints.SOUTHWEST;
+        gbc.insets = new Insets(20, 10, 0, 10);
+        gbc.anchor = GridBagConstraints.SOUTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(crearPanelResumenCompra(productosCarrito), gbc);
+    }
 
+    public JPanel anadirProductosPanel() {
+        panelProductos = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridy = 0;
+
+        if (productosCarrito.isEmpty()) {
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            JLabel label = new JLabel("No hay productos seleccionados");
+            panelProductos.add(label, gbc);
+        } else {
+
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.weightx = 1.0;
+
+            for (ProductoCarrito productoCarrito : productosCarrito) {
+                JPanel panel = crearPanelProducto(productoCarrito);
+                gbc.gridy++;
+                panelProductos.add(panel, gbc);
+                panelesProductos.add(panel);
+            }
+        }
+        return panelProductos;
     }
 
     public JPanel crearPanelProducto(ProductoCarrito producto) {
@@ -82,7 +112,7 @@ public class PanelCarrito extends JPanel {
         JButton botonDisminuir = new JButton("-");
         JLabel labelCantidad = new JLabel(String.valueOf(producto.getCantidad()));
         JButton botonEliminar = new JButton("Eliminar");
-        JLabel labelPrecio = new JLabel(String.valueOf(producto.getPrecio()));
+        JLabel labelPrecio = new JLabel("$" + producto.getPrecio());
 
         botonAumentar.addActionListener(new ActionListener() {
             @Override
@@ -106,12 +136,6 @@ public class PanelCarrito extends JPanel {
             }
         });
 
-        botonEliminar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eliminarProducto(panel);
-            }
-        });
 
         gbc.gridy = 0;
         gbc.gridx = 0;
@@ -139,6 +163,12 @@ public class PanelCarrito extends JPanel {
         gbc.gridx = 8;
         gbc.weightx = 1.0;
         panel.add(botonEliminar);
+        botonEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarProducto(panel);
+            }
+        });
 
         return panel;
     }
@@ -148,17 +178,26 @@ public class PanelCarrito extends JPanel {
         if (posicion >= 0 && posicion < productosCarrito.size()) {
             productosCarrito.remove(posicion);
             panelesProductos.remove(panel);
-
-            remove(panel);
-            revalidate();
-            repaint();
+            panelProductos.remove(panel);
         }
+
+        if (productosCarrito.isEmpty()) {
+            panelProductos.removeAll();
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            JLabel label = new JLabel("No hay productos en el carrito");
+            panelProductos.add(label);
+        }
+
+        panelProductos.revalidate();
+        panelProductos.repaint();
     }
 
     public JPanel crearPanelResumenCompra(ArrayList<ProductoCarrito> productosCarrito) {
         JPanel panelResumenCompra = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        panelResumenCompra.setBackground(Color.lightGray);
+        panelResumenCompra.setBackground(Color.pink);
 
         JLabel labelTitulo = new JLabel("Resumen Compra");
         JLabel labelSubtotal = new JLabel("Subtotal");

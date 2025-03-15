@@ -17,6 +17,7 @@ public class PanelPerfil extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+        inicializarAtributos();
         botonActualizacionDatos.addActionListener(eventos);
         botonActualizacionDatos.setActionCommand(eventos.ACTUALIZAR_DATOS_USUARIO);
 
@@ -29,8 +30,6 @@ public class PanelPerfil extends JPanel {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(10, 30, 10, 10);
 
-
-        inicializarAtributos();
         cambiarFont();
         add(labelTitulo, gbc);
         gbc.gridy = 3;

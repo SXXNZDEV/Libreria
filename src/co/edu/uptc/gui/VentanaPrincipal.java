@@ -15,7 +15,7 @@ public class VentanaPrincipal extends JFrame {
     private PanelRegistrarUsuario panelRegistrarUsuario;
     private PanelModificarLibro panelModificarLibro;
     private PanelVenta panelVenta;
-    private JScrollPane scrollPane;
+    private PanelActualizarDatosUsuario panelActualizarDatosUsuario;
 
 
     public VentanaPrincipal() {
@@ -33,6 +33,7 @@ public class VentanaPrincipal extends JFrame {
         panelRegistrarUsuario = new PanelRegistrarUsuario(eventos);
         panelModificarLibro = new PanelModificarLibro(eventos);
         panelVenta = new PanelVenta(eventos);
+        panelActualizarDatosUsuario = new PanelActualizarDatosUsuario(eventos);
 
         panelCL.add(panelInicio, "Inicio");
         panelCL.add(panelInicioSesion, "Iniciar Sesion");
@@ -40,6 +41,7 @@ public class VentanaPrincipal extends JFrame {
         panelCL.add(panelVenta, "Continuar");
 
         add(panelCL, BorderLayout.CENTER);
+        setResizable(false);
         setSize(800, 500);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -107,7 +109,7 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelCompras() {
-        JOptionPane.showMessageDialog(this, "Panel Compras...");
+        panelVenta.activarPanelTabla();
     }
 
     public void activarEliminarLibros() {
@@ -115,6 +117,14 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarActualizarDatosUsuario() {
-        JOptionPane.showMessageDialog(this, "Actualización datos del usuario en curso...");
+        panelActualizarDatosUsuario.setVisible(true);
+    }
+
+    public void activarAceptarActualizarUser() {
+        JOptionPane.showMessageDialog(this, "Actualización en curso...");
+    }
+
+    public void activarCancelarActualizarUser() {
+        panelActualizarDatosUsuario.setVisible(false);
     }
 }

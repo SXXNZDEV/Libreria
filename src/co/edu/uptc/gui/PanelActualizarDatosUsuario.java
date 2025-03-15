@@ -3,7 +3,7 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelRegistrarUsuario extends JDialog {
+public class PanelActualizarDatosUsuario extends JDialog {
     private JLabel labelNombre;
     private JLabel labelCorreo;
     private JLabel labelContrasena;
@@ -17,11 +17,11 @@ public class PanelRegistrarUsuario extends JDialog {
     private JTextField txtTelefono;
     private JComboBox cbTipoCliente;
     private JLabel labelTitulo;
-    private JButton botonRegistrar;
+    private JButton botonActualizar;
     private JButton botonCancelar;
 
-    public PanelRegistrarUsuario(Eventos eventos) {
-        setTitle("Registrar Persona");
+    public PanelActualizarDatosUsuario(Eventos eventos) {
+        setTitle("Actualizar Datos Usuario");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -29,8 +29,10 @@ public class PanelRegistrarUsuario extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
 
+        botonActualizar.addActionListener(eventos);
+        botonActualizar.setActionCommand(eventos.ACEPTAR_ACTUALIZAR_USUARIO);
         botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.CANCELAR_REGISTRO_USUARIO);
+        botonCancelar.setActionCommand(eventos.CANCELAR_ACTUALIZAR_USUARIO);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -70,13 +72,13 @@ public class PanelRegistrarUsuario extends JDialog {
         add(txtContrasena, gbc);
         gbc.gridy = 7;
         gbc.gridx = 0;
-        add(botonRegistrar, gbc);
+        add(botonActualizar, gbc);
         gbc.gridx = 1;
         add(botonCancelar, gbc);
 
         setResizable(false);
         setModal(true);
-        setSize(600, 350);
+        setSize(400, 350);
         setLocationRelativeTo(null);
     }
 
@@ -94,8 +96,8 @@ public class PanelRegistrarUsuario extends JDialog {
         txtTelefono = new JTextField(20);
         String[] tiposCliente = {"Regular", "Premium"};
         cbTipoCliente = new JComboBox<>(tiposCliente);
-        labelTitulo = new JLabel("Registrar Usuario");
-        botonRegistrar = new JButton("Registrar");
+        labelTitulo = new JLabel("Actualizar Información Usuario");
+        botonActualizar = new JButton("Actualizar");
         botonCancelar = new JButton("Cancelar");
     }
 }

@@ -104,6 +104,7 @@ public class PanelRegistrarLibro extends JDialog {
         gbc.gridx = 1;
         add(botonCancelar, gbc);
 
+        setResizable(false);
         setModal(true);
         setSize(600, 500);
         setLocationRelativeTo(null);

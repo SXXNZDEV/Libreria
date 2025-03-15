@@ -22,8 +22,8 @@ public class Eventos implements ActionListener {
     public final static String CARRITO = "Carrito";
     public final static String COMPRAS = "Compras";
     public final static String ACTUALIZAR_DATOS_USUARIO = "Actualizar Datos Usuario";
-    public final static String AUMENTAR_CANTIDAD_CARRITO = "Aumentar Cantidad";
-    public final static String DISMINUIR_CANTIDAD_CARRITO = "Disminuir Cantidad";;
+    public final static String ACEPTAR_ACTUALIZAR_USUARIO = "Aceptar Datos Usuario";
+    public final static String CANCELAR_ACTUALIZAR_USUARIO = "Cancelar Datos Usuario";
 
     public VentanaPrincipal ventana;
 
@@ -53,6 +53,8 @@ public class Eventos implements ActionListener {
             case COMPRAS -> ventana.activarPanelCompras();
             case ELIMINAR_LIBRO -> ventana.activarEliminarLibros();
             case ACTUALIZAR_DATOS_USUARIO -> ventana.activarActualizarDatosUsuario();
+            case ACEPTAR_ACTUALIZAR_USUARIO -> ventana.activarAceptarActualizarUser();
+            case CANCELAR_ACTUALIZAR_USUARIO -> ventana.activarCancelarActualizarUser();
         }
     }
 }

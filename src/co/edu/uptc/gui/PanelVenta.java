@@ -16,27 +16,33 @@ public class PanelVenta extends JPanel {
     private PanelCarrito panelCarrito;
     private PanelPerfil panelPerfil;
     private JScrollPane scrollCatalogo;
-    private JScrollPane scrollCarrito;
+    private JScrollPane scrollTabla;
     private CardLayout cardLayout;
     private JPanel panelCL;
+    private PanelCompras panelCompras;
 
 
     public PanelVenta(Eventos eventos) {
         setLayout(new BorderLayout());
+        scrollCatalogo = new JScrollPane(panelCatalogo);
 
         panelCatalogo = new PanelCatalogo();
         scrollCatalogo = new JScrollPane(panelCatalogo);
+        scrollCatalogo.getVerticalScrollBar().setUnitIncrement(20);
 
         panelPerfil = new PanelPerfil(eventos);
 
         panelCarrito = new PanelCarrito();
-        scrollCarrito = new JScrollPane(panelCarrito);
+
+        panelCompras = new PanelCompras();
+        scrollTabla = new JScrollPane(panelCompras);
 
         cardLayout = new CardLayout();
         panelCL = new JPanel(cardLayout);
         panelCL.add(scrollCatalogo, "Catalogo");
         panelCL.add(panelPerfil, "Perfil");
-        panelCL.add(scrollCarrito, "Carrito");
+        panelCL.add(panelCarrito, "Carrito");
+        panelCL.add(scrollTabla, "Compras");
 
         add(panelIzquierda(eventos), BorderLayout.WEST);
         add(panelCL, BorderLayout.CENTER);
@@ -98,5 +104,9 @@ public class PanelVenta extends JPanel {
 
     public void activarPanelCarrito() {
         cardLayout.show(panelCL, "Carrito");
+    }
+
+    public void activarPanelTabla() {
+        cardLayout.show(panelCL, "Compras");
     }
 }
