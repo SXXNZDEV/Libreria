@@ -28,7 +28,7 @@ public class PanelModificarLibro extends JDialog {
     private JTextField txtPrecio;
     private JTextField txtCantidad;
     private JComboBox txtFormato;
-    private JButton botonAgregar;
+    private JButton botonModificar;
     private JButton botonCancelar;
 
     public PanelModificarLibro (Eventos eventos) {
@@ -40,6 +40,9 @@ public class PanelModificarLibro extends JDialog {
 
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
+
+        botonModificar.addActionListener(eventos);
+        botonModificar.setActionCommand(eventos.MODIFICAR_LIBRO);
         botonCancelar.addActionListener(eventos);
         botonCancelar.setActionCommand(eventos.CANCELAR_MODIFICACION_LIBRO);
 
@@ -106,7 +109,7 @@ public class PanelModificarLibro extends JDialog {
         add(txtFormato, gbc);
         gbc.gridy = 12;
         gbc.gridx = 0;
-        add(botonAgregar, gbc);
+        add(botonModificar, gbc);
         gbc.gridx = 1;
         add(botonCancelar, gbc);
 
@@ -149,7 +152,7 @@ public class PanelModificarLibro extends JDialog {
         String[] formatos = {"Tapa Dura", "Tapa Blanda", "Ebook"};
         txtFormato = new JComboBox<>(formatos);
 
-        botonAgregar = new JButton("Agregar");
+        botonModificar = new JButton("Modificar");
         botonCancelar = new JButton("Cancelar");
     }
 }

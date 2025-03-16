@@ -39,6 +39,9 @@ public class PanelRegistrarLibro extends JDialog {
 
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
+
+        botonAgregar.addActionListener(eventos);
+        botonAgregar.setActionCommand(eventos.REGISTRAR_LIBRO);
         botonCancelar.addActionListener(eventos);
         botonCancelar.setActionCommand(eventos.CANCELAR_REGISTRO_LIBRO);
 

@@ -3,7 +3,7 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelActualizarDatosUsuario extends JDialog {
+public class PanelActualizarUsuario extends JDialog {
     private JLabel labelNombre;
     private JLabel labelCorreo;
     private JLabel labelContrasena;
@@ -20,7 +20,7 @@ public class PanelActualizarDatosUsuario extends JDialog {
     private JButton botonActualizar;
     private JButton botonCancelar;
 
-    public PanelActualizarDatosUsuario(Eventos eventos) {
+    public PanelActualizarUsuario(Eventos eventos) {
         setTitle("Actualizar Datos Usuario");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

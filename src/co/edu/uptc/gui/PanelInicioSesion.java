@@ -34,12 +34,12 @@ public class PanelInicioSesion extends JPanel {
         botonContinuar = new JButton("Continuar");
         botonContinuar.addActionListener(eventos);
         botonContinuar.setActionCommand(eventos.CONTINUAR_INICIAR_SESION);
-        botonCancelar  = new JButton("Cancelar");
+        botonCancelar  = new JButton("Salir");
         botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.REGRESAR);
+        botonCancelar.setActionCommand(eventos.SALIR);
         botonCrearCuenta = new JButton("Crear Cuenta");
         botonCrearCuenta.addActionListener(eventos);
-        botonCrearCuenta.setActionCommand(eventos.REGISTRAR_USUARIO);
+        botonCrearCuenta.setActionCommand(eventos.VENTANA_REGISTRAR_USUARIO);
 
 
         labelTitulo.setFont(letra);

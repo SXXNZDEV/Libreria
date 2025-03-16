@@ -29,6 +29,8 @@ public class PanelRegistrarUsuario extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
 
+        botonRegistrar.addActionListener(eventos);
+        botonRegistrar.setActionCommand(eventos.REGISTRAR_USUARIO);
         botonCancelar.addActionListener(eventos);
         botonCancelar.setActionCommand(eventos.CANCELAR_REGISTRO_USUARIO);
 

@@ -5,17 +5,12 @@ import java.awt.*;
 
 public class VentanaPrincipal extends JFrame {
 
-    private PanelInicio panelInicio;
     private PanelInicioSesion panelInicioSesion;
-    private PanelGestionLibro panelGestionLibro;
-    private PanelRegistrarLibro panelRegistrarLibro;
+
     private Eventos eventos;
     private CardLayout cardLayout;
     private JPanel panelCL;
-    private PanelRegistrarUsuario panelRegistrarUsuario;
-    private PanelModificarLibro panelModificarLibro;
     private PanelVenta panelVenta;
-    private PanelActualizarDatosUsuario panelActualizarDatosUsuario;
 
 
     public VentanaPrincipal() {
@@ -26,18 +21,10 @@ public class VentanaPrincipal extends JFrame {
         cardLayout = new CardLayout();
 
         panelCL = new JPanel(cardLayout);
-        panelInicio = new PanelInicio(eventos);
-        panelInicioSesion = new PanelInicioSesion(eventos);
-        panelGestionLibro = new PanelGestionLibro(eventos);
-        panelRegistrarLibro = new PanelRegistrarLibro(eventos);
-        panelRegistrarUsuario = new PanelRegistrarUsuario(eventos);
-        panelModificarLibro = new PanelModificarLibro(eventos);
         panelVenta = new PanelVenta(eventos);
-        panelActualizarDatosUsuario = new PanelActualizarDatosUsuario(eventos);
+        panelInicioSesion = new PanelInicioSesion(eventos);
 
-        panelCL.add(panelInicio, "Inicio");
         panelCL.add(panelInicioSesion, "Iniciar Sesion");
-        panelCL.add(panelGestionLibro, "Gestionar Libros");
         panelCL.add(panelVenta, "Continuar");
 
         add(panelCL, BorderLayout.CENTER);
@@ -57,35 +44,12 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelGestionLibros() {
-        cardLayout.show(panelCL, "Gestionar Libros");
+        JOptionPane.showMessageDialog(this, "En este caso esta opcion aparece cuando el Administrador inicia sesion, cuando un usuario inicia sesión automáticamente se deshabilita", "Mensaje de Información", 1);
+        panelVenta.activarPanelGestionLibro();
     }
 
     public void activarFuncionRegresar() {
-        cardLayout.first(panelCL);
-    }
-
-    public void activarPanelRegistrarLibros() {
-        panelRegistrarLibro.setVisible(true);
-    }
-
-    public void activarPanelRegistrarUsuario() {
-        panelRegistrarUsuario.setVisible(true);
-    }
-
-    public void activarCancelarRegistroLibro() {
-        panelRegistrarLibro.setVisible(false);
-    }
-
-    public void activarCancelarRegistroUsuario() {
-        panelRegistrarUsuario.setVisible(false);
-    }
-
-    public void activarPanelModificarLibro() {
-        panelModificarLibro.setVisible(true);
-    }
-
-    public void activarCancelarModificacionLibro() {
-        panelModificarLibro.setVisible(false);
+        System.exit(0);
     }
 
     public void activarPanelVenta() {
@@ -109,22 +73,58 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelCompras() {
-        panelVenta.activarPanelTabla();
+        panelVenta.activarPanelCompras();
     }
 
-    public void activarEliminarLibros() {
-        JOptionPane.showMessageDialog(this, "Eliminar libros...");
+    public void activarPanelRegistrarLibros() {
+        panelVenta.activarPanelRegistrarLibros();
+    }
+
+    public void activarPanelRegistrarUsuario() {
+        panelVenta.activarPanelRegistrarUsuario();
+    }
+
+    public void activarCancelarRegistroLibro() {
+        panelVenta.activarCancelarRegistroLibro();
+    }
+
+    public void activarCancelarRegistroUsuario() {
+        panelVenta.activarCancelarRegistroUsuario();
+    }
+
+    public void activarPanelModificarLibro() {
+        panelVenta.activarPanelModificarLibro();
+    }
+
+    public void activarCancelarModificacionLibro() {
+        panelVenta.activarCancelarModificacionLibro();
     }
 
     public void activarActualizarDatosUsuario() {
-        panelActualizarDatosUsuario.setVisible(true);
-    }
-
-    public void activarAceptarActualizarUser() {
-        JOptionPane.showMessageDialog(this, "Actualización en curso...");
+        panelVenta.activarActualizarDatosUsuario();
     }
 
     public void activarCancelarActualizarUser() {
-        panelActualizarDatosUsuario.setVisible(false);
+        panelVenta.activarCancelarActualizarUser();
+    }
+
+    public void activarFuncionRegistrarUsuario() {
+        panelVenta.activarFuncionRegistrarUsuario();
+    }
+
+    public void activarEliminarLibros() {
+        panelVenta.activarEliminarLibros();
+    }
+
+    public void activarAceptarActualizarUser() {
+        panelVenta.activarAceptarActualizarUser();
+    }
+
+    public void activarFuncionModificarLibro() {
+        panelVenta.activarFuncionModificarLibro();
+    }
+
+    public void activarFuncionRegistrarLibro() {
+        panelVenta.activarFuncionRegistrarLibro();
     }
 }

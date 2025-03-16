@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class PanelGestionLibro extends JPanel {
 
-    private JButton botonRegistrar, botonModificar, botonEliminar, botonRegresar;
+    private JButton botonRegistrar, botonModificar, botonEliminar;
 
 
     public PanelGestionLibro(Eventos eventos) {
@@ -17,14 +17,11 @@ public class PanelGestionLibro extends JPanel {
 
         botonRegistrar = new JButton("Registrar Libro");
         botonRegistrar.addActionListener(eventos);
-        botonRegistrar.setActionCommand(eventos.REGISTRAR_LIBRO);
+        botonRegistrar.setActionCommand(eventos.VENTANA_REGISTRAR_LIBRO);
         botonModificar = new JButton("Modificar Libro");
         botonModificar.addActionListener(eventos);
-        botonModificar.setActionCommand(eventos.MODIFICAR_LIBRO);
+        botonModificar.setActionCommand(eventos.VENTANA_MODIFICAR_LIBRO);
         botonEliminar = new JButton("Eliminar Libro");
-        botonRegresar = new JButton("Regresar");
-        botonRegresar.addActionListener(eventos);
-        botonRegresar.setActionCommand(eventos.REGRESAR);
         botonEliminar.addActionListener(eventos);
         botonEliminar.setActionCommand(eventos.ELIMINAR_LIBRO);
 
@@ -34,8 +31,6 @@ public class PanelGestionLibro extends JPanel {
         add(botonModificar, gbc);
         gbc.gridy = 2;
         add(botonEliminar, gbc);
-        gbc.gridy = 3;
-        add(botonRegresar, gbc);
     }
 
 }
