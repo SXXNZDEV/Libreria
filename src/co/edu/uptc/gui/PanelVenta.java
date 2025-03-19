@@ -7,6 +7,7 @@ import java.awt.*;
 public class PanelVenta extends JPanel {
 
     private JLabel labelTituloMenu;
+    private JLabel labelNombreUsuario;
     private JButton botonCatalogo;
     private JButton botonCarrito;
     private JButton botonCompras;
@@ -26,11 +27,51 @@ public class PanelVenta extends JPanel {
     private PanelRegistrarLibro panelRegistrarLibro;
     private PanelRegistrarUsuario panelRegistrarUsuario;
     private PanelModificarLibro panelModificarLibro;
-    private PanelActualizarUsuario panelActualizarUsuario;
+    private PanelModificarUsuario panelModificarUsuario;
+    private GridBagConstraints gbc;
+    private JPanel panelIzquierda;
 
+    public PanelCompras getPanelCompras() {
+        return panelCompras;
+    }
+
+    public PanelGestionLibro getPanelGestionLibro() {
+        return panelGestionLibro;
+    }
+
+    public PanelRegistrarLibro getPanelRegistrarLibro() {
+        return panelRegistrarLibro;
+    }
+
+    public PanelRegistrarUsuario getPanelRegistrarUsuario() {
+        return panelRegistrarUsuario;
+    }
+
+    public PanelModificarLibro getPanelModificarLibro() {
+        return panelModificarLibro;
+    }
+
+    public PanelModificarUsuario getPanelModificarUsuario() {
+        return panelModificarUsuario;
+    }
+
+    public PanelModificarUsuario getPanelActualizarUsuario() {
+        return panelModificarUsuario;
+    }
+
+    public PanelPerfil getPanelPerfil() {
+        return panelPerfil;
+    }
+
+    public void setLabelNombreUsuario(String nombreUsuario) {
+        labelNombreUsuario.setText(nombreUsuario);
+    }
 
     public PanelVenta(Eventos eventos) {
         setLayout(new BorderLayout());
+        panelIzquierda = new JPanel(new GridBagLayout());
+        gbc = new GridBagConstraints();
+
         scrollCatalogo = new JScrollPane(panelCatalogo);
 
         panelCatalogo = new PanelCatalogo();
@@ -45,7 +86,7 @@ public class PanelVenta extends JPanel {
         panelRegistrarLibro = new PanelRegistrarLibro(eventos);
         panelRegistrarUsuario = new PanelRegistrarUsuario(eventos);
         panelModificarLibro = new PanelModificarLibro(eventos);
-        panelActualizarUsuario = new PanelActualizarUsuario(eventos);
+        panelModificarUsuario = new PanelModificarUsuario(eventos);
 
 
         panelGestionLibro = new PanelGestionLibro(eventos);
@@ -63,10 +104,10 @@ public class PanelVenta extends JPanel {
     }
 
     public JPanel panelIzquierda(Eventos eventos) {
-        JPanel panelIzquierda = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        panelIzquierda = new JPanel(new GridBagLayout());
 
-        labelTituloMenu = new JLabel("Libreria Virtual");
+        labelTituloMenu = new JLabel("Librería Virtual", SwingUtilities.CENTER);
+        labelNombreUsuario = new JLabel("", SwingUtilities.CENTER);
         botonCatalogo = new JButton("Catalogo");
         botonCarrito = new JButton("Mi carrito");
         botonCompras = new JButton("Mis compras");
@@ -74,6 +115,8 @@ public class PanelVenta extends JPanel {
         botonCerrarSesion = new JButton("Cerrar Sesión");
         botonGestionarLibros = new JButton("Gestionar Libros");
         botonRegistrarUsuario = new JButton("Registrar Usuario");
+
+        labelNombreUsuario.setForeground(new Color(128, 16, 5));
 
         botonCatalogo.addActionListener(eventos);
         botonCatalogo.setActionCommand(eventos.CATALOGO);
@@ -104,18 +147,34 @@ public class PanelVenta extends JPanel {
         panelIzquierda.add(botonCompras, gbc);
         gbc.gridy = 4;
         panelIzquierda.add(botonPerfil, gbc);
+        gbc.weighty = 1.0;
+        gbc.gridy = 7;
+        panelIzquierda.add(new JLabel(), gbc);
+        gbc.weighty = 0;
+        gbc.gridy = 8;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        panelIzquierda.add(labelNombreUsuario, gbc);
+        gbc.gridy = 9;
+        panelIzquierda.add(botonCerrarSesion, gbc);
+        panelIzquierda.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
+        return panelIzquierda;
+    }
+
+    public void anadirFuncionesAdmin() {
+        gbc.weighty = 0;
         gbc.gridy = 5;
         panelIzquierda.add(botonGestionarLibros, gbc);
         gbc.gridy = 6;
         panelIzquierda.add(botonRegistrarUsuario, gbc);
-        gbc.weighty = 1.0;
-        gbc.gridy = 7;
-        panelIzquierda.add(new JLabel(), gbc);
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        panelIzquierda.add(botonCerrarSesion, gbc);
-        panelIzquierda.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
-        return panelIzquierda;
+        panelIzquierda.revalidate();
+        panelIzquierda.repaint();
+    }
+
+    public void quitarFuncionesAdmin() {
+        panelIzquierda.remove(botonGestionarLibros);
+        panelIzquierda.remove(botonRegistrarUsuario);
+        panelIzquierda.revalidate();
+        panelIzquierda.repaint();
     }
 
     public void activarPanelCatalogo() {
@@ -163,25 +222,17 @@ public class PanelVenta extends JPanel {
     }
 
     public void activarActualizarDatosUsuario() {
-        panelActualizarUsuario.setVisible(true);
+        panelModificarUsuario.setVisible(true);
     }
 
     public void activarCancelarActualizarUser() {
-        panelActualizarUsuario.setVisible(false);
+        panelModificarUsuario.setVisible(false);
     }
 
-    public void activarFuncionRegistrarUsuario() {
-        JOptionPane.showMessageDialog(this, "Se registra un usuario");
-        panelRegistrarUsuario.setVisible(false);
-    }
+
 
     public void activarEliminarLibros() {
         JOptionPane.showMessageDialog(this, "Eliminar libros...");
-    }
-
-    public void activarAceptarActualizarUser() {
-        JOptionPane.showMessageDialog(this, "Actualización en curso...");
-        panelActualizarUsuario.setVisible(false);
     }
 
     public void activarFuncionModificarLibro() {

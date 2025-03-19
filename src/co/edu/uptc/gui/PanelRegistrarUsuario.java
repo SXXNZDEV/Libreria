@@ -20,6 +20,50 @@ public class PanelRegistrarUsuario extends JDialog {
     private JButton botonRegistrar;
     private JButton botonCancelar;
 
+    public String getTxtNombre() {
+        return txtNombre.getText();
+    }
+
+    public String getTxtCorreo() {
+        return txtCorreo.getText();
+    }
+
+    public String  getTxtContrasena() {
+        return txtContrasena.getText();
+    }
+
+    public String getTxtDireccion() {
+        return txtDireccion.getText();
+    }
+
+    public String getTxtTelefono() {
+        return txtTelefono.getText();
+    }
+
+    public String getCbTipoCliente() {
+        return (String) cbTipoCliente.getSelectedItem();
+    }
+
+    public void setTxtNombre(String nombre) {
+        this.txtNombre.setText(nombre);
+    }
+
+    public void setTxtCorreo(String correo) {
+        this.txtCorreo.setText(correo);
+    }
+
+    public void setTxtContrasena(String contrasena) {
+        this.txtContrasena.setText(contrasena);
+    }
+
+    public void setTxtDireccion(String direccion) {
+        this.txtDireccion.setText(direccion);
+    }
+
+    public void setTxtTelefono(String telefono) {
+        this.txtTelefono.setText(telefono);
+    }
+
     public PanelRegistrarUsuario(Eventos eventos) {
         setTitle("Registrar Persona");
         setLayout(new GridBagLayout());

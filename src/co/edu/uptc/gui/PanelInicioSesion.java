@@ -9,6 +9,22 @@ public class PanelInicioSesion extends JPanel {
     private JLabel labelTitulo, labelIniciarSesion, labelTexto, labelCorreo, labelContrasena;
     private JButton botonContinuar, botonCancelar, botonCrearCuenta;
 
+    public JTextField getTxtContrasena() {
+        return txtContrasena;
+    }
+
+    public JTextField getTxtCorreo() {
+        return txtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        this.txtCorreo = txtCorreo;
+    }
+
+    public void setTxtContrasena(JTextField txtContrasena) {
+        this.txtContrasena = txtContrasena;
+    }
+
     public PanelInicioSesion(Eventos eventos) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -23,8 +39,8 @@ public class PanelInicioSesion extends JPanel {
         labelTexto = new JLabel("o crea una cuenta");
         labelContrasena = new JLabel("Contraseña: ");
         labelCorreo = new JLabel("Correo: ");
-        txtCorreo = new JTextField("Email", 25);
-        txtContrasena = new JTextField("Contraseña", 25);
+        txtCorreo = new JTextField( 25);
+        txtContrasena = new JTextField(25);
         txtCorreo.setPreferredSize(dimensiontxt);
         txtContrasena.setPreferredSize(dimensiontxt);
 

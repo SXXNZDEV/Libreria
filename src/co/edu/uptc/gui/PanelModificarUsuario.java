@@ -3,7 +3,7 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelActualizarUsuario extends JDialog {
+public class PanelModificarUsuario extends JDialog {
     private JLabel labelNombre;
     private JLabel labelCorreo;
     private JLabel labelContrasena;
@@ -20,7 +20,55 @@ public class PanelActualizarUsuario extends JDialog {
     private JButton botonActualizar;
     private JButton botonCancelar;
 
-    public PanelActualizarUsuario(Eventos eventos) {
+    public String getTxtNombre() {
+        return txtNombre.getText();
+    }
+
+    public String getTxtCorreo() {
+        return txtCorreo.getText();
+    }
+
+    public String getTxtContrasena() {
+        return txtContrasena.getText();
+    }
+
+    public String getTxtDireccion() {
+        return txtDireccion.getText();
+    }
+
+    public String getTxtTelefono() {
+        return txtTelefono.getText();
+    }
+
+    public String getCbTipoCliente() {
+        return (String) cbTipoCliente.getSelectedItem();
+    }
+
+    public void setTxtNombre(String nombre) {
+        txtNombre.setText(nombre);
+    }
+
+    public void setTxtCorreo(String correo) {
+        txtCorreo.setText(correo);
+    }
+
+    public void setTxtContrasena(String contrasena) {
+        txtContrasena.setText(contrasena);
+    }
+
+    public void setTxtDireccion(String direccion) {
+        txtDireccion.setText(direccion);
+    }
+
+    public void setTxtTelefono(String telefono) {
+        txtTelefono.setText(telefono);
+    }
+
+    public void setCbTipoCliente(String tipoCliente) {
+        cbTipoCliente.setSelectedItem(tipoCliente);
+    }
+
+    public PanelModificarUsuario(Eventos eventos) {
         setTitle("Actualizar Datos Usuario");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

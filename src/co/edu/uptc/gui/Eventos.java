@@ -55,7 +55,7 @@ public class Eventos implements ActionListener {
             case CARRITO -> ventana.activarCarrito();
             case COMPRAS -> ventana.activarPanelCompras();
             case ELIMINAR_LIBRO -> ventana.activarEliminarLibros();
-            case ACTUALIZAR_DATOS_USUARIO -> ventana.activarActualizarDatosUsuario();
+            case ACTUALIZAR_DATOS_USUARIO -> ventana.activarModificarDatosUsuario();
             case ACEPTAR_ACTUALIZAR_USUARIO -> ventana.activarAceptarActualizarUser();
             case CANCELAR_ACTUALIZAR_USUARIO -> ventana.activarCancelarActualizarUser();
             case REGISTRAR_USUARIO -> ventana.activarFuncionRegistrarUsuario();

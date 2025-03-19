@@ -47,6 +47,7 @@ public class PanelCarrito extends JPanel {
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.insets = new Insets(5, 10, 5, 5);
 
         labelTitulo = new JLabel("Mi carrito");
         Font fontTitulo = new Font("Arial", Font.BOLD, 30);
@@ -57,7 +58,7 @@ public class PanelCarrito extends JPanel {
         gbc.gridheight = 3;
         gbc.weighty = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets.left = 5;
 
         JPanel paneProductos = anadirProductosPanel();
         scrollPane = new JScrollPane(paneProductos);
@@ -97,6 +98,9 @@ public class PanelCarrito extends JPanel {
                 panelProductos.add(panel, gbc);
                 panelesProductos.add(panel);
             }
+            gbc.gridy++;
+            gbc.weighty = 4;
+            panelProductos.add(new JLabel(), gbc);
         }
         return panelProductos;
     }
@@ -255,5 +259,4 @@ public class PanelCarrito extends JPanel {
         add(new JLabel(), gbc);
         return panelResumenCompra;
     }
-
 }

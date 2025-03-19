@@ -1,0 +1,46 @@
+[
+  {
+    "nombre": "miguel saenz",
+    "direccionEnvio": "Calle 123 #45-67, Bogotá, Colombia",
+    "telefono": 23424324,
+    "tipoCliente": "Regular",
+    "cuenta": {
+      "correo": "saenzm963@gmail.com",
+      "contrasena": "niosaenz1",
+      "log": false
+    }
+  },
+  {
+    "nombre": "miguel saenz",
+    "direccionEnvio": "Calle 123 #45-67, Bogotá, Colombia",
+    "telefono": 23424324,
+    "tipoCliente": "Regular",
+    "cuenta": {
+      "correo": "miguel.saenz02@uptc.edu.co",
+      "contrasena": "niosaenz1",
+      "log": false
+    }
+  },
+  {
+    "nombre": "Yady Tibambre",
+    "direccionEnvio": "Calle 123 #45-67, Bogotá, Colombia",
+    "telefono": 34243224,
+    "tipoCliente": "Regular",
+    "cuenta": {
+      "correo": "yady@gmail.com",
+      "contrasena": "yadytibambre1",
+      "log": false
+    }
+  },
+  {
+    "nombre": "Administrador Superior",
+    "direccionEnvio": "Calle 123 #45-67, Bogotá, Colombia",
+    "telefono": 3105432039,
+    "tipoCliente": "Premium",
+    "cuenta": {
+      "correo": "admin.library01@gmail.com",
+      "contrasena": "administradorlibreria01",
+      "log": true
+    }
+  }
+]

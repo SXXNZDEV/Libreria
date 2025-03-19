@@ -13,6 +13,26 @@ public class PanelPerfil extends JPanel {
     private JLabel labelTipoUsuario;
     private JButton botonActualizacionDatos;
 
+    public void setLabelNombre(String nombre) {
+        labelNombre.setText(nombre);
+    }
+
+    public void setLabelCorreo(String correo) {
+        labelCorreo.setText(correo);
+    }
+
+    public void setLabelTelefono(String telefono) {
+        labelTelefono.setText(telefono);
+    }
+
+    public void setLabelDireccionEnvio(String direccionEnvio) {
+        labelDireccionEnvio.setText(direccionEnvio);
+    }
+
+    public void setLabelTipoUsuario(String tipoUsuario) {
+        labelTipoUsuario.setText(tipoUsuario);
+    }
+
     public PanelPerfil(Eventos eventos) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
