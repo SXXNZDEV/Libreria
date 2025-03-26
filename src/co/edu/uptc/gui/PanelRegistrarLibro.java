@@ -29,6 +29,85 @@ public class PanelRegistrarLibro extends JDialog {
     private JButton botonAgregar;
     private JButton botonCancelar;
 
+    public String getTxtIsbn() {
+        return txtISBN.getText();
+    }
+
+    public String getTxtNombre() {
+        return txtNombre.getText();
+    }
+
+    public String getTxtAutor() {
+        return txtAutor.getText();
+    }
+
+    public String getTxtAnoPublicacion() {
+        return txtAnoPublicacion.getText();
+    }
+
+    public String getTxtCategoria() {
+        return (String) txtCategoria.getSelectedItem();
+    }
+
+    public String getTxtEditorial() {
+        return txtEditorial.getText();
+    }
+
+    public String getTxtNumeroPaginas() {
+        return txtNumeroPaginas.getText();
+    }
+
+    public String getTxtPrecio() {
+        return txtPrecio.getText();
+    }
+
+    public String getTxtCantidad() {
+        return txtCantidad.getText();
+    }
+
+    public String getTxtFormato() {
+        return (String) txtFormato.getSelectedItem();
+    }
+
+    public void setTxtIsbn(String texto) {
+        txtISBN.setText(texto);
+    }
+
+    public void setTxtNombre(String texto) {
+        txtNombre.setText(texto);
+    }
+
+    public void setTxtAutor(String texto) {
+        txtAutor.setText(texto);
+    }
+
+    public void setTxtAnoPublicacion(String texto) {
+        txtAnoPublicacion.setText(texto);
+    }
+
+    public void setTxtCategoria(String index) {
+        txtCategoria.setSelectedItem(index);
+    }
+
+    public void setTxtEditorial(String texto) {
+        txtEditorial.setText(texto);
+    }
+
+    public void setTxtNumeroPaginas(String texto) {
+        txtNumeroPaginas.setText(texto);
+    }
+
+    public void setTxtPrecio(String texto) {
+        txtPrecio.setText(texto);
+    }
+
+    public void setTxtCantidad(String texto) {
+        txtCantidad.setText(texto);
+    }
+
+    public void setTxtFormato(String index) {
+        txtFormato.setSelectedItem(index);
+    }
 
     public PanelRegistrarLibro(Eventos eventos) {
         setTitle("Registrar Libro");
@@ -109,23 +188,23 @@ public class PanelRegistrarLibro extends JDialog {
 
         setResizable(false);
         setModal(true);
-        setSize(600, 500);
+        setSize(500, 500);
         setLocationRelativeTo(null);
     }
 
     public void inicializarAtributos() {
 
         labelTitulo = new JLabel("Registrar Libro");
-        labelISBN = new JLabel("ISBN:");
-        labelNombre = new JLabel("Nombre:");
-        labelAutor = new JLabel("Autor:");
+        labelISBN = new JLabel("ISBN*:");
+        labelNombre = new JLabel("Nombre*:");
+        labelAutor = new JLabel("Autor*:");
         labelAnoPublicacion = new JLabel("Año de Publicación:");
-        labelCategoria = new JLabel("Categoría:");
+        labelCategoria = new JLabel("Categoría*:");
         labelEditorial = new JLabel("Editorial:");
-        labelNumeroPaginas = new JLabel("Número de Páginas:");
-        labelPrecio = new JLabel("Precio:");
-        labelCantidad = new JLabel("Cantidad:");
-        labelFormato = new JLabel("Formato:");
+        labelNumeroPaginas = new JLabel("Número de Páginas*:");
+        labelPrecio = new JLabel("Precio*:");
+        labelCantidad = new JLabel("Cantidad*:");
+        labelFormato = new JLabel("Formato*:");
 
         txtISBN = new JTextField(20);
         txtNombre = new JTextField(20);

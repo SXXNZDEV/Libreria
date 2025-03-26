@@ -53,10 +53,7 @@ public class GestionUsuario {
     }
 
     public boolean validarLoginAdmin() {
-        if (manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals(administrador.getCORREO())) {
-            return true;
-        }
-        return false;
+        return manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals(administrador.getCORREO());
     }
 
     public void modificarUsuario(Usuario usuario) throws IOException, IllegalArgumentException{

@@ -1,0 +1,92 @@
+{
+  "Ficción": [
+    {
+      "isbn": "9782222222225",
+      "titulo": "Libro Modificado 2",
+      "autor": "Miguel Saenz ",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 23,
+      "precioVenta": 23900.0,
+      "cantidadDisponible": 23,
+      "formato": "Ebook"
+    },
+    {
+      "isbn": "9782222222223",
+      "titulo": "lkjksdflkj",
+      "autor": "lkjsdlfkj",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 23,
+      "precioVenta": 23900.0,
+      "cantidadDisponible": 23,
+      "formato": "Tapa Dura"
+    },
+    {
+      "isbn": "9782222222228",
+      "titulo": "Volveré",
+      "autor": "Santiago Verne",
+      "anioPublicacion": 2025,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 345,
+      "precioVenta": 23900.0,
+      "cantidadDisponible": 36,
+      "formato": "Tapa Blanda"
+    },
+    {
+      "isbn": "9794343345354",
+      "titulo": "Hoy",
+      "autor": "Miguel Saenz",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "EditorialKL",
+      "numeroPaginas": 53,
+      "precioVenta": 45000.0,
+      "cantidadDisponible": 32,
+      "formato": "Tapa Blanda"
+    }
+  ],
+  "No Ficción": [
+    {
+      "isbn": "9782222222227",
+      "titulo": "Volveré",
+      "autor": "Santiago Verne",
+      "anioPublicacion": 2025,
+      "categoria": "No Ficción",
+      "editorial": "kjlkjk2342",
+      "numeroPaginas": 23,
+      "precioVenta": 23900.0,
+      "cantidadDisponible": 23,
+      "formato": "Tapa Dura"
+    },
+    {
+      "isbn": "9794444444443",
+      "titulo": "El Reino",
+      "autor": "Jeny Portada",
+      "anioPublicacion": 0,
+      "categoria": "No Ficción",
+      "editorial": "",
+      "numeroPaginas": 320,
+      "precioVenta": 53000.0,
+      "cantidadDisponible": 52,
+      "formato": "Tapa Blanda"
+    }
+  ],
+  "Misterio": [
+    {
+      "isbn": "9783433342423",
+      "titulo": "Otro libro modificado",
+      "autor": "Elsa Persa",
+      "anioPublicacion": 0,
+      "categoria": "Misterio",
+      "editorial": "",
+      "numeroPaginas": 30,
+      "precioVenta": 230000.0,
+      "cantidadDisponible": 43,
+      "formato": "Tapa Blanda"
+    }
+  ]
+}

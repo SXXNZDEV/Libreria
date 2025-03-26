@@ -1,5 +1,7 @@
 package co.edu.uptc.negocio;
 
+import java.util.ArrayList;
+
 public class Usuario {
 
     private String nombre;
@@ -7,16 +9,10 @@ public class Usuario {
     private long telefono;
     private String tipoCliente;
     private Cuenta cuenta;
+    private Carrito carrito;
 
     public Usuario() {
         cuenta = new Cuenta();
-    }
-
-    public Usuario(String nombre, String direccionEnvio, long telefono, String tipoCliente) {
-        this.nombre = nombre;
-        this.direccionEnvio = direccionEnvio;
-        this.telefono = telefono;
-        this.tipoCliente = tipoCliente;
     }
 
     public String getNombre() {
@@ -57,5 +53,13 @@ public class Usuario {
 
     public void setTipoCliente(String tipoCliente) {
         this.tipoCliente = tipoCliente;
+    }
+
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Carrito carrito) {
+        this.carrito = carrito;
     }
 }

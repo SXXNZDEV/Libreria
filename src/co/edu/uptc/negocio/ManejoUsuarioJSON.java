@@ -94,6 +94,7 @@ public class ManejoUsuarioJSON {
             usuarioBuscado.setTelefono(usuarioBuscar.getTelefono());
             usuarioBuscado.setTipoCliente(usuarioBuscar.getTipoCliente());
             objectMapper.writeValue(file, listaUsuarios);
+            usuarioLogin = usuarioBuscar;
         } catch (IOException e) {
             throw new IOException("Error al modificar el usuario");
         }

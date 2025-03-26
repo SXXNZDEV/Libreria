@@ -2,6 +2,7 @@ package co.edu.uptc.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemListener;
 
 public class PanelModificarLibro extends JDialog {
 
@@ -31,7 +32,105 @@ public class PanelModificarLibro extends JDialog {
     private JButton botonModificar;
     private JButton botonCancelar;
 
-    public PanelModificarLibro (Eventos eventos) {
+    // Métodos GET (devuelven el texto ingresado)
+    public String getISBN() {
+        return txtISBN.getText();
+    }
+
+    public String getLibro() {
+        return txtLibro.getSelectedItem().toString();
+    }
+
+    public String getNombre() {
+        return txtNombre.getText();
+    }
+
+    public String getAutor() {
+        return txtAutor.getText();
+    }
+
+    public String getAnoPublicacion() {
+        return txtAnoPublicacion.getText();
+    }
+
+    public String getCategoria() {
+        return txtCategoria.getSelectedItem().toString();
+    }
+
+    public String getEditorial() {
+        return txtEditorial.getText();
+    }
+
+    public String getNumeroPaginas() {
+        return txtNumeroPaginas.getText();
+    }
+
+    public String getPrecio() {
+        return txtPrecio.getText();
+    }
+
+    public String getCantidad() {
+        return txtCantidad.getText();
+    }
+
+    public String getFormato() {
+        return txtFormato.getSelectedItem().toString();
+    }
+
+    // Métodos SET (asignan un nuevo valor)
+    public void setISBN(String isbn) {
+        txtISBN.setText(isbn);
+    }
+
+    public void setLibro(String libro) {
+        txtLibro.setSelectedItem(libro);
+    }
+
+    public void setNombre(String nombre) {
+        txtNombre.setText(nombre);
+    }
+
+    public void setAutor(String autor) {
+        txtAutor.setText(autor);
+    }
+
+    public void setAnoPublicacion(String anoPublicacion) {
+        txtAnoPublicacion.setText(anoPublicacion);
+    }
+
+    public void setCategoria(String categoria) {
+        txtCategoria.setSelectedItem(categoria);
+    }
+
+    public void setEditorial(String editorial) {
+        txtEditorial.setText(editorial);
+    }
+
+    public void setNumeroPaginas(String numeroPaginas) {
+        txtNumeroPaginas.setText(numeroPaginas);
+    }
+
+    public void setPrecio(String precio) {
+        txtPrecio.setText(precio);
+    }
+
+    public void setCantidad(String cantidad) {
+        txtCantidad.setText(cantidad);
+    }
+
+    public void setFormato(String formato) {
+        txtFormato.setSelectedItem(formato);
+    }
+
+    public void listarLibros(String[] titulosLibros) {
+        txtLibro.removeAllItems();
+        for (int i = 0; i < titulosLibros.length; i++) {
+            txtLibro.addItem(titulosLibros[i]);
+        }
+    }
+
+
+    public PanelModificarLibro (Eventos eventos, EventosItemListener eventosItemListener) {
         setTitle("Modificar Libro");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -45,6 +144,7 @@ public class PanelModificarLibro extends JDialog {
         botonModificar.setActionCommand(eventos.MODIFICAR_LIBRO);
         botonCancelar.addActionListener(eventos);
         botonCancelar.setActionCommand(eventos.CANCELAR_MODIFICACION_LIBRO);
+        txtLibro.addItemListener(eventosItemListener);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -115,7 +215,7 @@ public class PanelModificarLibro extends JDialog {
 
         setResizable(false);
         setModal(true);
-        setSize(600, 500);
+        setSize(450, 500);
         setLocationRelativeTo(null);
     }
 
@@ -123,18 +223,20 @@ public class PanelModificarLibro extends JDialog {
 
         labelLibro = new JLabel("Libro: ");
         labelTitulo = new JLabel("Modificar Libro");
-        labelISBN = new JLabel("ISBN:");
-        labelNombre = new JLabel("Nombre:");
-        labelAutor = new JLabel("Autor:");
+        labelISBN = new JLabel("ISBN*:");
+        labelNombre = new JLabel("Nombre*:");
+        labelAutor = new JLabel("Autor*:");
         labelAnoPublicacion = new JLabel("Año de Publicación:");
-        labelCategoria = new JLabel("Categoría:");
+        labelCategoria = new JLabel("Categoría*:");
         labelEditorial = new JLabel("Editorial:");
         labelNumeroPaginas = new JLabel("Número de Páginas:");
-        labelPrecio = new JLabel("Precio:");
-        labelCantidad = new JLabel("Cantidad:");
-        labelFormato = new JLabel("Formato:");
+        labelPrecio = new JLabel("Precio*:");
+        labelCantidad = new JLabel("Cantidad*:");
+        labelFormato = new JLabel("Formato*:");
 
         txtISBN = new JTextField(20);
+        txtISBN.setEditable(false);
+        txtISBN.setBackground(Color.WHITE);
         txtNombre = new JTextField(20);
         txtAutor = new JTextField(20);
         txtAnoPublicacion = new JTextField(4);
@@ -143,8 +245,7 @@ public class PanelModificarLibro extends JDialog {
         txtPrecio = new JTextField(10);
         txtCantidad = new JTextField(5);
 
-        String[] libros = {"Libro 1", "Libro 2"};
-        txtLibro = new JComboBox<>(libros); //Lo agregue para el que se elija, los JTextField se llenen con la informacion de cada libro.
+        txtLibro = new JComboBox<>(); //Lo agregue para el que se elija, los JTextField se llenen con la informacion de cada libro.
 
         String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia", "Historia"};
         txtCategoria = new JComboBox<>(categorias);
@@ -153,6 +254,6 @@ public class PanelModificarLibro extends JDialog {
         txtFormato = new JComboBox<>(formatos);
 
         botonModificar = new JButton("Modificar");
-        botonCancelar = new JButton("Cancelar");
+        botonCancelar = new JButton("Salir");
     }
 }

@@ -127,12 +127,12 @@ public class PanelRegistrarUsuario extends JDialog {
     }
 
     public void inicializarAtributos() {
-        labelNombre = new JLabel("Nombre:");
-        labelCorreo = new JLabel("Correo Electrónico:");
-        labelContrasena = new JLabel("Contraseña: ");
-        labelDireccion = new JLabel("Dirección:");
-        labelTelefono = new JLabel("Teléfono:");
-        labelTipoCliente = new JLabel("Tipo de Cliente:");
+        labelNombre = new JLabel("Nombre*:");
+        labelCorreo = new JLabel("Correo Electrónico*:");
+        labelContrasena = new JLabel("Contraseña*: ");
+        labelDireccion = new JLabel("Dirección*:");
+        labelTelefono = new JLabel("Teléfono*:");
+        labelTipoCliente = new JLabel("Tipo de Cliente*:");
         txtNombre = new JTextField(20);
         txtCorreo = new JTextField(20);
         txtContrasena = new JTextField(20);

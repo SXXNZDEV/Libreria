@@ -1,7 +1,6 @@
 package co.edu.uptc.gui;
 
-import co.edu.uptc.negocio.GestionUsuario;
-import co.edu.uptc.negocio.Usuario;
+import co.edu.uptc.negocio.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,18 +15,26 @@ public class VentanaPrincipal extends JFrame {
     private JPanel panelCL;
     private PanelVenta panelVenta;
     private GestionUsuario gestionUsuario;
+    private GestionLibro gestionLibro;
+    private GestionCatalogo gestionCatalogo;
+    private EventosItemListener eventosItemListener;
+    private GestionCarrito gestionCarrito;
 
 
     public VentanaPrincipal() {
         super("Librería Virtual");
         setLayout(new BorderLayout());
 
+        eventosItemListener = new EventosItemListener(this);
         eventos = new Eventos(this);
         cardLayout = new CardLayout();
 
         gestionUsuario = new GestionUsuario();
+        gestionLibro = new GestionLibro();
+        gestionCatalogo = new GestionCatalogo();
+        gestionCarrito = new GestionCarrito();
         panelCL = new JPanel(cardLayout);
-        panelVenta = new PanelVenta(eventos);
+        panelVenta = new PanelVenta(eventos, eventosItemListener, this);
         panelInicioSesion = new PanelInicioSesion(eventos);
 
         panelCL.add(panelInicioSesion, "Iniciar Sesion");
@@ -50,7 +57,6 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelGestionLibros() {
-        JOptionPane.showMessageDialog(this, "Gestion Libros y Registrar Usuarios aparecerán cuando el Adiminstrador inicie sesión, cuando el usuario inicie sesion estos botones se deshabilitaran");
         panelVenta.activarPanelGestionLibro();
     }
 
@@ -64,6 +70,7 @@ public class VentanaPrincipal extends JFrame {
         try {
             gestionUsuario.iniciarSesion(correo, contrasena);
             limpiarTxtLogin();
+            panelVenta.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
             cardLayout.show(panelCL, "Panel Venta");
             panelVenta.activarPanelCatalogo();
             panelVenta.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
@@ -72,13 +79,9 @@ public class VentanaPrincipal extends JFrame {
             } else {
                 panelVenta.quitarFuncionesAdmin();
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IOException e) {
             JOptionPane.showMessageDialog(panelInicioSesion, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
-
-    public void activarPanelCatalogo() {
-        panelVenta.activarPanelCatalogo();
     }
 
     public void activarCerrarSesion() {
@@ -96,6 +99,7 @@ public class VentanaPrincipal extends JFrame {
         panelVenta.getPanelPerfil().setLabelDireccionEnvio("Dirección de envío: " + gestionUsuario.userLogin().getDireccionEnvio());
         panelVenta.getPanelPerfil().setLabelTelefono("Teléfono: " + gestionUsuario.userLogin().getTelefono());
         panelVenta.getPanelPerfil().setLabelTipoUsuario("Tipo de usuario: " + gestionUsuario.userLogin().getTipoCliente());
+        panelVenta.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
         panelVenta.activarPanelPerfil();
     }
 
@@ -124,7 +128,23 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelModificarLibro() {
+        String[] titulosLibros = gestionLibro.obtenerUsuarios();
+        panelVenta.getPanelModificarLibro().listarLibros(titulosLibros);
         panelVenta.activarPanelModificarLibro();
+    }
+
+    public void llenarCamposModificarLibros(String tituloLibro) {
+        Libro libro = gestionLibro.buscarLibro(tituloLibro);
+        panelVenta.getPanelModificarLibro().setISBN(libro.getIsbn());
+        panelVenta.getPanelModificarLibro().setNombre(libro.getTitulo());
+        panelVenta.getPanelModificarLibro().setAutor(libro.getAutor());
+        panelVenta.getPanelModificarLibro().setAnoPublicacion(libro.getAnioPublicacion() == 0 ? "" : String.valueOf(libro.getAnioPublicacion()));
+        panelVenta.getPanelModificarLibro().setCategoria(libro.getCategoria());
+        panelVenta.getPanelModificarLibro().setEditorial(libro.getEditorial());
+        panelVenta.getPanelModificarLibro().setNumeroPaginas(libro.getNumeroPaginas() == 0 ? "" : String.valueOf(libro.getNumeroPaginas()));
+        panelVenta.getPanelModificarLibro().setPrecio(String.valueOf((int) libro.getPrecioVenta()));
+        panelVenta.getPanelModificarLibro().setCantidad(String.valueOf(libro.getCantidadDisponible()));
+        panelVenta.getPanelModificarLibro().setFormato(libro.getFormato());
     }
 
     public void activarCancelarModificacionLibro() {
@@ -141,6 +161,28 @@ public class VentanaPrincipal extends JFrame {
         panelModificarUsuario.setTxtTelefono(String.valueOf(usuario.getTelefono()));
         panelModificarUsuario.setCbTipoCliente(usuario.getTipoCliente());
         panelVenta.activarActualizarDatosUsuario();
+    }
+
+    public void limpiarTxtFieldsLibro() {
+        panelVenta.getPanelRegistrarLibro().setTxtNombre("");
+        panelVenta.getPanelRegistrarLibro().setTxtIsbn("");
+        panelVenta.getPanelRegistrarLibro().setTxtAutor("");
+        panelVenta.getPanelRegistrarLibro().setTxtAnoPublicacion("");
+        panelVenta.getPanelRegistrarLibro().setTxtEditorial("");
+        panelVenta.getPanelRegistrarLibro().setTxtCategoria("");
+        panelVenta.getPanelRegistrarLibro().setTxtNumeroPaginas("");
+        panelVenta.getPanelRegistrarLibro().setTxtPrecio("");
+        panelVenta.getPanelRegistrarLibro().setTxtCantidad("");
+        panelVenta.getPanelRegistrarLibro().setTxtFormato("");
+    }
+
+    public void limpiarTxtActualizarLibro() {
+        panelVenta.getPanelActualizarUsuario().setTxtNombre("");
+        panelVenta.getPanelActualizarUsuario().setTxtTelefono("");
+        panelVenta.getPanelActualizarUsuario().setTxtDireccion("");
+        panelVenta.getPanelActualizarUsuario().setCbTipoCliente("");
+        panelVenta.getPanelActualizarUsuario().setTxtCorreo("");
+        panelVenta.getPanelActualizarUsuario().setTxtContrasena("");
     }
 
     public void activarCancelarActualizarUser() {
@@ -192,7 +234,10 @@ public class VentanaPrincipal extends JFrame {
             usuario.getCuenta().setContrasena(panelVenta.getPanelModificarUsuario().getTxtContrasena());
             usuario.getCuenta().setLog(true);
             gestionUsuario.modificarUsuario(usuario);
-            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), "Usuario Modificado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), "Usuario Modificado Exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+            limpiarTxtActualizarLibro();
+            activarPanelPerfil();
+
             panelVenta.getPanelModificarUsuario().setVisible(false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -201,11 +246,64 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarFuncionModificarLibro() {
-        panelVenta.activarFuncionModificarLibro();
+        String isbn = panelVenta.getPanelModificarLibro().getISBN();
+        String titulo = panelVenta.getPanelModificarLibro().getNombre();
+        String autor = panelVenta.getPanelModificarLibro().getAutor();
+        String anoPublicacion = panelVenta.getPanelModificarLibro().getAnoPublicacion();
+        String categoria = panelVenta.getPanelModificarLibro().getCategoria();
+        String editorial = panelVenta.getPanelModificarLibro().getEditorial();
+        String numeroPaginas = panelVenta.getPanelModificarLibro().getNumeroPaginas();
+        String precio = panelVenta.getPanelModificarLibro().getPrecio();
+        String cantidad = panelVenta.getPanelModificarLibro().getCantidad();
+        String formato = panelVenta.getPanelModificarLibro().getFormato();
+        try {
+            gestionLibro.modificarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, formato);
+            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), "Libro Modificado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            String[] titulosLibros = gestionLibro.obtenerUsuarios();
+            panelVenta.getPanelModificarLibro().listarLibros(titulosLibros);
+        } catch (IOException | IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void activarFuncionRegistrarLibro() {
-        panelVenta.activarFuncionRegistrarLibro();
+        try {
+            String isbn = panelVenta.getPanelRegistrarLibro().getTxtIsbn();
+            String titulo = panelVenta.getPanelRegistrarLibro().getTxtNombre();
+            String autor = panelVenta.getPanelRegistrarLibro().getTxtAutor();
+            String anoPublicacion = panelVenta.getPanelRegistrarLibro().getTxtAnoPublicacion();
+            String categoria = panelVenta.getPanelRegistrarLibro().getTxtCategoria();
+            String editorial = panelVenta.getPanelRegistrarLibro().getTxtEditorial();
+            String numeroPaginas = panelVenta.getPanelRegistrarLibro().getTxtNumeroPaginas();
+            String precio = panelVenta.getPanelRegistrarLibro().getTxtPrecio();
+            String cantidad = panelVenta.getPanelRegistrarLibro().getTxtCantidad();
+            String formato = panelVenta.getPanelRegistrarLibro().getTxtFormato();
+            gestionLibro.registrarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, formato);
+            limpiarTxtFieldsLibro();
+            panelVenta.getPanelRegistrarLibro().setVisible(false);
+        } catch (IllegalArgumentException | IOException e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //------------------Metodos de Gestion de catalogo--------------
+
+    public void activarPanelCatalogo() {
+        try {
+            panelVenta.activarPanelCatalogo();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    // -----------------------------Metodos Gestion Carrito------------
+    public void anadirProductosCarrito(String titulo, int cantidad) {
+        try {
+            gestionCarrito.anadirLibrosCarrito(titulo, cantidad);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

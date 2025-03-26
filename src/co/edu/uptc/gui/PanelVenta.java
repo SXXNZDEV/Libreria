@@ -18,7 +18,6 @@ public class PanelVenta extends JPanel {
     private PanelCatalogo panelCatalogo;
     private PanelCarrito panelCarrito;
     private PanelPerfil panelPerfil;
-    private JScrollPane scrollCatalogo;
     private JScrollPane scrollTabla;
     private CardLayout cardLayout;
     private JPanel panelCL;
@@ -63,20 +62,21 @@ public class PanelVenta extends JPanel {
         return panelPerfil;
     }
 
+    public PanelCatalogo getPanelCatalogo() {
+        return panelCatalogo;
+    }
+
     public void setLabelNombreUsuario(String nombreUsuario) {
         labelNombreUsuario.setText(nombreUsuario);
     }
 
-    public PanelVenta(Eventos eventos) {
+    public PanelVenta(Eventos eventos, EventosItemListener eventosItemListener, VentanaPrincipal ventanaPrincipal) {
         setLayout(new BorderLayout());
         panelIzquierda = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
 
-        scrollCatalogo = new JScrollPane(panelCatalogo);
+        panelCatalogo = new PanelCatalogo(ventanaPrincipal);
 
-        panelCatalogo = new PanelCatalogo();
-        scrollCatalogo = new JScrollPane(panelCatalogo);
-        scrollCatalogo.getVerticalScrollBar().setUnitIncrement(20);
 
         panelPerfil = new PanelPerfil(eventos);
         panelCarrito = new PanelCarrito();
@@ -85,7 +85,7 @@ public class PanelVenta extends JPanel {
         panelGestionLibro = new PanelGestionLibro(eventos);
         panelRegistrarLibro = new PanelRegistrarLibro(eventos);
         panelRegistrarUsuario = new PanelRegistrarUsuario(eventos);
-        panelModificarLibro = new PanelModificarLibro(eventos);
+        panelModificarLibro = new PanelModificarLibro(eventos, eventosItemListener);
         panelModificarUsuario = new PanelModificarUsuario(eventos);
 
 
@@ -93,7 +93,7 @@ public class PanelVenta extends JPanel {
 
         cardLayout = new CardLayout();
         panelCL = new JPanel(cardLayout);
-        panelCL.add(scrollCatalogo, "Catalogo");
+        panelCL.add(panelCatalogo, "Catalogo");
         panelCL.add(panelPerfil, "Perfil");
         panelCL.add(panelCarrito, "Carrito");
         panelCL.add(scrollTabla, "Compras");
@@ -235,10 +235,6 @@ public class PanelVenta extends JPanel {
         JOptionPane.showMessageDialog(this, "Eliminar libros...");
     }
 
-    public void activarFuncionModificarLibro() {
-        JOptionPane.showMessageDialog(this, "Libro Modificado...");
-        panelModificarLibro.setVisible(false);
-    }
 
     public void activarFuncionRegistrarLibro() {
         JOptionPane.showMessageDialog(this, "Libro Registrado...");
