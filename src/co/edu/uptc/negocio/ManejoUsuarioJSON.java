@@ -83,7 +83,8 @@ public class ManejoUsuarioJSON {
 
     public void modificarUsuario(Usuario usuarioBuscar) throws IOException, IllegalArgumentException {
         try {
-            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {});
+            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {
+            });
             Usuario usuarioBuscado = buscarUsuario(listaUsuarios, usuarioBuscar);
             if (usuarioBuscado == null) throw new IllegalArgumentException("Usuario no encontrado");
             usuarioBuscado.setNombre(usuarioBuscar.getNombre());
@@ -101,14 +102,15 @@ public class ManejoUsuarioJSON {
         }
     }
 
-    public void escribirUsuarioLogin() throws IOException{
+    public void escribirUsuarioLogin() throws IOException {
         try {
-            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {});
+            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {
+            });
             Usuario usuarioBuscado = buscarUsuario(listaUsuarios, usuarioLogin);
             usuarioBuscado.getCarrito().setLibros(usuarioLogin.getCarrito().getLibros());
             objectMapper.writeValue(file, listaUsuarios);
         } catch (IOException e) {
-            throw new IOException( "Error al escribir el usuario");
+            throw new IOException("Error al escribir el usuario");
         }
     }
 

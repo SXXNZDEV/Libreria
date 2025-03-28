@@ -22,6 +22,12 @@ public class ManejoLibroJSON {
         objectMapper = new ObjectMapper();
     }
 
+    public void escribirLibros(Map<String, ArrayList<Libro>> categoriasLibros) throws IOException {
+        Map<String, ArrayList<Libro>> librosMap = leerLibro();
+        librosMap = categoriasLibros;
+        objectMapper.writeValue(file, librosMap);
+    }
+
     public Map<String, ArrayList<Libro>> getMapLibros() {
         leerLibro();
         return mapLibros;
@@ -101,7 +107,8 @@ public class ManejoLibroJSON {
                 libroArray.setAutor(libro.getAutor());
                 libroArray.setAnioPublicacion(libro.getAnioPublicacion());
                 libroArray.setCategoria(libro.getCategoria());
-                libroArray.aumentarCantidad(libro.getCantidadDisponible());
+                libroArray.setStockDisponible(libro.getStockDisponible());
+                libroArray.setStockReservado(libro.getStockReservado());
                 break;
             }
         }

@@ -1,6 +1,5 @@
 package co.edu.uptc.negocio;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CalculadoraIVA {
@@ -9,7 +8,7 @@ public class CalculadoraIVA {
         double subtotal = 0;
         if (carrito.getLibros().isEmpty()) return subtotal;
         for (Libro libro : carrito.getLibros()) {
-            subtotal += libro.getCantidadDisponible() * libro.getPrecioVenta();
+            subtotal += libro.getStockReservado() * libro.getPrecioVenta();
         }
         return subtotal;
     }
@@ -19,9 +18,9 @@ public class CalculadoraIVA {
         if (carrito.getLibros().isEmpty()) return impuestos;
         for (Libro libro : carrito.getLibros()) {
             if (libro.getTipoLibro() == TipoLibro.FISICO) {
-                impuestos += libro.getCantidadDisponible() * 0.19 * libro.getPrecioVenta();
+                impuestos += libro.getStockReservado() * 0.19 * libro.getPrecioVenta();
             } else {
-                impuestos += libro.getCantidadDisponible() * 0.05 * libro.getPrecioVenta();
+                impuestos += libro.getStockReservado() * 0.05 * libro.getPrecioVenta();
             }
         }
         return impuestos;
@@ -35,9 +34,9 @@ public class CalculadoraIVA {
         for (Libro libro : catalogo) {
             if (libro.getTitulo().equals(libroParametro.getTitulo())) {
                 if (libroParametro.getTipoLibro() == TipoLibro.FISICO) {
-                    return libroParametro.getCantidadDisponible() * libro.getPrecioVenta() * 0.19;
+                    return libroParametro.getStockReservado() * libro.getPrecioVenta() * 0.19;
                 } else {
-                    return libroParametro.getCantidadDisponible() * libro.getPrecioVenta() * 0.05;
+                    return libroParametro.getStockReservado() * libro.getPrecioVenta() * 0.05;
                 }
             }
         }
@@ -47,7 +46,7 @@ public class CalculadoraIVA {
     public double subtotalProducto(Libro libroParametro, ArrayList<Libro> catalogo) {
         for (Libro libro : catalogo) {
             if (libro.getIsbn().equals(libroParametro.getIsbn())) {
-                return libroParametro.getCantidadDisponible() * libro.getPrecioVenta();
+                return libroParametro.getStockReservado() * libro.getPrecioVenta();
             }
         }
         return 0;

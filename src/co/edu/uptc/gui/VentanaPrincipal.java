@@ -105,7 +105,7 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarCarrito() {
         panelVenta.activarPanelCarrito();
-        panelVenta.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros(), gestionUsuario.getManejoUsuarioJSON());
+        panelVenta.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros(), gestionUsuario.getManejoUsuarioJSON(), gestionLibro.getManejoLibroJSON());
     }
 
     public void activarPanelCompras() {
@@ -144,7 +144,7 @@ public class VentanaPrincipal extends JFrame {
         panelVenta.getPanelModificarLibro().setEditorial(libro.getEditorial());
         panelVenta.getPanelModificarLibro().setNumeroPaginas(libro.getNumeroPaginas() == 0 ? "" : String.valueOf(libro.getNumeroPaginas()));
         panelVenta.getPanelModificarLibro().setPrecio(String.valueOf((int) libro.getPrecioVenta()));
-        panelVenta.getPanelModificarLibro().setCantidad(String.valueOf(libro.getCantidadDisponible()));
+        panelVenta.getPanelModificarLibro().setCantidad(String.valueOf(libro.getStockDisponible()));
         panelVenta.getPanelModificarLibro().setFormato(libro.getTipoLibro());
     }
 
@@ -303,7 +303,7 @@ public class VentanaPrincipal extends JFrame {
     public void anadirProductosCarrito(String titulo, int cantidad) {
         try {
             gestionCarrito.anadirLibrosCarrito(titulo, cantidad);
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -10,13 +10,14 @@ public class Libro {
     private String editorial;
     private int numeroPaginas;
     private double precioVenta;
-    private int cantidadDisponible;
+    private int stockDisponible;
+    private int stockReservado;
     private TipoLibro tipoLibro;
 
     public Libro() {
     }
 
-    public Libro(String isbn, String titulo, String autor, int anioPublicacion, String categoria, String editorial, int numeroPaginas, double precioVenta, int cantidadDisponible, TipoLibro tipoLibro) {
+    public Libro(String isbn, String titulo, String autor, int anioPublicacion, String categoria, String editorial, int numeroPaginas, double precioVenta, int stockDisponible, TipoLibro tipoLibro) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
@@ -25,7 +26,7 @@ public class Libro {
         this.editorial = editorial;
         this.numeroPaginas = numeroPaginas;
         this.precioVenta = precioVenta;
-        this.cantidadDisponible = cantidadDisponible;
+        this.stockDisponible = stockDisponible;
         this.tipoLibro = tipoLibro;
     }
 
@@ -93,21 +94,21 @@ public class Libro {
         this.precioVenta = precioVenta;
     }
 
-    public int getCantidadDisponible() {
-        return cantidadDisponible;
+    public int getStockDisponible() {
+        return stockDisponible;
     }
 
     public void aumentarCantidad(int cantidadDisponible) {
-        this.cantidadDisponible += cantidadDisponible;
+        this.stockReservado += cantidadDisponible;
 
     }
 
     public void disminuirCantidadUnidad() {
-        this.cantidadDisponible--;
+        this.stockReservado--;
     }
 
-    public void setCantidadDisponible(int cantidadDisponible) {
-        this.cantidadDisponible = cantidadDisponible;
+    public void setStockDisponible(int stockDisponible) {
+        this.stockDisponible = stockDisponible;
     }
 
     public TipoLibro getTipoLibro() {
@@ -116,5 +117,42 @@ public class Libro {
 
     public void setTipoLibro(TipoLibro tipoLibro) {
         this.tipoLibro = tipoLibro;
+    }
+
+    public int getStockReservado() {
+        return stockReservado;
+    }
+
+    public void setStockReservado(int stockReservado) {
+        this.stockReservado = stockReservado;
+    }
+
+    public boolean reservarLibro() {
+        if (stockDisponible > 0) {
+            stockReservado++;
+            stockDisponible--;
+            return true;
+        }
+        return false;
+    }
+
+    public void cancelarReserva() {
+        if (stockReservado > 0) {
+            stockDisponible ++;
+            stockReservado--;
+        }
+    }
+
+    public void eliminarReserva() {
+        if (stockReservado > 0) {
+            stockDisponible += stockReservado;
+            stockReservado = 0;
+        }
+    }
+
+    public void confirmarCompra() {
+        if (stockReservado > 0) {
+            stockReservado = 0;
+        }
     }
 }

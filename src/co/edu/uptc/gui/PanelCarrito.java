@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class PanelCarrito extends JPanel {
 
@@ -19,6 +21,7 @@ public class PanelCarrito extends JPanel {
     private ArrayList<JPanel> listPanelesProductos;
     private GridBagConstraints gbcGeneral;
     private ManejoUsuarioJSON manejoUsuarioJSON;
+    private ManejoLibroJSON manejoLibroJSON;
     private CalculadoraIVA calculadoraIVA;
     private NumberFormat numberFormat;
     private JLabel labelTituloCompra;
@@ -63,8 +66,9 @@ public class PanelCarrito extends JPanel {
         add(labelTitulo, gbcGeneral);
     }
 
-    public void anadirProductosPanel(ArrayList<Libro> librosCarrito, ManejoUsuarioJSON manejoUsuarioJSON) {
+    public void anadirProductosPanel(ArrayList<Libro> librosCarrito, ManejoUsuarioJSON manejoUsuarioJSON, ManejoLibroJSON manejoLibroJSON) {
         this.manejoUsuarioJSON = manejoUsuarioJSON;
+        this.manejoLibroJSON = manejoLibroJSON;
         listPanelesProductos = new ArrayList<>();
 
         if (panelProductos != null) {
@@ -131,6 +135,7 @@ public class PanelCarrito extends JPanel {
     public JPanel crearPanelProducto(Libro libro, ArrayList<Libro> librosCarrito) {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
         panel.setBackground(Color.lightGray);
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMinimumFractionDigits(0);
@@ -138,7 +143,7 @@ public class PanelCarrito extends JPanel {
         JLabel labelNombreProducto = new JLabel(libro.getTitulo());
         JButton botonAumentar = new JButton("+");
         JButton botonDisminuir = new JButton("-");
-        JLabel labelCantidad = new JLabel(String.valueOf(libro.getCantidadDisponible()));
+        JLabel labelCantidad = new JLabel(String.valueOf(libro.getStockReservado()));
         JButton botonEliminar = new JButton("Eliminar");
         JLabel labelPrecio = new JLabel(format.format(libro.getPrecioVenta()));
 
@@ -147,17 +152,22 @@ public class PanelCarrito extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int index = librosCarrito.indexOf(libro);
                 if (index >= 0 && index < librosCarrito.size()) {
+                    try {
+                    Libro libroModificar = encontrarLibro(libro, catalogo);
+                    if (libroModificar.getStockDisponible() == 0) throw new IllegalArgumentException("Libro agotado.");
+                    libroModificar.reservarLibro();
                     librosCarrito.get(index).aumentarCantidad(1);
                     if (labelCantidad.getText().equals("1")) {
                         botonDisminuir.setVisible(true);
                     }
-                    try {
                         manejoUsuarioJSON.escribirUsuarioLogin();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                        manejoLibroJSON.escribirLibros(catalogo);
+                    } catch (IOException | IllegalArgumentException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                        return;
                     }
                     labelPrecio.setText(format.format(calculadoraIVA.subtotalProducto(libro, librosCarrito)));
-                    labelCantidad.setText(String.valueOf(librosCarrito.get(index).getCantidadDisponible()));
+                    labelCantidad.setText(String.valueOf(librosCarrito.get(index).getStockReservado()));
                     repintarPanelResumenCompra();
                 }
             }
@@ -168,18 +178,22 @@ public class PanelCarrito extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int index = librosCarrito.indexOf(libro);
                 if (index >= 0 && index < librosCarrito.size()) {
+
+                    Libro libroModificar = encontrarLibro(libro, catalogo);
+                    libroModificar.cancelarReserva();
                     librosCarrito.get(index).disminuirCantidadUnidad();
                     try {
                         manejoUsuarioJSON.escribirUsuarioLogin();
+                        manejoLibroJSON.escribirLibros(catalogo);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
                     labelPrecio.setText(format.format(calculadoraIVA.subtotalProducto(libro, librosCarrito)));
-                    labelCantidad.setText(String.valueOf(librosCarrito.get(index).getCantidadDisponible()));
-                    repintarPanelResumenCompra();
+                    labelCantidad.setText(String.valueOf(librosCarrito.get(index).getStockReservado()));
                     if (labelCantidad.getText().equals("1")) {
                         botonDisminuir.setVisible(false);
                     }
+                    repintarPanelResumenCompra();
                 }
             }
         });
@@ -214,24 +228,45 @@ public class PanelCarrito extends JPanel {
         botonEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                eliminarProducto(panel, librosCarrito);
+                eliminarProducto(panel, librosCarrito, catalogo);
                 repintarPanelResumenCompra();
             }
         });
-
+        if (labelCantidad.getText().equals("1")) {
+            botonDisminuir.setVisible(false);
+        }
         return panel;
     }
 
-    public void eliminarProducto(JPanel panel, ArrayList<Libro> listLibros) {
+    public Libro encontrarLibro(Libro libro, Map<String, ArrayList<Libro>> catalogo) {
+        for (ArrayList<Libro> libros : catalogo.values()) {
+            for (Libro libroCatalogo : libros) {
+                if (libro.getIsbn().equals(libroCatalogo.getIsbn())) {
+                    return libroCatalogo;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void eliminarProducto(JPanel panel, ArrayList<Libro> librosCarrito, Map<String, ArrayList<Libro>> mapLibros) {
         int posicion = listPanelesProductos.indexOf(panel);
-        if (posicion >= 0 && posicion < listLibros.size()) {
-            listLibros.remove(posicion);
-            listPanelesProductos.remove(panel);
-            panelProductos.remove(panel);
-            manejoUsuarioJSON.eliminarLibroCarrito(posicion);
+        if (posicion >= 0 && posicion < librosCarrito.size()) {
+            try {
+                Libro libroModificar = encontrarLibro(librosCarrito.get(posicion), mapLibros);
+                libroModificar.eliminarReserva();
+                manejoLibroJSON.escribirLibros(mapLibros);
+                librosCarrito.remove(posicion);
+                listPanelesProductos.remove(panel);
+                panelProductos.remove(panel);
+                manejoUsuarioJSON.eliminarLibroCarrito(posicion);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error en la eliminación del producto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
 
-        if (listLibros.isEmpty()) {
+        if (librosCarrito.isEmpty()) {
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.weighty = 1.0;
             gbc.fill = GridBagConstraints.BOTH;
@@ -240,6 +275,17 @@ public class PanelCarrito extends JPanel {
         }
         panelProductos.revalidate();
         panelProductos.repaint();
+    }
+
+    public Libro buscarLibro(ArrayList<Libro> libros, Libro libro) {
+        for (ArrayList<Libro> librosCatalogo : manejoLibroJSON.getMapLibros().values()) {
+            for (Libro libroCatalogo : librosCatalogo) {
+                if (libro.getTitulo().equals(libroCatalogo.getTitulo())) {
+                    return libroCatalogo;
+                }
+            }
+        }
+        return null;
     }
 
     public void repintarPanelResumenCompra() {
