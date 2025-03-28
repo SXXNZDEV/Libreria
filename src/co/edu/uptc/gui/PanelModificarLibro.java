@@ -1,5 +1,7 @@
 package co.edu.uptc.gui;
 
+import co.edu.uptc.negocio.TipoLibro;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemListener;
@@ -73,8 +75,8 @@ public class PanelModificarLibro extends JDialog {
         return txtCantidad.getText();
     }
 
-    public String getFormato() {
-        return txtFormato.getSelectedItem().toString();
+    public TipoLibro getFormato() {
+        return txtFormato.getSelectedItem().toString() == String.valueOf(TipoLibro.FISICO) ? TipoLibro.FISICO : TipoLibro.DIGITAL;
     }
 
     // Métodos SET (asignan un nuevo valor)
@@ -118,8 +120,8 @@ public class PanelModificarLibro extends JDialog {
         txtCantidad.setText(cantidad);
     }
 
-    public void setFormato(String formato) {
-        txtFormato.setSelectedItem(formato);
+    public void setFormato(TipoLibro tipoLibro) {
+        txtFormato.setSelectedItem(tipoLibro);
     }
 
     public void listarLibros(String[] titulosLibros) {
@@ -134,7 +136,6 @@ public class PanelModificarLibro extends JDialog {
         setTitle("Modificar Libro");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-
         gbc.insets = new Insets(5, 10, 5, 10);
 
         inicializarAtributos();
@@ -247,10 +248,12 @@ public class PanelModificarLibro extends JDialog {
 
         txtLibro = new JComboBox<>(); //Lo agregue para el que se elija, los JTextField se llenen con la informacion de cada libro.
 
+        txtLibro.setPreferredSize(new Dimension(80, 30));
+
         String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia", "Historia"};
         txtCategoria = new JComboBox<>(categorias);
 
-        String[] formatos = {"Tapa Dura", "Tapa Blanda", "Ebook"};
+        String[] formatos = {String.valueOf(TipoLibro.DIGITAL), String.valueOf(TipoLibro.FISICO)};
         txtFormato = new JComboBox<>(formatos);
 
         botonModificar = new JButton("Modificar");

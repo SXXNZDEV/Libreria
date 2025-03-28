@@ -13,6 +13,10 @@ public class GestionUsuario {
         return manejoUsuarioJSON.getUsuarioLogin();
     }
 
+    public ManejoUsuarioJSON getManejoUsuarioJSON() {
+        return manejoUsuarioJSON;
+    }
+
     public GestionUsuario() {
         manejoUsuarioJSON = new ManejoUsuarioJSON();
         expresion = new Expresion();

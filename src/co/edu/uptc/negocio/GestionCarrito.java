@@ -3,7 +3,6 @@ package co.edu.uptc.negocio;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.UUID;
 
 public class GestionCarrito {
 
@@ -11,11 +10,10 @@ public class GestionCarrito {
     private ManejoLibroJSON manejoLibroJSON;
     private ManejoUsuarioJSON manejoUsuarioJSON;
 
-    public GestionCarrito() {
+    public GestionCarrito(ManejoUsuarioJSON manejoUsuarioJSON) {
         carrito = new Carrito();
         manejoLibroJSON = new ManejoLibroJSON();
-        this.manejoUsuarioJSON = new ManejoUsuarioJSON();
-
+        this.manejoUsuarioJSON = manejoUsuarioJSON;
     }
 
     public Carrito getCarrito() {
@@ -27,14 +25,17 @@ public class GestionCarrito {
     }
 
     public void anadirLibrosCarrito(String titulo, int cantidad) throws IllegalArgumentException, IOException {
+        Usuario usuarioLogin = manejoUsuarioJSON.getUsuarioLogin();
         Libro libro = validarDisponibilidadLibros(titulo, cantidad);
         if (libro != null) {
             Libro libroCarrito = existeProductoCarrito(titulo);
             if (libroCarrito != null) {
-                libroCarrito.setCantidadDisponible(cantidad);
+                usuarioLogin.getCarrito().aumentarLibros(libroCarrito);
+                manejoUsuarioJSON.modificarUsuario(usuarioLogin);
                 return;
             }
-            getCarrito().agregarLibroCarrito(libro);
+            usuarioLogin.getCarrito().agregarLibroCarrito(libro);
+            manejoUsuarioJSON.modificarUsuario(usuarioLogin);
             return;
         }
         throw new IllegalArgumentException("No se pudo realizar la operación de añadir libros al carrito");
@@ -53,12 +54,16 @@ public class GestionCarrito {
     }
 
     public Libro existeProductoCarrito(String titulo) throws IOException {
-        ArrayList<Usuario> usuarios = manejoUsuarioJSON.leerUsuario();
+        if (manejoUsuarioJSON.getUsuarioLogin().getCarrito() == null) return null;
         for (Libro libro : manejoUsuarioJSON.getUsuarioLogin().getCarrito().getLibros()) {
-            if (libro.equals(titulo)) {
-                return  libro;
+            if (libro.getTitulo().equals(titulo)) {
+                return libro;
             }
         }
         return null;
+    }
+
+    public ArrayList<Libro> listarLibros() {
+        return manejoUsuarioJSON.getUsuarioLogin().getCarrito().getLibros();
     }
 }

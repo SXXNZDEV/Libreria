@@ -70,6 +70,10 @@ public class PanelVenta extends JPanel {
         labelNombreUsuario.setText(nombreUsuario);
     }
 
+    public PanelCarrito getPanelCarrito() {
+        return panelCarrito;
+    }
+
     public PanelVenta(Eventos eventos, EventosItemListener eventosItemListener, VentanaPrincipal ventanaPrincipal) {
         setLayout(new BorderLayout());
         panelIzquierda = new JPanel(new GridBagLayout());

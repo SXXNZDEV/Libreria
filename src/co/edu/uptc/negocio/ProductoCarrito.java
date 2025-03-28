@@ -1,11 +1,14 @@
 package co.edu.uptc.negocio;
 
 public class ProductoCarrito {
+
+    private String isbn;
     private String nombre;
     private int cantidad;
     private int precio;
 
-    public ProductoCarrito(String nombre) {
+    public ProductoCarrito(String nombre, String isbn) {
+        this.isbn = isbn;
         this.nombre = nombre;
         this.cantidad = 0;
         this.precio = 0;
@@ -37,6 +40,14 @@ public class ProductoCarrito {
 
     public void aumentarCantidad() {
         cantidad++;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public void disminuirCantidad() {

@@ -21,7 +21,7 @@ public class GestionLibro {
         this.manejoLibroJSON = manejoLibroJSON;
     }
 
-    public void registrarLibro(String isbn, String titulo, String autor, String anioPublicacion, String categoria, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible, String formato) throws IllegalArgumentException, IOException {
+    public void registrarLibro(String isbn, String titulo, String autor, String anioPublicacion, String categoria, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible, TipoLibro tipoLibro) throws IllegalArgumentException, IOException {
         Libro libro = new Libro();
         expresion.validarDatosObligatorios(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
         expresion.validarFormatoDatosLibro(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
@@ -33,12 +33,12 @@ public class GestionLibro {
         libro.setEditorial(editorial);
         libro.setNumeroPaginas(numeroPaginas.isBlank() ? 0 : Integer.parseInt(numeroPaginas));
         libro.setPrecioVenta(Double.parseDouble(precioVenta));
-        libro.setCantidadDisponible(Integer.parseInt(cantidadDisponible));
-        libro.setFormato(formato);
+        libro.aumentarCantidad(Integer.parseInt(cantidadDisponible));
+        libro.setTipoLibro(tipoLibro);
         manejoLibroJSON.crearLibro(libro);
     }
 
-    public void modificarLibro(String isbn, String titulo, String autor, String anioPublicacion, String categoria, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible, String formato) throws IllegalArgumentException, IOException {
+    public void modificarLibro(String isbn, String titulo, String autor, String anioPublicacion, String categoria, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible, TipoLibro tipoLibro) throws IllegalArgumentException, IOException {
         Libro libro = new Libro();
         expresion.validarDatosObligatorios(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
         expresion.validarFormatoDatosLibro(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
@@ -50,8 +50,8 @@ public class GestionLibro {
         libro.setEditorial(editorial);
         libro.setNumeroPaginas(numeroPaginas.isBlank() ? 0 : Integer.parseInt(numeroPaginas));
         libro.setPrecioVenta(Double.parseDouble(precioVenta));
-        libro.setCantidadDisponible(Integer.parseInt(cantidadDisponible));
-        libro.setFormato(formato);
+        libro.aumentarCantidad(Integer.parseInt(cantidadDisponible));
+        libro.setTipoLibro(tipoLibro);
         manejoLibroJSON.modificarLibro(libro);
     }
 

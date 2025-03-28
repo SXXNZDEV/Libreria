@@ -11,12 +11,12 @@ public class Libro {
     private int numeroPaginas;
     private double precioVenta;
     private int cantidadDisponible;
-    private String formato;
+    private TipoLibro tipoLibro;
 
     public Libro() {
     }
 
-    public Libro(String isbn, String titulo, String autor, int anioPublicacion, String categoria, String editorial, int numeroPaginas, double precioVenta, int cantidadDisponible, String formato) {
+    public Libro(String isbn, String titulo, String autor, int anioPublicacion, String categoria, String editorial, int numeroPaginas, double precioVenta, int cantidadDisponible, TipoLibro tipoLibro) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
@@ -26,11 +26,10 @@ public class Libro {
         this.numeroPaginas = numeroPaginas;
         this.precioVenta = precioVenta;
         this.cantidadDisponible = cantidadDisponible;
-        this.formato = formato;
+        this.tipoLibro = tipoLibro;
     }
 
     public String getIsbn() {
-
         return isbn;
     }
 
@@ -98,15 +97,24 @@ public class Libro {
         return cantidadDisponible;
     }
 
-    public void setCantidadDisponible(int cantidadDisponible) {
+    public void aumentarCantidad(int cantidadDisponible) {
         this.cantidadDisponible += cantidadDisponible;
+
     }
 
-    public String getFormato() {
-        return formato;
+    public void disminuirCantidadUnidad() {
+        this.cantidadDisponible--;
     }
 
-    public void setFormato(String formato) {
-        this.formato = formato;
+    public void setCantidadDisponible(int cantidadDisponible) {
+        this.cantidadDisponible = cantidadDisponible;
+    }
+
+    public TipoLibro getTipoLibro() {
+        return tipoLibro;
+    }
+
+    public void setTipoLibro(TipoLibro tipoLibro) {
+        this.tipoLibro = tipoLibro;
     }
 }

@@ -38,26 +38,26 @@ public class Expresion {
     public void validarFormatoDatosLibro(String isbn, String titulo, String autor, String anioPublicacion, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible) throws IllegalArgumentException {
         StringBuilder sb = new StringBuilder();
         if (!isbn.matches(EXPRESION_ISBN)) {
-            sb.append("El ISBN debe tener al menos 13 numeros");
+            sb.append("El ISBN debe tener al menos 13 numeros\n");
         }
         if (!autor.matches(EXPRESION_ALFABETICA)) {
-            sb.append("El nombre del autor solo puede tener letras");
+            sb.append("El nombre del autor solo puede tener letras\n");
         }
         if (!anioPublicacion.isBlank()) {
             if (!anioPublicacion.matches(EXPRESION_ANO_PUBLICACION) || Integer.parseInt(anioPublicacion) > LocalDate.now().getYear()) {
-                sb.append("El año de publicación debe tener cuatro digitos y debe ser igual o menor al actual.");
+                sb.append("El año de publicación debe tener cuatro digitos y debe ser igual o menor al actual.\n");
             }
         }
         if (!numeroPaginas.isBlank()) {
             if (!numeroPaginas.matches(EXPRESION_NUMERICA)) {
-                sb.append("Numero de páginas invalido");
+                sb.append("Numero de páginas invalido\n");
             }
         }
         if (!precioVenta.matches(EXPRESION_NUMERICA)) {
-            sb.append("Precio Unitario del libro invalido.");
+            sb.append("Precio Unitario del libro invalido.\n");
         }
         if (!cantidadDisponible.matches(EXPRESION_NUMERICA)) {
-            sb.append("Cantidad ingresada invalida");
+            sb.append("Cantidad ingresada invalida\n");
         }
         if (!sb.isEmpty()) {
             throw new IllegalArgumentException(sb.toString());
@@ -66,7 +66,7 @@ public class Expresion {
 
     public void validarDatosObligatorios(String isbn, String titulo, String autor, String anioPublicacion, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible) throws IllegalArgumentException {
         if (isbn.isBlank() || titulo.isBlank() || autor.isBlank() || numeroPaginas.isBlank() || precioVenta.isBlank() || cantidadDisponible.isBlank()) {
-            throw new IllegalArgumentException("Los campos con * son obligatorios.");
+            throw new IllegalArgumentException("Los campos con * son obligatorios.\n");
         }
     }
 }

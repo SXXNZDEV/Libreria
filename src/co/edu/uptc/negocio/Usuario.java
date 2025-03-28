@@ -13,6 +13,7 @@ public class Usuario {
 
     public Usuario() {
         cuenta = new Cuenta();
+        carrito = new Carrito();
     }
 
     public String getNombre() {
@@ -56,6 +57,9 @@ public class Usuario {
     }
 
     public Carrito getCarrito() {
+        if (this.carrito == null) {
+            carrito = new Carrito();
+        }
         return carrito;
     }
 

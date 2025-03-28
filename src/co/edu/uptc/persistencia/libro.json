@@ -10,7 +10,7 @@
       "numeroPaginas": 23,
       "precioVenta": 23900.0,
       "cantidadDisponible": 23,
-      "formato": "Ebook"
+      "tipoLibro": "DIGITAL"
     },
     {
       "isbn": "9782222222223",
@@ -22,7 +22,7 @@
       "numeroPaginas": 23,
       "precioVenta": 23900.0,
       "cantidadDisponible": 23,
-      "formato": "Tapa Dura"
+      "tipoLibro": "DIGITAL"
     },
     {
       "isbn": "9782222222228",
@@ -34,7 +34,7 @@
       "numeroPaginas": 345,
       "precioVenta": 23900.0,
       "cantidadDisponible": 36,
-      "formato": "Tapa Blanda"
+      "tipoLibro": "DIGITAL"
     },
     {
       "isbn": "9794343345354",
@@ -46,7 +46,55 @@
       "numeroPaginas": 53,
       "precioVenta": 45000.0,
       "cantidadDisponible": 32,
-      "formato": "Tapa Blanda"
+      "tipoLibro": "DIGITAL"
+    },
+    {
+      "isbn": "9798887776543",
+      "titulo": "Arte ",
+      "autor": "Jose ",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 23,
+      "precioVenta": 43000.0,
+      "cantidadDisponible": 43,
+      "tipoLibro": "DIGITAL"
+    },
+    {
+      "isbn": "9783433456231",
+      "titulo": "Libro de Comedia",
+      "autor": "Samuel C",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 65,
+      "precioVenta": 34599.0,
+      "cantidadDisponible": 304,
+      "tipoLibro": "DIGITAL"
+    },
+    {
+      "isbn": "9796543212345",
+      "titulo": "Amor y odio",
+      "autor": "Senor",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 40,
+      "precioVenta": 52000.0,
+      "cantidadDisponible": 23,
+      "tipoLibro": "FISICO"
+    },
+    {
+      "isbn": "9798765432345",
+      "titulo": "Sera",
+      "autor": "Valentino K",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 43,
+      "precioVenta": 98400.0,
+      "cantidadDisponible": 23,
+      "tipoLibro": "DIGITAL"
     }
   ],
   "No Ficción": [
@@ -60,7 +108,7 @@
       "numeroPaginas": 23,
       "precioVenta": 23900.0,
       "cantidadDisponible": 23,
-      "formato": "Tapa Dura"
+      "tipoLibro": "DIGITAL"
     },
     {
       "isbn": "9794444444443",
@@ -72,7 +120,7 @@
       "numeroPaginas": 320,
       "precioVenta": 53000.0,
       "cantidadDisponible": 52,
-      "formato": "Tapa Blanda"
+      "tipoLibro": "DIGITAL"
     }
   ],
   "Misterio": [
@@ -86,7 +134,33 @@
       "numeroPaginas": 30,
       "precioVenta": 230000.0,
       "cantidadDisponible": 43,
-      "formato": "Tapa Blanda"
+      "tipoLibro": "DIGITAL"
+    },
+    {
+      "isbn": "9796543425453",
+      "titulo": "El terror mas tenebroso",
+      "autor": "Miguel Angelo B",
+      "anioPublicacion": 2003,
+      "categoria": "Misterio",
+      "editorial": "Editorial C.L",
+      "numeroPaginas": 42,
+      "precioVenta": 34000.0,
+      "cantidadDisponible": 46,
+      "tipoLibro": "DIGITAL"
+    }
+  ],
+  "Ciencia": [
+    {
+      "isbn": "9786665554443",
+      "titulo": "Psicologia",
+      "autor": "Persona",
+      "anioPublicacion": 0,
+      "categoria": "Ciencia",
+      "editorial": "",
+      "numeroPaginas": 4,
+      "precioVenta": 64500.0,
+      "cantidadDisponible": 62,
+      "tipoLibro": "DIGITAL"
     }
   ]
 }

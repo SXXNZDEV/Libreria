@@ -3,6 +3,7 @@ package co.edu.uptc.negocio;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,8 +83,7 @@ public class ManejoUsuarioJSON {
 
     public void modificarUsuario(Usuario usuarioBuscar) throws IOException, IllegalArgumentException {
         try {
-            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {
-            });
+            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {});
             Usuario usuarioBuscado = buscarUsuario(listaUsuarios, usuarioBuscar);
             if (usuarioBuscado == null) throw new IllegalArgumentException("Usuario no encontrado");
             usuarioBuscado.setNombre(usuarioBuscar.getNombre());
@@ -93,10 +93,22 @@ public class ManejoUsuarioJSON {
             usuarioBuscado.setDireccionEnvio(usuarioBuscar.getDireccionEnvio());
             usuarioBuscado.setTelefono(usuarioBuscar.getTelefono());
             usuarioBuscado.setTipoCliente(usuarioBuscar.getTipoCliente());
+            usuarioBuscado.getCarrito().setLibros(usuarioBuscar.getCarrito().getLibros());
             objectMapper.writeValue(file, listaUsuarios);
             usuarioLogin = usuarioBuscar;
         } catch (IOException e) {
             throw new IOException("Error al modificar el usuario");
+        }
+    }
+
+    public void escribirUsuarioLogin() throws IOException{
+        try {
+            listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {});
+            Usuario usuarioBuscado = buscarUsuario(listaUsuarios, usuarioLogin);
+            usuarioBuscado.getCarrito().setLibros(usuarioLogin.getCarrito().getLibros());
+            objectMapper.writeValue(file, listaUsuarios);
+        } catch (IOException e) {
+            throw new IOException( "Error al escribir el usuario");
         }
     }
 
@@ -107,6 +119,19 @@ public class ManejoUsuarioJSON {
             }
         }
         return null;
+    }
+
+    public void eliminarLibroCarrito(int index) {
+        try {
+            listaUsuarios = objectMapper.readValue(file, new TypeReference<List<Usuario>>() {
+            });
+            Usuario usuarioEncontrado = buscarUsuario(listaUsuarios, usuarioLogin);
+            usuarioEncontrado.getCarrito().getLibros().remove(index);
+            objectMapper.writeValue(file, listaUsuarios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getCause());
+            //throw new IllegalArgumentException("Error al eliminar el libro del carrito");
+        }
     }
 
     public boolean validarDatosLogin(Usuario usuario) throws IllegalArgumentException {

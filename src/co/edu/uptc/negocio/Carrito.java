@@ -14,11 +14,30 @@ public class Carrito {
         return libros;
     }
 
-    public void setLibros(ArrayList<Libro> libros) {
-        this.libros = libros;
+    public void aumentarLibros(Libro libro) {
+        for(Libro libroArrayList : libros) {
+            if (libroArrayList.getTitulo().equals(libro.getTitulo())) {
+                libroArrayList.aumentarCantidad(1);
+                return;
+            }
+        }
     }
 
-    public void agregarLibroCarrito(Libro libro){
+    public void disminuirLibros(Libro libro) {
+        for(Libro libroArrayList : libros) {
+            if (libroArrayList.getTitulo().equals(libro.getTitulo())) {
+                libroArrayList.disminuirCantidadUnidad();
+                return;
+            }
+        }
+    }
+
+    public void agregarLibroCarrito(Libro libro) {
+        libro.setCantidadDisponible(1);
         libros.add(libro);
+    }
+
+    public void setLibros(ArrayList<Libro> librosArrayList) {
+        this.libros = librosArrayList;
     }
 }

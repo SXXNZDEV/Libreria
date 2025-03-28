@@ -1,5 +1,7 @@
 package co.edu.uptc.gui;
 
+import co.edu.uptc.negocio.TipoLibro;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -65,8 +67,8 @@ public class PanelRegistrarLibro extends JDialog {
         return txtCantidad.getText();
     }
 
-    public String getTxtFormato() {
-        return (String) txtFormato.getSelectedItem();
+    public TipoLibro getTxtFormato() {
+        return txtFormato.getSelectedItem().toString() == String.valueOf(TipoLibro.FISICO) ? TipoLibro.FISICO : TipoLibro.DIGITAL;
     }
 
     public void setTxtIsbn(String texto) {
@@ -218,7 +220,7 @@ public class PanelRegistrarLibro extends JDialog {
         String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia", "Historia"};
         txtCategoria = new JComboBox<>(categorias);
 
-        String[] formatos = {"Tapa Dura", "Tapa Blanda", "Ebook"};
+        String[] formatos = {String.valueOf(TipoLibro.DIGITAL), String.valueOf(TipoLibro.FISICO)};
         txtFormato = new JComboBox<>(formatos);
 
         botonAgregar = new JButton("Agregar");

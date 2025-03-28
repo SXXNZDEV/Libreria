@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ManejoLibroJSON {
@@ -98,11 +97,11 @@ public class ManejoLibroJSON {
                 libroArray.setEditorial(libro.getEditorial());
                 libroArray.setPrecioVenta(libro.getPrecioVenta());
                 libroArray.setNumeroPaginas(libro.getNumeroPaginas());
-                libroArray.setFormato(libro.getFormato());
+                libroArray.setTipoLibro(libro.getTipoLibro());
                 libroArray.setAutor(libro.getAutor());
                 libroArray.setAnioPublicacion(libro.getAnioPublicacion());
                 libroArray.setCategoria(libro.getCategoria());
-                libroArray.setCantidadDisponible(libro.getCantidadDisponible());
+                libroArray.aumentarCantidad(libro.getCantidadDisponible());
                 break;
             }
         }

@@ -32,7 +32,7 @@ public class VentanaPrincipal extends JFrame {
         gestionUsuario = new GestionUsuario();
         gestionLibro = new GestionLibro();
         gestionCatalogo = new GestionCatalogo();
-        gestionCarrito = new GestionCarrito();
+        gestionCarrito = new GestionCarrito(gestionUsuario.getManejoUsuarioJSON());
         panelCL = new JPanel(cardLayout);
         panelVenta = new PanelVenta(eventos, eventosItemListener, this);
         panelInicioSesion = new PanelInicioSesion(eventos);
@@ -105,6 +105,7 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarCarrito() {
         panelVenta.activarPanelCarrito();
+        panelVenta.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros(), gestionUsuario.getManejoUsuarioJSON());
     }
 
     public void activarPanelCompras() {
@@ -144,7 +145,7 @@ public class VentanaPrincipal extends JFrame {
         panelVenta.getPanelModificarLibro().setNumeroPaginas(libro.getNumeroPaginas() == 0 ? "" : String.valueOf(libro.getNumeroPaginas()));
         panelVenta.getPanelModificarLibro().setPrecio(String.valueOf((int) libro.getPrecioVenta()));
         panelVenta.getPanelModificarLibro().setCantidad(String.valueOf(libro.getCantidadDisponible()));
-        panelVenta.getPanelModificarLibro().setFormato(libro.getFormato());
+        panelVenta.getPanelModificarLibro().setFormato(libro.getTipoLibro());
     }
 
     public void activarCancelarModificacionLibro() {
@@ -255,9 +256,9 @@ public class VentanaPrincipal extends JFrame {
         String numeroPaginas = panelVenta.getPanelModificarLibro().getNumeroPaginas();
         String precio = panelVenta.getPanelModificarLibro().getPrecio();
         String cantidad = panelVenta.getPanelModificarLibro().getCantidad();
-        String formato = panelVenta.getPanelModificarLibro().getFormato();
+        TipoLibro tipoLibro = panelVenta.getPanelModificarLibro().getFormato();
         try {
-            gestionLibro.modificarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, formato);
+            gestionLibro.modificarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, tipoLibro);
             JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), "Libro Modificado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
             String[] titulosLibros = gestionLibro.obtenerUsuarios();
             panelVenta.getPanelModificarLibro().listarLibros(titulosLibros);
@@ -277,8 +278,8 @@ public class VentanaPrincipal extends JFrame {
             String numeroPaginas = panelVenta.getPanelRegistrarLibro().getTxtNumeroPaginas();
             String precio = panelVenta.getPanelRegistrarLibro().getTxtPrecio();
             String cantidad = panelVenta.getPanelRegistrarLibro().getTxtCantidad();
-            String formato = panelVenta.getPanelRegistrarLibro().getTxtFormato();
-            gestionLibro.registrarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, formato);
+            TipoLibro tipoLibro = panelVenta.getPanelRegistrarLibro().getTxtFormato();
+            gestionLibro.registrarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, tipoLibro);
             limpiarTxtFieldsLibro();
             panelVenta.getPanelRegistrarLibro().setVisible(false);
         } catch (IllegalArgumentException | IOException e) {
@@ -290,6 +291,7 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarPanelCatalogo() {
         try {
+            panelVenta.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
             panelVenta.activarPanelCatalogo();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

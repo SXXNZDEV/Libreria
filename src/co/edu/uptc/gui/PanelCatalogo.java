@@ -67,9 +67,14 @@ public class PanelCatalogo extends JPanel {
 
     public void crearPanelesLibros(Map<String, ArrayList<Libro>> mapLibros) {
 
+        if (panelLibros != null) {
+            repintarPanelLibros();
+        }
+
         for (ArrayList<Libro> libroArrayList : mapLibros.values()) {
             for (Libro libro : libroArrayList) {
                 JPanel panelLibro = new JPanel(new GridBagLayout());
+                panelLibro.setPreferredSize(new Dimension(20, 150));
                 GridBagConstraints gbc = new GridBagConstraints();
                 panelLibro.setBorder(new LineBorder(Color.WHITE, 1, true));
                 panelLibro.setBackground(Color.WHITE);
@@ -110,6 +115,14 @@ public class PanelCatalogo extends JPanel {
         }
     }
 
+    public void repintarPanelLibros() {
+        panelLibros.removeAll();
+        panelLibros.revalidate();
+        panelLibros.repaint();
+        conteoColumnas = 0;
+        conteoFilas = 0;
+    }
+
     public void anadirLibrosPanel(JPanel panel) {
         gbcPanelLibros.weightx = 1.0;
         gbcPanelLibros.insets = new Insets(10, 10, 10, 10);
@@ -125,6 +138,5 @@ public class PanelCatalogo extends JPanel {
             conteoColumnas = 0;
             conteoFilas++;
         }
-
     }
 }
