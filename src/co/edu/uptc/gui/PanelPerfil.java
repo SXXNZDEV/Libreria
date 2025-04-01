@@ -33,13 +33,13 @@ public class PanelPerfil extends JPanel {
         labelTipoUsuario.setText(tipoUsuario);
     }
 
-    public PanelPerfil(Eventos eventos) {
+    public PanelPerfil(Evento evento) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         inicializarAtributos();
-        botonActualizacionDatos.addActionListener(eventos);
-        botonActualizacionDatos.setActionCommand(eventos.ACTUALIZAR_DATOS_USUARIO);
+        botonActualizacionDatos.addActionListener(evento);
+        botonActualizacionDatos.setActionCommand(evento.ACTUALIZAR_DATOS_USUARIO);
 
         gbc.gridy = 0;
         gbc.gridx = 0;

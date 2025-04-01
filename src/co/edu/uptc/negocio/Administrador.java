@@ -2,7 +2,7 @@ package co.edu.uptc.negocio;
 
 public class Administrador {
 
-    private final String CORREO = "admin.library01@gmail.com";
+    private final String CORREO = "admin@gmail.com";
 
     public Administrador() {
 

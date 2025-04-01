@@ -131,7 +131,7 @@ public class ManejoUsuarioJSON {
             usuarioEncontrado.getCarrito().getLibros().remove(index);
             objectMapper.writeValue(file, listaUsuarios);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getCause());
+            JOptionPane.showMessageDialog(null, e.getMessage());
             //throw new IllegalArgumentException("Error al eliminar el libro del carrito");
         }
     }

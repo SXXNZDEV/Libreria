@@ -3,7 +3,7 @@ package co.edu.uptc.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Eventos implements ActionListener {
+public class Evento implements ActionListener {
 
     public final static String INICIAR_SESION = "Iniciar Sesion";
     public final static String GESTIONAR_LIBROS = "Gestionar Libros";
@@ -27,10 +27,11 @@ public class Eventos implements ActionListener {
     public final static String ACEPTAR_ACTUALIZAR_USUARIO = "Aceptar Datos Usuario";
     public final static String CANCELAR_ACTUALIZAR_USUARIO = "Cancelar Datos Usuario";
     public final static String MODIFICAR_LIBRO = "Modificar Libro";
+    public final static String COMPRAR = "Comprar";
 
     public VentanaPrincipal ventana;
 
-    public Eventos(VentanaPrincipal ventana) {
+    public Evento(VentanaPrincipal ventana) {
         this.ventana = ventana;
     }
 
@@ -61,6 +62,7 @@ public class Eventos implements ActionListener {
             case REGISTRAR_USUARIO -> ventana.activarFuncionRegistrarUsuario();
             case REGISTRAR_LIBRO -> ventana.activarFuncionRegistrarLibro();
             case MODIFICAR_LIBRO -> ventana.activarFuncionModificarLibro();
+            //case COMPRAR -> ventana.activarFuncionComprar();
         }
     }
 }

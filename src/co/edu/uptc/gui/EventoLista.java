@@ -3,11 +3,11 @@ package co.edu.uptc.gui;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class EventosItemListener implements ItemListener {
+public class EventoLista implements ItemListener {
 
     public VentanaPrincipal ventanaPrincipal;
 
-    public EventosItemListener(VentanaPrincipal ventanaPrincipal) {
+    public EventoLista(VentanaPrincipal ventanaPrincipal) {
         this.ventanaPrincipal = ventanaPrincipal;
     }
 

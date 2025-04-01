@@ -2,6 +2,7 @@ package co.edu.uptc.negocio;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GestionLibro {
 
@@ -74,6 +75,17 @@ public class GestionLibro {
         for (ArrayList<Libro> catalogo : manejoLibroJSON.getMapLibros().values()) {
             for (Libro libroCatalogo : catalogo) {
                 if (libroCatalogo.getTitulo().equals(tituloLibro)) {
+                    return libroCatalogo;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Libro encontrarLibro(Libro libro, Map<String, ArrayList<Libro>> catalogo) {
+        for (ArrayList<Libro> libros : catalogo.values()) {
+            for (Libro libroCatalogo : libros) {
+                if (libro.getIsbn().equals(libroCatalogo.getIsbn())) {
                     return libroCatalogo;
                 }
             }

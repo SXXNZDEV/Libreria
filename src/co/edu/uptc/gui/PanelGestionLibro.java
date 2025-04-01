@@ -8,7 +8,7 @@ public class PanelGestionLibro extends JPanel {
     private JButton botonRegistrar, botonModificar, botonEliminar;
 
 
-    public PanelGestionLibro(Eventos eventos) {
+    public PanelGestionLibro(Evento evento) {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -16,14 +16,14 @@ public class PanelGestionLibro extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         botonRegistrar = new JButton("Registrar Libro");
-        botonRegistrar.addActionListener(eventos);
-        botonRegistrar.setActionCommand(eventos.VENTANA_REGISTRAR_LIBRO);
+        botonRegistrar.addActionListener(evento);
+        botonRegistrar.setActionCommand(evento.VENTANA_REGISTRAR_LIBRO);
         botonModificar = new JButton("Modificar Libro");
-        botonModificar.addActionListener(eventos);
-        botonModificar.setActionCommand(eventos.VENTANA_MODIFICAR_LIBRO);
+        botonModificar.addActionListener(evento);
+        botonModificar.setActionCommand(evento.VENTANA_MODIFICAR_LIBRO);
         botonEliminar = new JButton("Eliminar Libro");
-        botonEliminar.addActionListener(eventos);
-        botonEliminar.setActionCommand(eventos.ELIMINAR_LIBRO);
+        botonEliminar.addActionListener(evento);
+        botonEliminar.setActionCommand(evento.ELIMINAR_LIBRO);
 
 
         add(botonRegistrar, gbc);

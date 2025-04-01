@@ -111,7 +111,7 @@ public class PanelRegistrarLibro extends JDialog {
         txtFormato.setSelectedItem(index);
     }
 
-    public PanelRegistrarLibro(Eventos eventos) {
+    public PanelRegistrarLibro(Evento evento) {
         setTitle("Registrar Libro");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -121,10 +121,10 @@ public class PanelRegistrarLibro extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
 
-        botonAgregar.addActionListener(eventos);
-        botonAgregar.setActionCommand(eventos.REGISTRAR_LIBRO);
-        botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.CANCELAR_REGISTRO_LIBRO);
+        botonAgregar.addActionListener(evento);
+        botonAgregar.setActionCommand(evento.REGISTRAR_LIBRO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_REGISTRO_LIBRO);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;

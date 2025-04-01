@@ -64,7 +64,7 @@ public class PanelRegistrarUsuario extends JDialog {
         this.txtTelefono.setText(telefono);
     }
 
-    public PanelRegistrarUsuario(Eventos eventos) {
+    public PanelRegistrarUsuario(Evento evento) {
         setTitle("Registrar Persona");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -73,10 +73,10 @@ public class PanelRegistrarUsuario extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
 
-        botonRegistrar.addActionListener(eventos);
-        botonRegistrar.setActionCommand(eventos.REGISTRAR_USUARIO);
-        botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.CANCELAR_REGISTRO_USUARIO);
+        botonRegistrar.addActionListener(evento);
+        botonRegistrar.setActionCommand(evento.REGISTRAR_USUARIO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_REGISTRO_USUARIO);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;

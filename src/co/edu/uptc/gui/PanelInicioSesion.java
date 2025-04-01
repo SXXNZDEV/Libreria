@@ -25,7 +25,7 @@ public class PanelInicioSesion extends JPanel {
         this.txtContrasena = txtContrasena;
     }
 
-    public PanelInicioSesion(Eventos eventos) {
+    public PanelInicioSesion(Evento evento) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -48,14 +48,14 @@ public class PanelInicioSesion extends JPanel {
         txtCorreo.selectAll();
 
         botonContinuar = new JButton("Continuar");
-        botonContinuar.addActionListener(eventos);
-        botonContinuar.setActionCommand(eventos.CONTINUAR_INICIAR_SESION);
+        botonContinuar.addActionListener(evento);
+        botonContinuar.setActionCommand(evento.CONTINUAR_INICIAR_SESION);
         botonCancelar  = new JButton("Salir");
-        botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.SALIR);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.SALIR);
         botonCrearCuenta = new JButton("Crear Cuenta");
-        botonCrearCuenta.addActionListener(eventos);
-        botonCrearCuenta.setActionCommand(eventos.VENTANA_REGISTRAR_USUARIO);
+        botonCrearCuenta.addActionListener(evento);
+        botonCrearCuenta.setActionCommand(evento.VENTANA_REGISTRAR_USUARIO);
 
 
         labelTitulo.setFont(letra);

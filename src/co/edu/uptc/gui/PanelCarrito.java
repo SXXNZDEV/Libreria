@@ -4,50 +4,35 @@ import co.edu.uptc.negocio.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class PanelCarrito extends JPanel {
 
     private JLabel labelTitulo;
     private JScrollPane scrollPane;
-    private JPanel panelCompras;
     private JPanel panelProductos;
-    private ArrayList<JPanel> listPanelesProductos;
+    private ArrayList<PanelProducto> listPanelesProductos;//
     private GridBagConstraints gbcGeneral;
-    private ManejoUsuarioJSON manejoUsuarioJSON;
-    private ManejoLibroJSON manejoLibroJSON;
-    private CalculadoraIVA calculadoraIVA;
-    private NumberFormat numberFormat;
-    private JLabel labelTituloCompra;
-    private JLabel labelSubtotal;
-    private JLabel labelSubtotalValor;
-    private JLabel labelImpuestos;
-    private JLabel labelImpuestosValor;
-    private JLabel labelTotal;
-    private JLabel labelTotalValor;
-    private JButton botonComprar;
+    private VentanaPrincipal ventanaPrincipal;
+    private GridBagConstraints gbcPanelProductos;
+    private PanelResumenCompra panelResumenCompra;
 
-    public PanelCarrito() {
+    public ArrayList<PanelProducto> getListPanelesProductos() {
+        return listPanelesProductos;
+    }
+
+    public void eliminarPanelProducto(PanelProducto panelProducto) {
+        panelProductos.remove(panelProducto);
+    }
+
+    public PanelCarrito(VentanaPrincipal ventanaPrincipal, Evento evento) {
         listPanelesProductos = new ArrayList<>();
         gbcGeneral = new GridBagConstraints();
-        panelCompras = new JPanel();
+        gbcPanelProductos = new GridBagConstraints();
         agregarPaneles();
-        calculadoraIVA = new CalculadoraIVA();
-        numberFormat = NumberFormat.getCurrencyInstance();
-        labelTituloCompra = new JLabel("Resumen Compra");
-        labelSubtotal = new JLabel("Subtotal");
-        labelSubtotalValor = new JLabel();
-        labelImpuestos = new JLabel("Impuestos");
-        labelImpuestosValor = new JLabel();
-        labelTotal = new JLabel("Total");
-        labelTotalValor = new JLabel();
-        botonComprar = new JButton("Comprar");
+        panelResumenCompra = new PanelResumenCompra(evento);
+        this.ventanaPrincipal = ventanaPrincipal;
     }
 
     public void agregarPaneles() {
@@ -66,46 +51,39 @@ public class PanelCarrito extends JPanel {
         add(labelTitulo, gbcGeneral);
     }
 
-    public void anadirProductosPanel(ArrayList<Libro> librosCarrito, ManejoUsuarioJSON manejoUsuarioJSON, ManejoLibroJSON manejoLibroJSON) {
-        this.manejoUsuarioJSON = manejoUsuarioJSON;
-        this.manejoLibroJSON = manejoLibroJSON;
+    public void anadirProductosPanel(ArrayList<Libro> librosCarrito) {
         listPanelesProductos = new ArrayList<>();
 
         if (panelProductos != null) {
-            panelProductos.removeAll();
             panelProductos.revalidate();
             panelProductos.repaint();
         }
 
         panelProductos = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridy = 0;
+        gbcPanelProductos = new GridBagConstraints();
+        gbcPanelProductos.insets = new Insets(5, 5, 5, 5);
+        gbcPanelProductos.gridy = 0;
 
         if (librosCarrito.isEmpty()) {
-            gbc.weighty = 1.0;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            JLabel label = new JLabel("No hay productos seleccionados");
-            panelProductos.add(label, gbc);
+            validarExistenciaProductos();
         } else {
-
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.weightx = 1.0;
-
+            gbcPanelProductos.fill = GridBagConstraints.HORIZONTAL;
+            gbcPanelProductos.weightx = 1.0;
             for (Libro libro : librosCarrito) {
-                JPanel panel = crearPanelProducto(libro, librosCarrito);
-                gbc.gridy++;
-                panelProductos.add(panel, gbc);
-                listPanelesProductos.add(panel);
+                PanelProducto panelProducto = new PanelProducto(ventanaPrincipal, libro);
+
+                gbcPanelProductos.gridy++;
+                panelProductos.add(panelProducto, gbcPanelProductos);
+                listPanelesProductos.add(panelProducto);
             }
-            gbc.gridy++;
-            gbc.weighty = 4;
-            panelProductos.add(new JLabel(), gbc);
+            gbcPanelProductos.gridy++;
+            gbcPanelProductos.weighty = 4;
+            panelProductos.add(new JLabel(), gbcPanelProductos);
         }
 
         gbcGeneral.gridy = 1;
-        gbcGeneral.gridheight = 3;
-        gbcGeneral.weighty = 2;
+        gbcGeneral.gridheight = 1;
+        gbcGeneral.weighty = 1;
         gbcGeneral.fill = GridBagConstraints.BOTH;
 
         if (scrollPane != null) {
@@ -114,7 +92,7 @@ public class PanelCarrito extends JPanel {
 
         scrollPane = new JScrollPane(panelProductos);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-        scrollPane.setPreferredSize(new Dimension(200, 120));
+        scrollPane.setPreferredSize(new Dimension(200, 300));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         add(scrollPane, gbcGeneral);
 
@@ -123,238 +101,32 @@ public class PanelCarrito extends JPanel {
         gbcGeneral.gridy = 2;
         gbcGeneral.gridx = 0;
 
-        gbcGeneral.insets = new Insets(20, 10, 0, 10);
+        gbcGeneral.insets = new Insets(0, 10, 0, 10);
         gbcGeneral.anchor = GridBagConstraints.SOUTH;
         gbcGeneral.fill = GridBagConstraints.HORIZONTAL;
-        panelCompras = crearPanelResumenCompra();
-        add(panelCompras, gbcGeneral);
+        add(panelResumenCompra, gbcGeneral);
         revalidate();
         repaint();
     }
 
-    public JPanel crearPanelProducto(Libro libro, ArrayList<Libro> librosCarrito) {
-        JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
-        panel.setBackground(Color.lightGray);
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-        format.setMinimumFractionDigits(0);
-
-        JLabel labelNombreProducto = new JLabel(libro.getTitulo());
-        JButton botonAumentar = new JButton("+");
-        JButton botonDisminuir = new JButton("-");
-        JLabel labelCantidad = new JLabel(String.valueOf(libro.getStockReservado()));
-        JButton botonEliminar = new JButton("Eliminar");
-        JLabel labelPrecio = new JLabel(format.format(libro.getPrecioVenta()));
-
-        botonAumentar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int index = librosCarrito.indexOf(libro);
-                if (index >= 0 && index < librosCarrito.size()) {
-                    try {
-                    Libro libroModificar = encontrarLibro(libro, catalogo);
-                    if (libroModificar.getStockDisponible() == 0) throw new IllegalArgumentException("Libro agotado.");
-                    libroModificar.reservarLibro();
-                    librosCarrito.get(index).aumentarCantidad(1);
-                    if (labelCantidad.getText().equals("1")) {
-                        botonDisminuir.setVisible(true);
-                    }
-                        manejoUsuarioJSON.escribirUsuarioLogin();
-                        manejoLibroJSON.escribirLibros(catalogo);
-                    } catch (IOException | IllegalArgumentException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                        return;
-                    }
-                    labelPrecio.setText(format.format(calculadoraIVA.subtotalProducto(libro, librosCarrito)));
-                    labelCantidad.setText(String.valueOf(librosCarrito.get(index).getStockReservado()));
-                    repintarPanelResumenCompra();
-                }
-            }
-        });
-
-        botonDisminuir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int index = librosCarrito.indexOf(libro);
-                if (index >= 0 && index < librosCarrito.size()) {
-
-                    Libro libroModificar = encontrarLibro(libro, catalogo);
-                    libroModificar.cancelarReserva();
-                    librosCarrito.get(index).disminuirCantidadUnidad();
-                    try {
-                        manejoUsuarioJSON.escribirUsuarioLogin();
-                        manejoLibroJSON.escribirLibros(catalogo);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    labelPrecio.setText(format.format(calculadoraIVA.subtotalProducto(libro, librosCarrito)));
-                    labelCantidad.setText(String.valueOf(librosCarrito.get(index).getStockReservado()));
-                    if (labelCantidad.getText().equals("1")) {
-                        botonDisminuir.setVisible(false);
-                    }
-                    repintarPanelResumenCompra();
-                }
-            }
-        });
-
-
-        gbc.gridy = 0;
-        gbc.gridx = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridwidth = 1;
-        gbc.weightx = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        panel.add(labelNombreProducto, gbc);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.gridx = 1;
-        gbc.gridwidth = 1;
-        gbc.weightx = 0;
-        panel.add(botonDisminuir, gbc);
-        gbc.gridx = 4;
-        gbc.gridwidth = 1;
-        panel.add(labelCantidad, gbc);
-        gbc.gridx = 5;
-        gbc.gridwidth = 1;
-        panel.add(botonAumentar, gbc);
-        gbc.gridx = 6;
-        gbc.gridwidth = 1;
-        panel.add(labelPrecio, gbc);
-        gbc.gridx = 7;
-        gbc.gridwidth = 1;
-        panel.add(botonEliminar, gbc);
-        botonEliminar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eliminarProducto(panel, librosCarrito, catalogo);
-                repintarPanelResumenCompra();
-            }
-        });
-        if (labelCantidad.getText().equals("1")) {
-            botonDisminuir.setVisible(false);
-        }
-        return panel;
+    private void validarExistenciaProductos() {
+        if (!listPanelesProductos.isEmpty()) return;
+        gbcPanelProductos.weighty = 1.0;
+        gbcPanelProductos.fill = GridBagConstraints.BOTH;
+        JLabel label = new JLabel("No hay productos seleccionados");
+        panelProductos.add(label, gbcPanelProductos);
     }
 
-    public Libro encontrarLibro(Libro libro, Map<String, ArrayList<Libro>> catalogo) {
-        for (ArrayList<Libro> libros : catalogo.values()) {
-            for (Libro libroCatalogo : libros) {
-                if (libro.getIsbn().equals(libroCatalogo.getIsbn())) {
-                    return libroCatalogo;
-                }
-            }
-        }
-        return null;
-    }
-
-    public void eliminarProducto(JPanel panel, ArrayList<Libro> librosCarrito, Map<String, ArrayList<Libro>> mapLibros) {
-        int posicion = listPanelesProductos.indexOf(panel);
-        if (posicion >= 0 && posicion < librosCarrito.size()) {
-            try {
-                Libro libroModificar = encontrarLibro(librosCarrito.get(posicion), mapLibros);
-                libroModificar.eliminarReserva();
-                manejoLibroJSON.escribirLibros(mapLibros);
-                librosCarrito.remove(posicion);
-                listPanelesProductos.remove(panel);
-                panelProductos.remove(panel);
-                manejoUsuarioJSON.eliminarLibroCarrito(posicion);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error en la eliminación del producto", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        }
-
-        if (librosCarrito.isEmpty()) {
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.weighty = 1.0;
-            gbc.fill = GridBagConstraints.BOTH;
-            JLabel label = new JLabel("No hay productos en el carrito");
-            panelProductos.add(label);
-        }
-        panelProductos.revalidate();
-        panelProductos.repaint();
-    }
-
-    public Libro buscarLibro(ArrayList<Libro> libros, Libro libro) {
-        for (ArrayList<Libro> librosCatalogo : manejoLibroJSON.getMapLibros().values()) {
-            for (Libro libroCatalogo : librosCatalogo) {
-                if (libro.getTitulo().equals(libroCatalogo.getTitulo())) {
-                    return libroCatalogo;
-                }
-            }
-        }
-        return null;
-    }
-
-    public void repintarPanelResumenCompra() {
-        remove(panelCompras);
-        panelCompras = crearPanelResumenCompra();
-        add(panelCompras, gbcGeneral);
+    public void repaintPanel(ValorCompra valorCompra) {
+        modificarValores(valorCompra);
+        validarExistenciaProductos();
+        panelResumenCompra.repaint();
         revalidate();
         repaint();
     }
 
-    public JPanel crearPanelResumenCompra() {
-        JPanel panelResumenCompra = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        panelResumenCompra.setBackground(Color.pink);
-        double impuestos = calculadoraIVA.impuestos(manejoUsuarioJSON.getUsuarioLogin().getCarrito());
-        double subtotal = calculadoraIVA.subtotal(manejoUsuarioJSON.getUsuarioLogin().getCarrito());
-        double total = calculadoraIVA.total(subtotal, impuestos);
-
-
-        labelSubtotalValor.setText(numberFormat.format(impuestos));
-        labelImpuestosValor.setText(numberFormat.format(subtotal));
-        labelTotalValor.setText(numberFormat.format(total));
-
-        labelTituloCompra.setFont(new Font("Arial", Font.BOLD, 20));
-        labelTotalValor.setFont(new Font("Arial", Font.BOLD, 18));
-        labelTotal.setFont(new Font("Arial", Font.BOLD, 18));
-
-        botonComprar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Comprado");
-            }
-        });
-
-        gbc.weighty = 1.0;
-        gbc.weightx = 1.0;
-
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        panelResumenCompra.add(labelTituloCompra, gbc);
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        panelResumenCompra.add(labelSubtotal, gbc);
-        gbc.anchor = GridBagConstraints.EAST;
-        panelResumenCompra.add(labelSubtotalValor, gbc);
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridy = 2;
-        panelResumenCompra.add(labelImpuestos, gbc);
-        gbc.anchor = GridBagConstraints.EAST;
-        panelResumenCompra.add(labelImpuestosValor, gbc);
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridy = 3;
-        panelResumenCompra.add(labelTotal, gbc);
-        gbc.anchor = GridBagConstraints.EAST;
-        panelResumenCompra.add(labelTotalValor, gbc);
-        gbc.gridy = 4;
-        gbc.gridx = 0;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-        panelResumenCompra.add(botonComprar, gbc);
-
-        gbc.weighty = 1.0;
-        gbc.weightx = 0;
-        gbc.gridx++;
-
-        add(new JLabel(), gbc);
-        return panelResumenCompra;
+    public void modificarValores(ValorCompra valorCompra) {
+        panelResumenCompra.modificarValor(valorCompra);
+        repaint();
     }
 }

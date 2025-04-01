@@ -68,7 +68,7 @@ public class PanelModificarUsuario extends JDialog {
         cbTipoCliente.setSelectedItem(tipoCliente);
     }
 
-    public PanelModificarUsuario(Eventos eventos) {
+    public PanelModificarUsuario(Evento evento) {
         setTitle("Actualizar Datos Usuario");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -77,10 +77,10 @@ public class PanelModificarUsuario extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
 
-        botonActualizar.addActionListener(eventos);
-        botonActualizar.setActionCommand(eventos.ACEPTAR_ACTUALIZAR_USUARIO);
-        botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.CANCELAR_ACTUALIZAR_USUARIO);
+        botonActualizar.addActionListener(evento);
+        botonActualizar.setActionCommand(evento.ACEPTAR_ACTUALIZAR_USUARIO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_ACTUALIZAR_USUARIO);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;

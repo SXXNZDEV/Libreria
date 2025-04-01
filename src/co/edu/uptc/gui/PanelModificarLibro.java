@@ -4,7 +4,6 @@ import co.edu.uptc.negocio.TipoLibro;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemListener;
 
 public class PanelModificarLibro extends JDialog {
 
@@ -132,7 +131,7 @@ public class PanelModificarLibro extends JDialog {
     }
 
 
-    public PanelModificarLibro (Eventos eventos, EventosItemListener eventosItemListener) {
+    public PanelModificarLibro (Evento evento, EventoLista eventoLista) {
         setTitle("Modificar Libro");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -141,11 +140,11 @@ public class PanelModificarLibro extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
 
-        botonModificar.addActionListener(eventos);
-        botonModificar.setActionCommand(eventos.MODIFICAR_LIBRO);
-        botonCancelar.addActionListener(eventos);
-        botonCancelar.setActionCommand(eventos.CANCELAR_MODIFICACION_LIBRO);
-        txtLibro.addItemListener(eventosItemListener);
+        botonModificar.addActionListener(evento);
+        botonModificar.setActionCommand(evento.MODIFICAR_LIBRO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_MODIFICACION_LIBRO);
+        txtLibro.addItemListener(eventoLista);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;

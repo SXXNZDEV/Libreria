@@ -74,26 +74,24 @@ public class PanelVenta extends JPanel {
         return panelCarrito;
     }
 
-    public PanelVenta(Eventos eventos, EventosItemListener eventosItemListener, VentanaPrincipal ventanaPrincipal) {
+    public PanelVenta(Evento evento, EventoLista eventoLista, VentanaPrincipal ventanaPrincipal) {
         setLayout(new BorderLayout());
         panelIzquierda = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
 
         panelCatalogo = new PanelCatalogo(ventanaPrincipal);
-
-
-        panelPerfil = new PanelPerfil(eventos);
-        panelCarrito = new PanelCarrito();
+        panelPerfil = new PanelPerfil(evento);
+        panelCarrito = new PanelCarrito(ventanaPrincipal, evento);
         panelCompras = new PanelCompras();
         scrollTabla = new JScrollPane(panelCompras);
-        panelGestionLibro = new PanelGestionLibro(eventos);
-        panelRegistrarLibro = new PanelRegistrarLibro(eventos);
-        panelRegistrarUsuario = new PanelRegistrarUsuario(eventos);
-        panelModificarLibro = new PanelModificarLibro(eventos, eventosItemListener);
-        panelModificarUsuario = new PanelModificarUsuario(eventos);
+        panelGestionLibro = new PanelGestionLibro(evento);
+        panelRegistrarLibro = new PanelRegistrarLibro(evento);
+        panelRegistrarUsuario = new PanelRegistrarUsuario(evento);
+        panelModificarLibro = new PanelModificarLibro(evento, eventoLista);
+        panelModificarUsuario = new PanelModificarUsuario(evento);
 
 
-        panelGestionLibro = new PanelGestionLibro(eventos);
+        panelGestionLibro = new PanelGestionLibro(evento);
 
         cardLayout = new CardLayout();
         panelCL = new JPanel(cardLayout);
@@ -103,11 +101,11 @@ public class PanelVenta extends JPanel {
         panelCL.add(scrollTabla, "Compras");
         panelCL.add(panelGestionLibro, "Gestion Libros");
 
-        add(panelIzquierda(eventos), BorderLayout.WEST);
+        add(panelIzquierda(evento), BorderLayout.WEST);
         add(panelCL, BorderLayout.CENTER);
     }
 
-    public JPanel panelIzquierda(Eventos eventos) {
+    public JPanel panelIzquierda(Evento evento) {
         panelIzquierda = new JPanel(new GridBagLayout());
 
         labelTituloMenu = new JLabel("Librería Virtual", SwingUtilities.CENTER);
@@ -122,20 +120,20 @@ public class PanelVenta extends JPanel {
 
         labelNombreUsuario.setForeground(new Color(128, 16, 5));
 
-        botonCatalogo.addActionListener(eventos);
-        botonCatalogo.setActionCommand(eventos.CATALOGO);
-        botonPerfil.addActionListener(eventos);
-        botonPerfil.setActionCommand(eventos.PERFIL);
-        botonCarrito.addActionListener(eventos);
-        botonCarrito.setActionCommand(eventos.CARRITO);
-        botonCerrarSesion.addActionListener(eventos);
-        botonCerrarSesion.setActionCommand(eventos.CERRAR_SESION);
-        botonCompras.addActionListener(eventos);
-        botonCompras.setActionCommand(eventos.COMPRAS);
-        botonGestionarLibros.addActionListener(eventos);
-        botonGestionarLibros.setActionCommand(eventos.GESTIONAR_LIBROS);
-        botonRegistrarUsuario.addActionListener(eventos);
-        botonRegistrarUsuario.setActionCommand(eventos.VENTANA_REGISTRAR_USUARIO);
+        botonCatalogo.addActionListener(evento);
+        botonCatalogo.setActionCommand(evento.CATALOGO);
+        botonPerfil.addActionListener(evento);
+        botonPerfil.setActionCommand(evento.PERFIL);
+        botonCarrito.addActionListener(evento);
+        botonCarrito.setActionCommand(evento.CARRITO);
+        botonCerrarSesion.addActionListener(evento);
+        botonCerrarSesion.setActionCommand(evento.CERRAR_SESION);
+        botonCompras.addActionListener(evento);
+        botonCompras.setActionCommand(evento.COMPRAS);
+        botonGestionarLibros.addActionListener(evento);
+        botonGestionarLibros.setActionCommand(evento.GESTIONAR_LIBROS);
+        botonRegistrarUsuario.addActionListener(evento);
+        botonRegistrarUsuario.setActionCommand(evento.VENTANA_REGISTRAR_USUARIO);
 
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;

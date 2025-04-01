@@ -10,23 +10,25 @@ public class VentanaPrincipal extends JFrame {
 
     private PanelInicioSesion panelInicioSesion;
 
-    private Eventos eventos;
+    private Evento evento;
     private CardLayout cardLayout;
     private JPanel panelCL;
     private PanelVenta panelVenta;
     private GestionUsuario gestionUsuario;
     private GestionLibro gestionLibro;
     private GestionCatalogo gestionCatalogo;
-    private EventosItemListener eventosItemListener;
+    private EventoLista eventoLista;
     private GestionCarrito gestionCarrito;
+    private EventoCantidad eventoCantidad;
+    private CalculadoraIVA calculadoraIVA;
 
 
     public VentanaPrincipal() {
         super("Librería Virtual");
         setLayout(new BorderLayout());
 
-        eventosItemListener = new EventosItemListener(this);
-        eventos = new Eventos(this);
+        eventoLista = new EventoLista(this);
+        evento = new Evento(this);
         cardLayout = new CardLayout();
 
         gestionUsuario = new GestionUsuario();
@@ -34,8 +36,10 @@ public class VentanaPrincipal extends JFrame {
         gestionCatalogo = new GestionCatalogo();
         gestionCarrito = new GestionCarrito(gestionUsuario.getManejoUsuarioJSON());
         panelCL = new JPanel(cardLayout);
-        panelVenta = new PanelVenta(eventos, eventosItemListener, this);
-        panelInicioSesion = new PanelInicioSesion(eventos);
+        calculadoraIVA = new CalculadoraIVA();
+
+        panelVenta = new PanelVenta(evento, eventoLista, this);
+        panelInicioSesion = new PanelInicioSesion(evento);
 
         panelCL.add(panelInicioSesion, "Iniciar Sesion");
         panelCL.add(panelVenta, "Panel Venta");
@@ -105,7 +109,9 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarCarrito() {
         panelVenta.activarPanelCarrito();
-        panelVenta.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros(), gestionUsuario.getManejoUsuarioJSON(), gestionLibro.getManejoLibroJSON());
+        panelVenta.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros());
+        ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
+        panelVenta.getPanelCarrito().modificarValores(valorCompra);
     }
 
     public void activarPanelCompras() {
@@ -307,5 +313,44 @@ public class VentanaPrincipal extends JFrame {
             JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public void sumarProductoCarrito(Libro producto, PanelProducto panelProducto) {
+        try {
+            double subtotal = gestionCarrito.sumarProducto(producto);
+            panelProducto.actualizarPrecio(subtotal);
+            panelProducto.actualizarCantidad(producto.getStockReservado());
+            ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
+            panelVenta.getPanelCarrito().repaintPanel(valorCompra);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void disminuirProductoCarrito(Libro producto, PanelProducto panelProducto) {
+        try {
+            double subtotal = gestionCarrito.disminuirProducto(producto);
+            panelProducto.actualizarPrecio(subtotal);
+            panelProducto.actualizarCantidad(producto.getStockReservado());
+            ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
+            panelVenta.getPanelCarrito().repaintPanel(valorCompra);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    public void eliminarProductoCarrito(Libro producto, PanelProducto panelProducto) {
+        try {
+            gestionCarrito.eliminarProducto(producto);
+            panelVenta.getPanelCarrito().getListPanelesProductos().remove(panelProducto);
+            panelVenta.getPanelCarrito().eliminarPanelProducto(panelProducto);
+            ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
+            panelVenta.getPanelCarrito().repaintPanel(valorCompra);
+        } catch (IOException | IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
 
 }
