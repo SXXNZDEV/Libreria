@@ -14,9 +14,11 @@ public class Evento implements ActionListener {
     public final static String VENTANA_REGISTRAR_USUARIO = "Ventana Registrar Usuarios";
     public final static String REGISTRAR_USUARIO = "Registrar Usuario";
     public final static String ELIMINAR_LIBRO = "EliminarL Libros";
+    public final static String FUNCION_ELIMINAR_LIBRO = "Funcion Eliminar Libro";
     public final static String CANCELAR_REGISTRO_USUARIO = "Cancelar Usuario";
     public final static String CANCELAR_REGISTRO_LIBRO = "Cancelar Libro";
     public final static String CANCELAR_MODIFICACION_LIBRO = "Cancelar Modificacion Libro";
+    public final static String CANCELAR_ELIMINAR_LIBRO = "Cancelar Eliminar Libro";
     public final static String CONTINUAR_INICIAR_SESION = "Continuar";
     public final static String CATALOGO = "Catalogo";
     public final static String CERRAR_SESION = "Cerrar Sesion";
@@ -62,6 +64,8 @@ public class Evento implements ActionListener {
             case REGISTRAR_USUARIO -> ventana.activarFuncionRegistrarUsuario();
             case REGISTRAR_LIBRO -> ventana.activarFuncionRegistrarLibro();
             case MODIFICAR_LIBRO -> ventana.activarFuncionModificarLibro();
+            case FUNCION_ELIMINAR_LIBRO -> ventana.activarFuncionEliminarLibros();
+            case CANCELAR_ELIMINAR_LIBRO -> ventana.activarCancelarEliminarLibro();
             //case COMPRAR -> ventana.activarFuncionComprar();
         }
     }

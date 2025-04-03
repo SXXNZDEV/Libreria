@@ -226,4 +226,16 @@ public class PanelRegistrarLibro extends JDialog {
         botonAgregar = new JButton("Agregar");
         botonCancelar = new JButton("Cancelar");
     }
+
+    public void limpiarTxt() {
+        txtNombre.setText("");
+        txtISBN.setText("");
+        txtCantidad.setText("");
+        txtPrecio.setText("");
+        txtEditorial.setText("");
+        txtNumeroPaginas.setText("");
+        txtAnoPublicacion.setText("");
+        txtAutor.setText("");
+
+    }
 }

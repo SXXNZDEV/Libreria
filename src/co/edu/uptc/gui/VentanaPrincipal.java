@@ -5,6 +5,7 @@ import co.edu.uptc.negocio.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -127,10 +128,12 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarCancelarRegistroLibro() {
+        panelVenta.getPanelRegistrarLibro().limpiarTxt();
         panelVenta.activarCancelarRegistroLibro();
     }
 
     public void activarCancelarRegistroUsuario() {
+        panelVenta.getPanelRegistrarUsuario().limpiarTxt();
         panelVenta.activarCancelarRegistroUsuario();
     }
 
@@ -196,13 +199,7 @@ public class VentanaPrincipal extends JFrame {
         panelVenta.activarCancelarActualizarUser();
     }
 
-    public void limpiarTxtFieldsUsuario() {
-        panelVenta.getPanelRegistrarUsuario().setTxtNombre("");
-        panelVenta.getPanelRegistrarUsuario().setTxtCorreo("");
-        panelVenta.getPanelRegistrarUsuario().setTxtContrasena("");
-        panelVenta.getPanelRegistrarUsuario().setTxtDireccion("");
-        panelVenta.getPanelRegistrarUsuario().setTxtTelefono("");
-    }
+
 
     public void limpiarTxtLogin() {
         panelInicioSesion.getTxtCorreo().setText("");
@@ -219,7 +216,7 @@ public class VentanaPrincipal extends JFrame {
             String contrasena = panelVenta.getPanelRegistrarUsuario().getTxtContrasena();
             gestionUsuario.registrarUsuario(nombre, direccion, telefono, tipoCliente, correo, contrasena);
             JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarUsuario(), "Usuario Registrado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-            limpiarTxtFieldsUsuario();
+            panelVenta.getPanelRegistrarUsuario().limpiarTxt();
             panelVenta.getPanelRegistrarUsuario().setVisible(false);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -227,7 +224,23 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarEliminarLibros() {
-        panelVenta.activarEliminarLibros();
+        try {
+            panelVenta.activarEliminarLibros();
+            panelVenta.getPanelEliminarLibro().crearPanelesLibros(gestionCatalogo.listarLibros());
+        } catch (IOException | IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelEliminarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void activarFuncionEliminarLibros() {
+        try {
+            ArrayList<PanelLibroEliminar> listPaneles = panelVenta.getPanelEliminarLibro().getListPanelesLibros();
+            gestionLibro.eliminarLibros(listPaneles);
+            panelVenta.getPanelEliminarLibro().repintarPanelLibros();
+            panelVenta.getPanelEliminarLibro().crearPanelesLibros(gestionCatalogo.listarLibros());
+        } catch (IOException | IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(panelVenta.getPanelEliminarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void activarAceptarActualizarUser() {
@@ -273,7 +286,7 @@ public class VentanaPrincipal extends JFrame {
         }
     }
 
-    public void activarFuncionRegistrarLibro() {
+    public void activarFuncionRegistrarLibro() {//TODO optimizar método
         try {
             String isbn = panelVenta.getPanelRegistrarLibro().getTxtIsbn();
             String titulo = panelVenta.getPanelRegistrarLibro().getTxtNombre();
@@ -306,9 +319,10 @@ public class VentanaPrincipal extends JFrame {
 
 
     // -----------------------------Metodos Gestion Carrito------------
-    public void anadirProductosCarrito(String titulo, int cantidad) {
+    public void anadirProductosCarrito(Libro libro, int cantidad, PanelLibro panelLibro) {
         try {
-            gestionCarrito.anadirLibrosCarrito(titulo, cantidad);
+            gestionCarrito.anadirLibrosCarrito(libro, cantidad);
+            panelLibro.habilitacionValor(gestionLibro.validarExistencia(libro));
         } catch (IOException | IllegalArgumentException e) {
             JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -322,7 +336,7 @@ public class VentanaPrincipal extends JFrame {
             ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
             panelVenta.getPanelCarrito().repaintPanel(valorCompra);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -349,8 +363,11 @@ public class VentanaPrincipal extends JFrame {
         } catch (IOException | IllegalArgumentException e) {
             JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
+    public void activarCancelarEliminarLibro() {
+        panelVenta.activarPanelGestionLibro();
+    }
 
+    //TODO implementar que cuando inicie la app se muestre la interfaz de Catalogo con un usuario 'user_default' y que haya un boton arriba de cerrar sesión que sea el de iniciar sesión...:) y pues también la lógica obviamente
 }

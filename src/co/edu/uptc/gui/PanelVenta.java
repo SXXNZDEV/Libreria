@@ -27,6 +27,7 @@ public class PanelVenta extends JPanel {
     private PanelRegistrarUsuario panelRegistrarUsuario;
     private PanelModificarLibro panelModificarLibro;
     private PanelModificarUsuario panelModificarUsuario;
+    private PanelEliminarLibro panelEliminarLibro;
     private GridBagConstraints gbc;
     private JPanel panelIzquierda;
 
@@ -66,6 +67,10 @@ public class PanelVenta extends JPanel {
         return panelCatalogo;
     }
 
+    public PanelEliminarLibro getPanelEliminarLibro() {
+        return panelEliminarLibro;
+    }
+
     public void setLabelNombreUsuario(String nombreUsuario) {
         labelNombreUsuario.setText(nombreUsuario);
     }
@@ -89,7 +94,7 @@ public class PanelVenta extends JPanel {
         panelRegistrarUsuario = new PanelRegistrarUsuario(evento);
         panelModificarLibro = new PanelModificarLibro(evento, eventoLista);
         panelModificarUsuario = new PanelModificarUsuario(evento);
-
+        panelEliminarLibro = new PanelEliminarLibro(ventanaPrincipal, evento);
 
         panelGestionLibro = new PanelGestionLibro(evento);
 
@@ -100,6 +105,7 @@ public class PanelVenta extends JPanel {
         panelCL.add(panelCarrito, "Carrito");
         panelCL.add(scrollTabla, "Compras");
         panelCL.add(panelGestionLibro, "Gestion Libros");
+        panelCL.add(panelEliminarLibro, "Eliminar Libros");
 
         add(panelIzquierda(evento), BorderLayout.WEST);
         add(panelCL, BorderLayout.CENTER);
@@ -231,10 +237,8 @@ public class PanelVenta extends JPanel {
         panelModificarUsuario.setVisible(false);
     }
 
-
-
     public void activarEliminarLibros() {
-        JOptionPane.showMessageDialog(this, "Eliminar libros...");
+        cardLayout.show(panelCL, "Eliminar Libros");
     }
 
 

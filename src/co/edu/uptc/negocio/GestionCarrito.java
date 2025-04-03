@@ -32,34 +32,34 @@ public class GestionCarrito {
         return manejoUsuarioJSON;
     }
 
-    public void anadirLibrosCarrito(String titulo, int cantidad) throws IllegalArgumentException, IOException {
+    public void anadirLibrosCarrito(Libro libro, int cantidad) throws IllegalArgumentException, IOException {
         Usuario usuarioLogin = manejoUsuarioJSON.getUsuarioLogin();
-        Libro libro = validarDisponibilidadLibros(titulo, cantidad);
-        if (libro != null) {
-            Libro libroCarrito = existeProductoCarrito(titulo);
+        Libro libroCatalogo = validarDisponibilidadLibros(libro.getIsbn(), cantidad);
+        if (libroCatalogo != null) {
+            Libro libroCarrito = existeProductoCarrito(libro.getIsbn());
             if (libroCarrito != null) {
-                if (libro.getStockDisponible() == 0) throw new IllegalArgumentException("Libro Agotado");
-                libro.reservarLibro();
+                if (libroCatalogo.getStockDisponible() == 0) throw new IllegalArgumentException("Libro Agotado");
+                libroCatalogo.reservarLibro();
                 libroCarrito.aumentarCantidad(1);
                 manejoUsuarioJSON.modificarUsuario(usuarioLogin);
-                manejoLibroJSON.modificarLibro(libro);
+                manejoLibroJSON.modificarLibro(libroCatalogo);
                 return;
             }
-            usuarioLogin.getCarrito().agregarLibroCarrito(libro);
-            libro.reservarLibro();
+            usuarioLogin.getCarrito().agregarLibroCarrito(libroCatalogo);
+            libroCatalogo.reservarLibro();
             manejoUsuarioJSON.modificarUsuario(usuarioLogin);
-            manejoLibroJSON.modificarLibro(libro);
+            manejoLibroJSON.modificarLibro(libroCatalogo);
             return;
         }
         throw new IllegalArgumentException("No se pudo realizar la operación de añadir libros al carrito");
     }
 
-    public Libro validarDisponibilidadLibros(String titulo, int cantidadSolicitada) throws IllegalArgumentException {
+    public Libro validarDisponibilidadLibros(String isbn, int cantidadSolicitada) throws IllegalArgumentException {
         Map<String, ArrayList<Libro>> mapLibros = manejoLibroJSON.leerLibro();
         for (ArrayList<Libro> listLibros : mapLibros.values()) {
             for (Libro libroList : listLibros) {
-                if (libroList.getStockDisponible() == 0) throw new IllegalArgumentException("Libro Agotado");
-                if (libroList.getTitulo().equals(titulo)) {
+                if (libroList.getIsbn().equals(isbn)) {
+                    if (libroList.getStockDisponible() == 0) throw new IllegalArgumentException("Libro Agotado");
                     return libroList;
                 }
             }
@@ -67,10 +67,10 @@ public class GestionCarrito {
         return null;
     }
 
-    public Libro existeProductoCarrito(String titulo) throws IOException {
+    public Libro existeProductoCarrito(String isbn) throws IOException {
         if (manejoUsuarioJSON.getUsuarioLogin().getCarrito() == null) return null;
         for (Libro libro : manejoUsuarioJSON.getUsuarioLogin().getCarrito().getLibros()) {
-            if (libro.getTitulo().equals(titulo)) {
+            if (libro.getIsbn().equals(isbn)) {
                 return libro;
             }
         }

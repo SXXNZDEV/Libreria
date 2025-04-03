@@ -1,5 +1,10 @@
 package co.edu.uptc.negocio;
 
+import co.edu.uptc.gui.PanelEliminarLibro;
+import co.edu.uptc.gui.PanelLibro;
+import co.edu.uptc.gui.PanelLibroEliminar;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,7 +39,7 @@ public class GestionLibro {
         libro.setEditorial(editorial);
         libro.setNumeroPaginas(numeroPaginas.isBlank() ? 0 : Integer.parseInt(numeroPaginas));
         libro.setPrecioVenta(Double.parseDouble(precioVenta));
-        libro.aumentarCantidad(Integer.parseInt(cantidadDisponible));
+        libro.setStockDisponible(Integer.parseInt(cantidadDisponible));
         libro.setTipoLibro(tipoLibro);
         manejoLibroJSON.crearLibro(libro);
     }
@@ -54,6 +59,21 @@ public class GestionLibro {
         libro.aumentarCantidad(Integer.parseInt(cantidadDisponible));
         libro.setTipoLibro(tipoLibro);
         manejoLibroJSON.modificarLibro(libro);
+    }
+
+    public void eliminarLibros(ArrayList<PanelLibroEliminar> listaLibros) throws IllegalArgumentException, IOException{
+        Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
+        ArrayList<PanelLibroEliminar> listaLibrosLocal = (ArrayList<PanelLibroEliminar>) listaLibros.clone();
+        if (listaLibros.isEmpty()) throw new IllegalArgumentException("No hay libros registrados para eliminar");
+        for (PanelLibroEliminar pl : listaLibrosLocal) {
+            if (existeLibro(pl.getLibro()) && pl.isSelected()) {
+                int index = obtenerPosicionLibro(pl.getLibro(), catalogo);
+                catalogo.get(pl.getLibro().getCategoria()).remove(index);
+                listaLibros.remove(pl);
+            }
+
+        }
+        manejoLibroJSON.escribirLibros(catalogo);
     }
 
     public String[] obtenerUsuarios() {
@@ -82,14 +102,39 @@ public class GestionLibro {
         return null;
     }
 
-    public Libro encontrarLibro(Libro libro, Map<String, ArrayList<Libro>> catalogo) {
-        for (ArrayList<Libro> libros : catalogo.values()) {
+    public boolean existeLibro(Libro libro) {
+        for (ArrayList<Libro> libros : manejoLibroJSON.getMapLibros().values()) {
             for (Libro libroCatalogo : libros) {
                 if (libro.getIsbn().equals(libroCatalogo.getIsbn())) {
-                    return libroCatalogo;
+                    return true;
                 }
             }
         }
-        return null;
+        return false;
+    }
+
+    public boolean validarExistencia(Libro libroParametro) {
+        for (ArrayList<Libro> libros : manejoLibroJSON.getMapLibros().values()) {
+            for (Libro libro : libros) {
+                if (libro.getIsbn().equals(libroParametro.getIsbn())) {
+                    return libro.getStockDisponible() > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int obtenerPosicionLibro(Libro libroParametro, Map<String,ArrayList<Libro>> catalogo) {
+        int index = 0;
+        for (ArrayList<Libro> libros : catalogo.values()) {
+            for (Libro libro : libros) {
+                if (libro.getIsbn().equals(libroParametro.getIsbn())) {
+                    return index;
+                }
+                index++;
+            }
+            index = 0;
+        }
+        return -1;
     }
 }

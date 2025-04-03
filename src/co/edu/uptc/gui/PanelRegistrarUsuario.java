@@ -144,4 +144,12 @@ public class PanelRegistrarUsuario extends JDialog {
         botonRegistrar = new JButton("Registrar");
         botonCancelar = new JButton("Cancelar");
     }
+
+    public void limpiarTxt() {
+        txtNombre.setText("");
+        txtContrasena.setText("");
+        txtCorreo.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
+    }
 }
