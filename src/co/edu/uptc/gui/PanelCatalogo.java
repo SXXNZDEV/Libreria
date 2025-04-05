@@ -9,18 +9,43 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Clase que representa el panel del catalogo en la interfaz gráfica.
+ * Permite visualizar los productos disponibles en el catálogo y gestionar su presentación y comprar.
+ */
 public class PanelCatalogo extends JPanel {
 
+    /** Etiqueta que muestra el título del panel. */
     private JLabel labelTitulo;
+
+    /** Panel que contiene la lista de libros. */
     private JPanel panelLibros;
+
+    /** Número de columnas en la disposición del panel de libros. */
     private int conteoColumnas;
+
+    /** Número de filas en la disposición del panel de libros. */
     private int conteoFilas;
+
+    /** Administrador de diseño basado en GridBagLayout para organizar los libros. */
     private GridBagLayout gbPanelLibros;
+
+    /** Restricciones para la disposición de los libros dentro del panel. */
     private GridBagConstraints gbcPanelLibros;
+
+    /** Panel con barra de desplazamiento que contiene el panel de libros. */
     private JScrollPane scrollPanelLibros;
+
+    /** Formateador de números para mostrar precios u otros valores numéricos. */
     private NumberFormat numberFormat;
+
+    /** Referencia a la ventana principal de la aplicación. */
     private VentanaPrincipal ventanaPrincipal;
 
+    /**
+     * Constructor del panel del catalogo.
+     * @param ventanaPrincipal Referencia a la ventana principal de la aplicación.
+     */
     public PanelCatalogo(VentanaPrincipal ventanaPrincipal) {
         initAtributos(ventanaPrincipal);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -49,12 +74,19 @@ public class PanelCatalogo extends JPanel {
         repaint();
     }
 
+    /**
+     * Personaliza el formato de los textos del panel.
+     */
     private void personalizarFont() {
         Font font = new Font("Arial", Font.BOLD, 30);
         labelTitulo = new JLabel("Catálogo de Libros");
         labelTitulo.setFont(font);
     }
 
+    /**
+     * Inicializa los atributos del panel del catalogo.
+     * @param ventanaPrincipal Referencia a la ventana principal de la aplicación.
+     */
     private void initAtributos(VentanaPrincipal ventanaPrincipal) {
         setLayout(new GridBagLayout());
         gbcPanelLibros = new GridBagConstraints();
@@ -67,8 +99,11 @@ public class PanelCatalogo extends JPanel {
         numberFormat.setMinimumFractionDigits(0);
     }
 
+    /**
+     * Crea paneles de libros a partir de un mapa de libros que son los libros disponibles en el catálogo.
+     * @param mapLibros Libros en el catalogo.
+     */
     public void crearPanelesLibros(Map<String, ArrayList<Libro>> mapLibros) {
-
         panelLibros.removeAll();
         conteoColumnas = 0;
         conteoFilas = 0;
@@ -94,6 +129,9 @@ public class PanelCatalogo extends JPanel {
         repaint();
     }
 
+    /**
+     * Repinta el panel de libros.
+     */
     public void repintarPanelLibros() {
         gbcPanelLibros.gridy = 0;
         gbcPanelLibros.gridx = 0;
@@ -105,6 +143,10 @@ public class PanelCatalogo extends JPanel {
         panelLibros.add(new JLabel("No hay libros registrados..."), gbcPanelLibros);
     }
 
+    /**
+     * Agrega un panel al panel del Catalogo que representa un libro al panel del catalogo.
+     * @param panelLibro Panel del libro a agregar.
+     */
     public void anadirLibrosPanel(PanelLibro panelLibro) {
         gbcPanelLibros.weightx = 1.0;
         gbcPanelLibros.insets = new Insets(10, 10, 10, 10);

@@ -8,11 +8,19 @@ import javax.swing.table.TableColumnModel;
 
 import java.awt.*;
 
+/**
+ * Clase que representa el panel de compras en la interfaz gráfica.
+ * Permite visualizar las compras realizadas por el usuario y gestionar su presentación.
+ */
 public class PanelCompras extends JPanel {
 
+    /** Etiqueta que muestra el título del panel. */
     private JTable tablaCompras;
+
+    /** Etiqueta que muestra el título del panel. */
     private JLabel labelTitulo;
 
+    /** Constructor del panel de compras. */
     public PanelCompras() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -35,7 +43,6 @@ public class PanelCompras extends JPanel {
         DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"},{"01/01/25", "Harry Potter", "3", "Tunja", "20.99"}}, new Object[]{"Fecha y Hora", "Producto", "Cantidad", "Dirección", "Valor"});
 
         tablaCompras = new JTable(tableModel);
-
 
         JTableHeader tableHeader = tablaCompras.getTableHeader();
         tableHeader.setBackground(new Color(0x24242C));

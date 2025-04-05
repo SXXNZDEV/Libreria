@@ -1,1 +1,75 @@
-{"Ficción":[{"isbn":"9785432223423","titulo":"Libro 1","autor":"Miguel Saenz","anioPublicacion":2020,"categoria":"Ficción","editorial":"Editorial Alfa","numeroPaginas":100,"precioVenta":50000.0,"stockDisponible":30,"stockReservado":0,"tipoLibro":"FISICO"}],"No Ficción":[],"Misterio":[],"Ciencia":[{"isbn":"9787778889990","titulo":"Explorando el Universo","autor":"José Fernández","anioPublicacion":2019,"categoria":"Ciencia","editorial":"AstroBooks","numeroPaginas":500,"precioVenta":95000.0,"stockDisponible":12,"stockReservado":4,"tipoLibro":"DIGITAL"}]}
+{
+  "Ficción": [
+    {
+      "isbn": "9795403245242",
+      "titulo": "Libro 7",
+      "autor": "Ignacio",
+      "anioPublicacion": 0,
+      "categoria": "Ficción",
+      "editorial": "",
+      "numeroPaginas": 400,
+      "precioVenta": 32000.0,
+      "stockDisponible": 30,
+      "stockReservado": 0,
+      "tipoLibro": "FISICO"
+    }
+  ],
+  "No Ficción": [
+    {
+      "isbn": "9786664738478",
+      "titulo": "Libro 8",
+      "autor": "Hang Pablo",
+      "anioPublicacion": 0,
+      "categoria": "No Ficción",
+      "editorial": "",
+      "numeroPaginas": 200,
+      "precioVenta": 23000.0,
+      "stockDisponible": 32,
+      "stockReservado": 0,
+      "tipoLibro": "DIGITAL"
+    }
+  ],
+  "Misterio": [
+    {
+      "isbn": "9782322212341",
+      "titulo": "Libro 2",
+      "autor": "Santiago Rx",
+      "anioPublicacion": 0,
+      "categoria": "Misterio",
+      "editorial": "",
+      "numeroPaginas": 234,
+      "precioVenta": 400000.0,
+      "stockDisponible": 23,
+      "stockReservado": 0,
+      "tipoLibro": "FISICO"
+    },
+    {
+      "isbn": "9786664325234",
+      "titulo": "Libro 6",
+      "autor": "Miguel S",
+      "anioPublicacion": 0,
+      "categoria": "Misterio",
+      "editorial": "",
+      "numeroPaginas": 200,
+      "precioVenta": 200000.0,
+      "stockDisponible": 20,
+      "stockReservado": 0,
+      "tipoLibro": "DIGITAL"
+    }
+  ],
+  "Ciencia": [
+    {
+      "isbn": "9786664738475",
+      "titulo": "Libro 1",
+      "autor": "Pedro P",
+      "anioPublicacion": 0,
+      "categoria": "Ciencia",
+      "editorial": "",
+      "numeroPaginas": 500,
+      "precioVenta": 34000.0,
+      "stockDisponible": 40,
+      "stockReservado": 0,
+      "tipoLibro": "DIGITAL"
+    }
+  ]
+}

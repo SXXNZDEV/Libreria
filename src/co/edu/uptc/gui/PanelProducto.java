@@ -7,86 +7,43 @@ import java.awt.*;
 
 import java.text.NumberFormat;
 
+/**
+ * Clase que representa el panel de un producto en la interfaz gráfica del panel carrito.
+ */
 public class PanelProducto extends JPanel {
 
+    /** Etiqueta que muestra el nombre del producto. */
     private JLabel labelNombreProducto;
+
+    /** Botón para aumentar la cantidad del producto en el carrito. */
     private JButton botonAumentar;
+
+    /** Botón para disminuir la cantidad del producto en el carrito. */
     private JButton botonDisminuir;
+
+    /** Etiqueta que muestra la cantidad actual del producto en el carrito. */
     private JLabel labelCantidad;
+
+    /** Botón para eliminar el producto del carrito. */
     private JButton botonEliminar;
+
+    /** Etiqueta que muestra el precio del producto. */
     private JLabel labelPrecio;
+
+    /** Formato para mostrar los valores numéricos como el precio. */
     private NumberFormat format;
+
+    /** Referencia al producto (libro) asociado a este panel. */
     private Libro producto;
+
+    /** Evento que maneja las acciones de aumentar, disminuir y eliminar el producto. */
     private EventoCantidad eventoCantidad;
 
-    public void setBotonDisminuir(JButton botonDisminuir) {
-        this.botonDisminuir = botonDisminuir;
-    }
-
-    public NumberFormat getFormat() {
-        return format;
-    }
-
-    public void setFormat(NumberFormat format) {
-        this.format = format;
-    }
-
-    public Libro getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Libro producto) {
-        this.producto = producto;
-    }
-
-    public JLabel getLabelNombreProducto() {
-        return labelNombreProducto;
-    }
-
-    public void setLabelNombreProducto(JLabel labelNombreProducto) {
-        this.labelNombreProducto = labelNombreProducto;
-    }
-
-    public JButton getBotonAumentar() {
-        return botonAumentar;
-    }
-
-    public void setBotonAumentar(JButton botonAumentar) {
-        this.botonAumentar = botonAumentar;
-    }
-
-    public JButton getBotonDisminuir() {
-        return botonDisminuir;
-    }
-
-    public void setButtonDisminuir(JButton buttonDisminuir) {
-        this.botonDisminuir = buttonDisminuir;
-    }
-
-    public JLabel getLabelCantidad() {
-        return labelCantidad;
-    }
-
-    public void setLabelCantidad(JLabel labelCantidad) {
-        this.labelCantidad = labelCantidad;
-    }
-
-    public JButton getBotonEliminar() {
-        return botonEliminar;
-    }
-
-    public void setBotonEliminar(JButton botonEliminar) {
-        this.botonEliminar = botonEliminar;
-    }
-
-    public JLabel getLabelPrecio() {
-        return labelPrecio;
-    }
-
-    public void setLabelPrecio(JLabel labelPrecio) {
-        this.labelPrecio = labelPrecio;
-    }
-
+    /**
+     * Constructor del panel de un producto.
+     * @param ventanaPrincipal Referencia a la ventana principal de la aplicación.
+     * @param producto Referencia al producto (libro) asociado a este panel.
+     */
     public PanelProducto(VentanaPrincipal ventanaPrincipal, Libro producto) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -143,10 +100,18 @@ public class PanelProducto extends JPanel {
         repaint();
     }
 
+    /**
+     * Actualiza el precio del producto en el panel.
+     * @param precio Precio del producto.
+     */
     public void actualizarPrecio(double precio) {
         labelPrecio.setText(format.format(precio));
     }
 
+    /**
+     * Actualiza la cantidad del producto en el panel.
+     * @param cantidad Cantidad del producto.
+     */
     public void actualizarCantidad(int cantidad) {
         labelCantidad.setText(String.valueOf(cantidad));
         botonDisminuir.setVisible(cantidad > 1);

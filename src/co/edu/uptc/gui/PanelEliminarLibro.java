@@ -9,29 +9,69 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Clase que representa el panel de eliminación de libros en la interfaz gráfica.
+ * Permite visualizar los libros disponibles en el catálogo y gestionar su eliminación.
+ */
 public class PanelEliminarLibro extends JPanel {
 
+    /** Etiqueta que muestra el título del panel. */
     private JLabel labelTitulo;
+
+    /** Panel que contiene la lista de libros. */
     private JPanel panelLibros;
+
+    /** Número de columnas en la disposición del panel de libros. */
     private int conteoColumnas;
+
+    /** Número de filas en la disposición del panel de libros. */
     private int conteoFilas;
+
+    /** Administrador de diseño basado en GridBagLayout para organizar los libros. */
     private GridBagLayout gbPanelLibros;
+
+    /** Restricciones para la disposición de los libros dentro del panel. */
     private GridBagConstraints gbcPanelLibros;
+
+    /** Panel con barra de desplazamiento que contiene el panel de libros. */
     private JScrollPane scrollPanelLibros;
+
+    /** Formateador de números para mostrar precios u otros valores numéricos. */
     private NumberFormat numberFormat;
+
+    /** Referencia a la ventana principal de la aplicación. */
     private VentanaPrincipal ventanaPrincipal;
+
+    /** Botón para eliminar un libro seleccionado. */
     private JButton botonEliminar;
+
+    /** Botón para cancelar la acción de eliminación. */
     private JButton botonCancelar;
+
+    /** Lista de paneles que representan los libros a eliminar. */
     private ArrayList<PanelLibroEliminar> listPanelesLibros;
 
+    /**
+     * Obtiene la lista de paneles de libros a eliminar.
+     * @return Lista de paneles de libros.
+     */
     public ArrayList<PanelLibroEliminar> getListPanelesLibros() {
         return listPanelesLibros;
     }
 
+    /**
+     * Elimina un panel de libro del panel de eliminación.
+     * @param panelProducto Panel del libro a eliminar.
+     */
     public void eliminarPanelProducto(PanelLibroEliminar panelProducto) {
         panelLibros.remove(panelProducto);
     }
 
+    /**
+     * Constructor del panel de eliminación de libros.
+     * @param ventanaPrincipal Referencia a la ventana principal de la aplicación.
+     * @param evento Manejador de eventos de la aplicación.
+     */
     public PanelEliminarLibro(VentanaPrincipal ventanaPrincipal, Evento evento) {
         initAtributos(ventanaPrincipal);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -86,6 +126,9 @@ public class PanelEliminarLibro extends JPanel {
         add(botonCancelar, gbc);
     }
 
+    /**
+     * Repinta el panel de libros.
+     */
     public void repintarPanelLibros() {
         gbcPanelLibros.gridy = 0;
         gbcPanelLibros.gridx = 0;
@@ -97,10 +140,13 @@ public class PanelEliminarLibro extends JPanel {
         panelLibros.add(new JLabel("No hay libros registrados..."), gbcPanelLibros);
     }
 
+    /**
+     * Agrega un panel que representa un libro al panel Eliminar Libros.
+     * @param panelLibro Panel del libro a agregar.
+     */
     public void anadirLibrosPanel(PanelLibroEliminar panelLibro) {
         gbcPanelLibros.insets = new Insets(10, 10, 10, 10);
         gbcPanelLibros.fill = GridBagConstraints.NONE;
-
 
         gbcPanelLibros.gridx = conteoColumnas;
         gbcPanelLibros.gridy = conteoFilas;
@@ -114,6 +160,10 @@ public class PanelEliminarLibro extends JPanel {
         }
     }
 
+    /**
+     * Crea los paneles de libros a partir de un mapa de libros.
+     * @param mapLibros Libros en el catalogo.
+     */
     public void crearPanelesLibros(Map<String, ArrayList<Libro>> mapLibros) {
         listPanelesLibros = new ArrayList<>();
 
@@ -143,6 +193,10 @@ public class PanelEliminarLibro extends JPanel {
         repaint();
     }
 
+    /**
+     * Inicializa los atributos del panel de eliminación de libros.
+     * @param ventanaPrincipal Referencia a la ventana principal de la aplicación.
+     */
     private void initAtributos(VentanaPrincipal ventanaPrincipal) {
         setLayout(new GridBagLayout());
         gbcPanelLibros = new GridBagConstraints();
@@ -158,12 +212,18 @@ public class PanelEliminarLibro extends JPanel {
         listPanelesLibros = new ArrayList<>();
     }
 
+    /**
+     * Personaliza el formato de los textos del panel.
+     */
     private void personalizarFont() {
         Font font = new Font("Arial", Font.BOLD, 30);
         labelTitulo = new JLabel("Eliminar Libros");
         labelTitulo.setFont(font);
     }
 
+    /**
+     * Verifica si hay libros en el panel de eliminación y actualiza el panel en caso de estar vacío.
+     */
     private void validarExistenciaProductos() {
         if (panelLibros != null) return;
         gbcPanelLibros.weighty = 1.0;

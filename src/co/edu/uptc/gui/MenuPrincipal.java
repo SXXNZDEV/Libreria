@@ -4,82 +4,253 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class PanelVenta extends JPanel {
+/**
+ * Clase que representa el menú principal de la aplicación.
+ * Contiene los botones de navegación y los paneles asociados a cada sección.
+ */
+public class MenuPrincipal extends JPanel {
 
+    /**
+     * Etiqueta que muestra el título del menú.
+     */
     private JLabel labelTituloMenu;
+
+    /**
+     * Etiqueta que muestra el nombre del usuario actualmente autenticado.
+     */
     private JLabel labelNombreUsuario;
+
+    /**
+     * Botón para acceder al catálogo de libros.
+     */
     private JButton botonCatalogo;
+
+    /**
+     * Botón para acceder al carrito de compras.
+     */
     private JButton botonCarrito;
+
+    /**
+     * Botón para ver el historial de compras del usuario.
+     */
     private JButton botonCompras;
+
+    /**
+     * Botón para acceder al perfil del usuario.
+     */
     private JButton botonPerfil;
+
+    /**
+     * Botón para cerrar sesión.
+     */
     private JButton botonCerrarSesion;
+
+    /**
+     * Botón para acceder a la gestión de libros (solo para administradores).
+     */
     private JButton botonGestionarLibros;
+
+    /**
+     * Botón para registrar un nuevo usuario (solo para administradores).
+     */
     private JButton botonRegistrarUsuario;
+
+    /**
+     * Panel que muestra el catálogo de libros.
+     */
     private PanelCatalogo panelCatalogo;
+
+    /**
+     * Panel que muestra el contenido del carrito de compras.
+     */
     private PanelCarrito panelCarrito;
+
+    /**
+     * Panel que muestra la información del perfil del usuario.
+     */
     private PanelPerfil panelPerfil;
+
+    /**
+     * Scroll que permite visualizar tablas con datos extensos.
+     */
     private JScrollPane scrollTabla;
+
+    /**
+     * Administrador de diseño para cambiar entre diferentes paneles.
+     */
     private CardLayout cardLayout;
+
+    /**
+     * Panel contenedor de los diferentes paneles de la aplicación.
+     */
     private JPanel panelCL;
+
+    /**
+     * Panel que muestra el historial de compras del usuario.
+     */
     private PanelCompras panelCompras;
+
+    /**
+     * Panel para la gestión de libros (solo para administradores).
+     */
     private PanelGestionLibro panelGestionLibro;
+
+    /**
+     * Panel para registrar un nuevo libro en el sistema.
+     */
     private PanelRegistrarLibro panelRegistrarLibro;
+
+    /**
+     * Panel para registrar un nuevo usuario (solo para administradores).
+     */
     private PanelRegistrarUsuario panelRegistrarUsuario;
+
+    /**
+     * Panel para modificar la información de un libro existente.
+     */
     private PanelModificarLibro panelModificarLibro;
+
+    /**
+     * Panel para modificar la información de un usuario existente.
+     */
     private PanelModificarUsuario panelModificarUsuario;
+
+    /**
+     * Panel para eliminar un libro del sistema.
+     */
     private PanelEliminarLibro panelEliminarLibro;
+
+    /**
+     * Restricciones de diseño para la disposición de los elementos en el GridBagLayout.
+     */
     private GridBagConstraints gbc;
+
+    /**
+     * Panel ubicado a la izquierda que contiene el menú de navegación.
+     */
     private JPanel panelIzquierda;
 
+    /**
+     * Panel para confirmar la compra
+     */
+    private PanelConfirmCompra panelConfirmCompra;
+
+    /**
+     * Obtiene el panel de compras del usuario.
+     *
+     * @return PanelCompras que muestra el historial de compras.
+     */
     public PanelCompras getPanelCompras() {
         return panelCompras;
     }
 
+    /**
+     * Obtiene el panel de gestión de libros.
+     *
+     * @return PanelGestionLibro utilizado para administrar libros (solo administradores).
+     */
     public PanelGestionLibro getPanelGestionLibro() {
         return panelGestionLibro;
     }
 
+    /**
+     * Obtiene el panel para registrar un nuevo libro en el sistema.
+     *
+     * @return PanelRegistrarLibro utilizado para registrar nuevos libros.
+     */
     public PanelRegistrarLibro getPanelRegistrarLibro() {
         return panelRegistrarLibro;
     }
 
+    /**
+     * Obtiene el panel para registrar un nuevo usuario.
+     *
+     * @return PanelRegistrarUsuario utilizado para registrar nuevos usuarios (solo administradores).
+     */
     public PanelRegistrarUsuario getPanelRegistrarUsuario() {
         return panelRegistrarUsuario;
     }
 
+    /**
+     * Obtiene el panel para modificar la información de un libro existente.
+     *
+     * @return PanelModificarLibro utilizado para editar libros.
+     */
     public PanelModificarLibro getPanelModificarLibro() {
         return panelModificarLibro;
     }
 
+    /**
+     * Obtiene el panel para modificar la información de un usuario existente.
+     *
+     * @return PanelModificarUsuario utilizado para editar usuarios.
+     */
     public PanelModificarUsuario getPanelModificarUsuario() {
         return panelModificarUsuario;
     }
 
+    /**
+     * Método duplicado de getPanelModificarUsuario. Se recomienda eliminar o corregir si tiene un propósito diferente.
+     *
+     * @return PanelModificarUsuario utilizado para actualizar usuarios.
+     */
     public PanelModificarUsuario getPanelActualizarUsuario() {
         return panelModificarUsuario;
     }
 
+    /**
+     * Obtiene el panel de perfil del usuario.
+     *
+     * @return PanelPerfil que muestra la información del usuario.
+     */
     public PanelPerfil getPanelPerfil() {
         return panelPerfil;
     }
 
+    /**
+     * Obtiene el panel de catálogo de libros.
+     *
+     * @return PanelCatalogo que muestra la lista de libros disponibles.
+     */
     public PanelCatalogo getPanelCatalogo() {
         return panelCatalogo;
     }
 
+    /**
+     * Obtiene el panel para eliminar un libro del sistema.
+     *
+     * @return PanelEliminarLibro utilizado para eliminar libros.
+     */
     public PanelEliminarLibro getPanelEliminarLibro() {
         return panelEliminarLibro;
     }
 
+    /**
+     * Establece el nombre del usuario en la etiqueta correspondiente.
+     *
+     * @param nombreUsuario Nombre del usuario a mostrar en la interfaz.
+     */
     public void setLabelNombreUsuario(String nombreUsuario) {
         labelNombreUsuario.setText(nombreUsuario);
     }
 
+    /**
+     * Obtiene el panel del carrito de compras.
+     *
+     * @return PanelCarrito que muestra los libros agregados al carrito.
+     */
     public PanelCarrito getPanelCarrito() {
         return panelCarrito;
     }
 
-    public PanelVenta(Evento evento, EventoLista eventoLista, VentanaPrincipal ventanaPrincipal) {
+    /**
+     * Constructor del menú principal, inicializa los paneles y los agrega al cardLayout.
+     *
+     * @param evento Manejador de eventos principal de la aplicación.
+     * @param eventoLista Manejador de eventos de la lista de libros a modificar en el comboBox.
+     * @param ventanaPrincipal Referencia de ventanas de la aplicación.
+     */
+    public MenuPrincipal(Evento evento, EventoLista eventoLista, VentanaPrincipal ventanaPrincipal) {
         setLayout(new BorderLayout());
         panelIzquierda = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -95,7 +266,7 @@ public class PanelVenta extends JPanel {
         panelModificarLibro = new PanelModificarLibro(evento, eventoLista);
         panelModificarUsuario = new PanelModificarUsuario(evento);
         panelEliminarLibro = new PanelEliminarLibro(ventanaPrincipal, evento);
-
+        panelConfirmCompra = new PanelConfirmCompra(evento);
         panelGestionLibro = new PanelGestionLibro(evento);
 
         cardLayout = new CardLayout();
@@ -111,6 +282,11 @@ public class PanelVenta extends JPanel {
         add(panelCL, BorderLayout.CENTER);
     }
 
+    /**
+     * Crea el panel que contiene el menú, las opciones de navegación y los botones de acción.
+     * @param evento Manejador de eventos principal de la aplicación.
+     * @return JPanel que contiene el menú principal.
+     */
     public JPanel panelIzquierda(Evento evento) {
         panelIzquierda = new JPanel(new GridBagLayout());
 
@@ -124,7 +300,7 @@ public class PanelVenta extends JPanel {
         botonGestionarLibros = new JButton("Gestionar Libros");
         botonRegistrarUsuario = new JButton("Registrar Usuario");
 
-        labelNombreUsuario.setForeground(new Color(128, 16, 5));
+        labelNombreUsuario.setForeground(new Color(255, 0, 0));
 
         botonCatalogo.addActionListener(evento);
         botonCatalogo.setActionCommand(evento.CATALOGO);
@@ -168,6 +344,9 @@ public class PanelVenta extends JPanel {
         return panelIzquierda;
     }
 
+    /**
+     * Agrega botones de administrador si se encuentra logueado.
+     */
     public void anadirFuncionesAdmin() {
         gbc.weighty = 0;
         gbc.gridy = 5;
@@ -178,6 +357,9 @@ public class PanelVenta extends JPanel {
         panelIzquierda.repaint();
     }
 
+    /**
+     * Elimina botones de administrador si no se encuentra logueado.
+     */
     public void quitarFuncionesAdmin() {
         panelIzquierda.remove(botonGestionarLibros);
         panelIzquierda.remove(botonRegistrarUsuario);
@@ -185,65 +367,109 @@ public class PanelVenta extends JPanel {
         panelIzquierda.repaint();
     }
 
+    /**
+     * Muestra el panel del catálogo de libros.
+     */
     public void activarPanelCatalogo() {
         cardLayout.show(panelCL, "Catalogo");
     }
 
+    /**
+     * Muestra el panel del perfil del usuario.
+     */
     public void activarPanelPerfil() {
         cardLayout.show(panelCL, "Perfil");
     }
 
+    /**
+     * Muestra el panel del carrito de compras.
+     */
     public void activarPanelCarrito() {
         cardLayout.show(panelCL, "Carrito");
     }
 
+    /**
+     * Muestra el panel del historial de compras.
+     */
     public void activarPanelCompras() {
         cardLayout.show(panelCL, "Compras");
     }
 
+    /**
+     * Muestra el panel de gestión de libros (para administradores).
+     */
     public void activarPanelGestionLibro() {
         cardLayout.show(panelCL, "Gestion Libros");
     }
 
+    /**
+     * Activa el panel para registrar un nuevo libro.
+     */
     public void activarPanelRegistrarLibros() {
         panelRegistrarLibro.setVisible(true);
     }
 
+    /**
+     * Activa el panel para registrar un nuevo usuario.
+     */
     public void activarPanelRegistrarUsuario() {
         panelRegistrarUsuario.setVisible(true);
     }
 
+    /**
+     * Oculta el panel de registro de libros.
+     */
     public void activarCancelarRegistroLibro() {
         panelRegistrarLibro.setVisible(false);
     }
 
+    /**
+     * Oculta el panel de registro de usuario.
+     */
     public void activarCancelarRegistroUsuario() {
         panelRegistrarUsuario.setVisible(false);
     }
 
+    /**
+     * Activa el panel para modificar un libro.
+     */
     public void activarPanelModificarLibro() {
         panelModificarLibro.setVisible(true);
     }
 
+    /**
+     * Oculta el panel de modificación de libros.
+     */
     public void activarCancelarModificacionLibro() {
         panelModificarLibro.setVisible(false);
     }
 
+    /**
+     * Activa el panel para actualizar los datos de un usuario.
+     */
     public void activarActualizarDatosUsuario() {
         panelModificarUsuario.setVisible(true);
     }
 
+    /**
+     * Oculta el panel de actualización de usuario.
+     */
     public void activarCancelarActualizarUser() {
         panelModificarUsuario.setVisible(false);
     }
 
+    /**
+     * Muestra el panel de eliminación de libros.
+     */
     public void activarEliminarLibros() {
         cardLayout.show(panelCL, "Eliminar Libros");
     }
 
-
-    public void activarFuncionRegistrarLibro() {
-        JOptionPane.showMessageDialog(this, "Libro Registrado...");
-        panelRegistrarLibro.setVisible(false);
+    public void activarPanelConfirmCompra() {
+        if (panelCarrito.getListPanelesProductos().isEmpty()) {
+            JOptionPane.showMessageDialog(panelCarrito, "No hay productos en el carrito para comprar \nSeleccionalos en la sección catálogo.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        panelConfirmCompra.visibilizar();
     }
 }

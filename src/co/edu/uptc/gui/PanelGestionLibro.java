@@ -3,11 +3,16 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase que representa el panel de gestión de libros en la interfaz gráfica.
+ * Permite agregar, modificar y eliminar libros en el catálogo.
+ */
 public class PanelGestionLibro extends JPanel {
 
+    /** Botón para registrar un libro, modificar un libro o eliminar un libro. */
     private JButton botonRegistrar, botonModificar, botonEliminar;
 
-
+    /** Constructor del panel de gestión de libros. */
     public PanelGestionLibro(Evento evento) {
         setLayout(new GridBagLayout());
 
@@ -24,7 +29,6 @@ public class PanelGestionLibro extends JPanel {
         botonEliminar = new JButton("Eliminar Libro");
         botonEliminar.addActionListener(evento);
         botonEliminar.setActionCommand(evento.ELIMINAR_LIBRO);
-
 
         add(botonRegistrar, gbc);
         gbc.gridy = 1;

@@ -14,7 +14,7 @@ public class VentanaPrincipal extends JFrame {
     private Evento evento;
     private CardLayout cardLayout;
     private JPanel panelCL;
-    private PanelVenta panelVenta;
+    private MenuPrincipal menuPrincipal;
     private GestionUsuario gestionUsuario;
     private GestionLibro gestionLibro;
     private GestionCatalogo gestionCatalogo;
@@ -39,11 +39,11 @@ public class VentanaPrincipal extends JFrame {
         panelCL = new JPanel(cardLayout);
         calculadoraIVA = new CalculadoraIVA();
 
-        panelVenta = new PanelVenta(evento, eventoLista, this);
+        menuPrincipal = new MenuPrincipal(evento, eventoLista, this);
         panelInicioSesion = new PanelInicioSesion(evento);
 
         panelCL.add(panelInicioSesion, "Iniciar Sesion");
-        panelCL.add(panelVenta, "Panel Venta");
+        panelCL.add(menuPrincipal, "Panel Venta");
 
         add(panelCL, BorderLayout.CENTER);
         setResizable(false);
@@ -62,7 +62,7 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelGestionLibros() {
-        panelVenta.activarPanelGestionLibro();
+        menuPrincipal.activarPanelGestionLibro();
     }
 
     public void activarFuncionRegresar() {
@@ -75,14 +75,14 @@ public class VentanaPrincipal extends JFrame {
         try {
             gestionUsuario.iniciarSesion(correo, contrasena);
             limpiarTxtLogin();
-            panelVenta.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
+            menuPrincipal.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
             cardLayout.show(panelCL, "Panel Venta");
-            panelVenta.activarPanelCatalogo();
-            panelVenta.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
+            menuPrincipal.activarPanelCatalogo();
+            menuPrincipal.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
             if (gestionUsuario.validarLoginAdmin()) {
-                panelVenta.anadirFuncionesAdmin();
+                menuPrincipal.anadirFuncionesAdmin();
             } else {
-                panelVenta.quitarFuncionesAdmin();
+                menuPrincipal.quitarFuncionesAdmin();
             }
         } catch (IllegalArgumentException | IOException e) {
             JOptionPane.showMessageDialog(panelInicioSesion, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -94,75 +94,75 @@ public class VentanaPrincipal extends JFrame {
             gestionUsuario.cerrarSesion();
             cardLayout.first(panelCL);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(panelVenta, e.getMessage(), "Cerrar Sesión", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal, e.getMessage(), "Cerrar Sesión", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void activarPanelPerfil() {
-        panelVenta.getPanelPerfil().setLabelNombre("Nombre: " + gestionUsuario.userLogin().getNombre());
-        panelVenta.getPanelPerfil().setLabelCorreo("Correo: " + gestionUsuario.userLogin().getCuenta().getCorreo());
-        panelVenta.getPanelPerfil().setLabelDireccionEnvio("Dirección de envío: " + gestionUsuario.userLogin().getDireccionEnvio());
-        panelVenta.getPanelPerfil().setLabelTelefono("Teléfono: " + gestionUsuario.userLogin().getTelefono());
-        panelVenta.getPanelPerfil().setLabelTipoUsuario("Tipo de usuario: " + gestionUsuario.userLogin().getTipoCliente());
-        panelVenta.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
-        panelVenta.activarPanelPerfil();
+        menuPrincipal.getPanelPerfil().setLabelNombre("Nombre: " + gestionUsuario.userLogin().getNombre());
+        menuPrincipal.getPanelPerfil().setLabelCorreo("Correo: " + gestionUsuario.userLogin().getCuenta().getCorreo());
+        menuPrincipal.getPanelPerfil().setLabelDireccionEnvio("Dirección de envío: " + gestionUsuario.userLogin().getDireccionEnvio());
+        menuPrincipal.getPanelPerfil().setLabelTelefono("Teléfono: " + gestionUsuario.userLogin().getTelefono());
+        menuPrincipal.getPanelPerfil().setLabelTipoUsuario("Tipo de usuario: " + gestionUsuario.userLogin().getTipoCliente());
+        menuPrincipal.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
+        menuPrincipal.activarPanelPerfil();
     }
 
     public void activarCarrito() {
-        panelVenta.activarPanelCarrito();
-        panelVenta.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros());
+        menuPrincipal.activarPanelCarrito();
+        menuPrincipal.getPanelCarrito().anadirProductosPanel(gestionUsuario.userLogin().getCarrito().getLibros());
         ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
-        panelVenta.getPanelCarrito().modificarValores(valorCompra);
+        menuPrincipal.getPanelCarrito().modificarValores(valorCompra);
     }
 
     public void activarPanelCompras() {
-        panelVenta.activarPanelCompras();
+        menuPrincipal.activarPanelCompras();
     }
 
     public void activarPanelRegistrarLibros() {
-        panelVenta.activarPanelRegistrarLibros();
+        menuPrincipal.activarPanelRegistrarLibros();
     }
 
     public void activarPanelRegistrarUsuario() {
-        panelVenta.activarPanelRegistrarUsuario();
+        menuPrincipal.activarPanelRegistrarUsuario();
     }
 
     public void activarCancelarRegistroLibro() {
-        panelVenta.getPanelRegistrarLibro().limpiarTxt();
-        panelVenta.activarCancelarRegistroLibro();
+        menuPrincipal.getPanelRegistrarLibro().limpiarTxt();
+        menuPrincipal.activarCancelarRegistroLibro();
     }
 
     public void activarCancelarRegistroUsuario() {
-        panelVenta.getPanelRegistrarUsuario().limpiarTxt();
-        panelVenta.activarCancelarRegistroUsuario();
+        menuPrincipal.getPanelRegistrarUsuario().limpiarTxt();
+        menuPrincipal.activarCancelarRegistroUsuario();
     }
 
     public void activarPanelModificarLibro() {
         String[] titulosLibros = gestionLibro.obtenerUsuarios();
-        panelVenta.getPanelModificarLibro().listarLibros(titulosLibros);
-        panelVenta.activarPanelModificarLibro();
+        menuPrincipal.getPanelModificarLibro().listarLibros(titulosLibros);
+        menuPrincipal.activarPanelModificarLibro();
     }
 
     public void llenarCamposModificarLibros(String tituloLibro) {
         Libro libro = gestionLibro.buscarLibro(tituloLibro);
-        panelVenta.getPanelModificarLibro().setISBN(libro.getIsbn());
-        panelVenta.getPanelModificarLibro().setNombre(libro.getTitulo());
-        panelVenta.getPanelModificarLibro().setAutor(libro.getAutor());
-        panelVenta.getPanelModificarLibro().setAnoPublicacion(libro.getAnioPublicacion() == 0 ? "" : String.valueOf(libro.getAnioPublicacion()));
-        panelVenta.getPanelModificarLibro().setCategoria(libro.getCategoria());
-        panelVenta.getPanelModificarLibro().setEditorial(libro.getEditorial());
-        panelVenta.getPanelModificarLibro().setNumeroPaginas(libro.getNumeroPaginas() == 0 ? "" : String.valueOf(libro.getNumeroPaginas()));
-        panelVenta.getPanelModificarLibro().setPrecio(String.valueOf((int) libro.getPrecioVenta()));
-        panelVenta.getPanelModificarLibro().setCantidad(String.valueOf(libro.getStockDisponible()));
-        panelVenta.getPanelModificarLibro().setFormato(libro.getTipoLibro());
+        menuPrincipal.getPanelModificarLibro().setISBN(libro.getIsbn());
+        menuPrincipal.getPanelModificarLibro().setNombre(libro.getTitulo());
+        menuPrincipal.getPanelModificarLibro().setAutor(libro.getAutor());
+        menuPrincipal.getPanelModificarLibro().setAnoPublicacion(libro.getAnioPublicacion() == 0 ? "" : String.valueOf(libro.getAnioPublicacion()));
+        menuPrincipal.getPanelModificarLibro().setCategoria(libro.getCategoria());
+        menuPrincipal.getPanelModificarLibro().setEditorial(libro.getEditorial());
+        menuPrincipal.getPanelModificarLibro().setNumeroPaginas(libro.getNumeroPaginas() == 0 ? "" : String.valueOf(libro.getNumeroPaginas()));
+        menuPrincipal.getPanelModificarLibro().setPrecio(String.valueOf((int) libro.getPrecioVenta()));
+        menuPrincipal.getPanelModificarLibro().setCantidad(String.valueOf(libro.getStockDisponible()));
+        menuPrincipal.getPanelModificarLibro().setFormato(libro.getTipoLibro());
     }
 
     public void activarCancelarModificacionLibro() {
-        panelVenta.activarCancelarModificacionLibro();
+        menuPrincipal.activarCancelarModificacionLibro();
     }
 
     public void activarModificarDatosUsuario() {
-        PanelModificarUsuario panelModificarUsuario = panelVenta.getPanelModificarUsuario();
+        PanelModificarUsuario panelModificarUsuario = menuPrincipal.getPanelModificarUsuario();
         Usuario usuario = gestionUsuario.userLogin();
         panelModificarUsuario.setTxtNombre(usuario.getNombre());
         panelModificarUsuario.setTxtCorreo(usuario.getCuenta().getCorreo());
@@ -170,36 +170,34 @@ public class VentanaPrincipal extends JFrame {
         panelModificarUsuario.setTxtDireccion(usuario.getDireccionEnvio());
         panelModificarUsuario.setTxtTelefono(String.valueOf(usuario.getTelefono()));
         panelModificarUsuario.setCbTipoCliente(usuario.getTipoCliente());
-        panelVenta.activarActualizarDatosUsuario();
+        menuPrincipal.activarActualizarDatosUsuario();
     }
 
     public void limpiarTxtFieldsLibro() {
-        panelVenta.getPanelRegistrarLibro().setTxtNombre("");
-        panelVenta.getPanelRegistrarLibro().setTxtIsbn("");
-        panelVenta.getPanelRegistrarLibro().setTxtAutor("");
-        panelVenta.getPanelRegistrarLibro().setTxtAnoPublicacion("");
-        panelVenta.getPanelRegistrarLibro().setTxtEditorial("");
-        panelVenta.getPanelRegistrarLibro().setTxtCategoria("");
-        panelVenta.getPanelRegistrarLibro().setTxtNumeroPaginas("");
-        panelVenta.getPanelRegistrarLibro().setTxtPrecio("");
-        panelVenta.getPanelRegistrarLibro().setTxtCantidad("");
-        panelVenta.getPanelRegistrarLibro().setTxtFormato("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtNombre("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtIsbn("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtAutor("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtAnoPublicacion("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtEditorial("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtCategoria("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtNumeroPaginas("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtPrecio("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtCantidad("");
+        menuPrincipal.getPanelRegistrarLibro().setTxtFormato("");
     }
 
     public void limpiarTxtActualizarLibro() {
-        panelVenta.getPanelActualizarUsuario().setTxtNombre("");
-        panelVenta.getPanelActualizarUsuario().setTxtTelefono("");
-        panelVenta.getPanelActualizarUsuario().setTxtDireccion("");
-        panelVenta.getPanelActualizarUsuario().setCbTipoCliente("");
-        panelVenta.getPanelActualizarUsuario().setTxtCorreo("");
-        panelVenta.getPanelActualizarUsuario().setTxtContrasena("");
+        menuPrincipal.getPanelActualizarUsuario().setTxtNombre("");
+        menuPrincipal.getPanelActualizarUsuario().setTxtTelefono("");
+        menuPrincipal.getPanelActualizarUsuario().setTxtDireccion("");
+        menuPrincipal.getPanelActualizarUsuario().setCbTipoCliente("");
+        menuPrincipal.getPanelActualizarUsuario().setTxtCorreo("");
+        menuPrincipal.getPanelActualizarUsuario().setTxtContrasena("");
     }
 
     public void activarCancelarActualizarUser() {
-        panelVenta.activarCancelarActualizarUser();
+        menuPrincipal.activarCancelarActualizarUser();
     }
-
-
 
     public void limpiarTxtLogin() {
         panelInicioSesion.getTxtCorreo().setText("");
@@ -208,101 +206,72 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarFuncionRegistrarUsuario() {
         try {
-            String nombre = panelVenta.getPanelRegistrarUsuario().getTxtNombre();
-            String direccion = panelVenta.getPanelRegistrarUsuario().getTxtDireccion();
-            String telefono = panelVenta.getPanelRegistrarUsuario().getTxtTelefono();
-            String tipoCliente = panelVenta.getPanelRegistrarUsuario().getCbTipoCliente();
-            String correo = panelVenta.getPanelRegistrarUsuario().getTxtCorreo();
-            String contrasena = panelVenta.getPanelRegistrarUsuario().getTxtContrasena();
-            gestionUsuario.registrarUsuario(nombre, direccion, telefono, tipoCliente, correo, contrasena);
-            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarUsuario(), "Usuario Registrado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-            panelVenta.getPanelRegistrarUsuario().limpiarTxt();
-            panelVenta.getPanelRegistrarUsuario().setVisible(false);
+            Usuario usuario = menuPrincipal.getPanelRegistrarUsuario().obtenerDatos();
+            gestionUsuario.registrarUsuario(usuario);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarUsuario(), "Usuario Registrado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            menuPrincipal.getPanelRegistrarUsuario().limpiarTxt();
+            menuPrincipal.getPanelRegistrarUsuario().setVisible(false);
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void activarEliminarLibros() {
         try {
-            panelVenta.activarEliminarLibros();
-            panelVenta.getPanelEliminarLibro().crearPanelesLibros(gestionCatalogo.listarLibros());
+            menuPrincipal.activarEliminarLibros();
+            menuPrincipal.getPanelEliminarLibro().crearPanelesLibros(gestionCatalogo.listarLibros());
         } catch (IOException | IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelEliminarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelEliminarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void activarFuncionEliminarLibros() {
         try {
-            ArrayList<PanelLibroEliminar> listPaneles = panelVenta.getPanelEliminarLibro().getListPanelesLibros();
+            ArrayList<PanelLibroEliminar> listPaneles = menuPrincipal.getPanelEliminarLibro().getListPanelesLibros();
             gestionLibro.eliminarLibros(listPaneles);
-            panelVenta.getPanelEliminarLibro().repintarPanelLibros();
-            panelVenta.getPanelEliminarLibro().crearPanelesLibros(gestionCatalogo.listarLibros());
+            menuPrincipal.getPanelEliminarLibro().repintarPanelLibros();
+            menuPrincipal.getPanelEliminarLibro().crearPanelesLibros(gestionCatalogo.listarLibros());
         } catch (IOException | IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelEliminarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelEliminarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void activarAceptarActualizarUser() {
-        Usuario usuario = new Usuario();
         try {
-            usuario.setNombre(panelVenta.getPanelModificarUsuario().getTxtNombre());
-            usuario.setDireccionEnvio(panelVenta.getPanelModificarUsuario().getTxtDireccion());
-            usuario.setTelefono(Long.parseLong(panelVenta.getPanelModificarUsuario().getTxtTelefono()));
-            usuario.setTipoCliente(panelVenta.getPanelModificarUsuario().getCbTipoCliente());
-            usuario.getCuenta().setCorreo(panelVenta.getPanelModificarUsuario().getTxtCorreo());
-            usuario.getCuenta().setContrasena(panelVenta.getPanelModificarUsuario().getTxtContrasena());
+            Usuario usuario = menuPrincipal.getPanelModificarUsuario().obtenerDatos();
             usuario.getCuenta().setLog(true);
             gestionUsuario.modificarUsuario(usuario);
-            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), "Usuario Modificado Exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelModificarUsuario(), "Usuario Modificado Exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
             limpiarTxtActualizarLibro();
             activarPanelPerfil();
 
-            panelVenta.getPanelModificarUsuario().setVisible(false);
+            menuPrincipal.getPanelModificarUsuario().setVisible(false);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
     public void activarFuncionModificarLibro() {
-        String isbn = panelVenta.getPanelModificarLibro().getISBN();
-        String titulo = panelVenta.getPanelModificarLibro().getNombre();
-        String autor = panelVenta.getPanelModificarLibro().getAutor();
-        String anoPublicacion = panelVenta.getPanelModificarLibro().getAnoPublicacion();
-        String categoria = panelVenta.getPanelModificarLibro().getCategoria();
-        String editorial = panelVenta.getPanelModificarLibro().getEditorial();
-        String numeroPaginas = panelVenta.getPanelModificarLibro().getNumeroPaginas();
-        String precio = panelVenta.getPanelModificarLibro().getPrecio();
-        String cantidad = panelVenta.getPanelModificarLibro().getCantidad();
-        TipoLibro tipoLibro = panelVenta.getPanelModificarLibro().getFormato();
         try {
-            gestionLibro.modificarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, tipoLibro);
-            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), "Libro Modificado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            Libro libro = menuPrincipal.getPanelModificarLibro().obtenerDatos();
+            gestionLibro.modificarLibro(libro);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelModificarLibro(), "Libro Modificado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
             String[] titulosLibros = gestionLibro.obtenerUsuarios();
-            panelVenta.getPanelModificarLibro().listarLibros(titulosLibros);
-        } catch (IOException | IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            menuPrincipal.getPanelModificarLibro().listarLibros(titulosLibros);
+        } catch (IOException | RuntimeException e) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void activarFuncionRegistrarLibro() {//TODO optimizar método
+    public void activarFuncionRegistrarLibro() {
         try {
-            String isbn = panelVenta.getPanelRegistrarLibro().getTxtIsbn();
-            String titulo = panelVenta.getPanelRegistrarLibro().getTxtNombre();
-            String autor = panelVenta.getPanelRegistrarLibro().getTxtAutor();
-            String anoPublicacion = panelVenta.getPanelRegistrarLibro().getTxtAnoPublicacion();
-            String categoria = panelVenta.getPanelRegistrarLibro().getTxtCategoria();
-            String editorial = panelVenta.getPanelRegistrarLibro().getTxtEditorial();
-            String numeroPaginas = panelVenta.getPanelRegistrarLibro().getTxtNumeroPaginas();
-            String precio = panelVenta.getPanelRegistrarLibro().getTxtPrecio();
-            String cantidad = panelVenta.getPanelRegistrarLibro().getTxtCantidad();
-            TipoLibro tipoLibro = panelVenta.getPanelRegistrarLibro().getTxtFormato();
-            gestionLibro.registrarLibro(isbn, titulo, autor, anoPublicacion, categoria, editorial, numeroPaginas, precio, cantidad, tipoLibro);
+            Libro libro = menuPrincipal.getPanelRegistrarLibro().obtenerDatos();
+            gestionLibro.registrarLibro(libro);
             limpiarTxtFieldsLibro();
-            panelVenta.getPanelRegistrarLibro().setVisible(false);
-        } catch (IllegalArgumentException | IOException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            menuPrincipal.getPanelRegistrarLibro().setVisible(false);
+        } catch (RuntimeException | IOException e) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -310,10 +279,10 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarPanelCatalogo() {
         try {
-            panelVenta.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
-            panelVenta.activarPanelCatalogo();
+            menuPrincipal.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
+            menuPrincipal.activarPanelCatalogo();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -322,9 +291,9 @@ public class VentanaPrincipal extends JFrame {
     public void anadirProductosCarrito(Libro libro, int cantidad, PanelLibro panelLibro) {
         try {
             gestionCarrito.anadirLibrosCarrito(libro, cantidad);
-            panelLibro.habilitacionValor(gestionLibro.validarExistencia(libro));
+            panelLibro.habilitacionBoton(gestionLibro.validarExistencia(libro));
         } catch (IOException | IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -334,9 +303,9 @@ public class VentanaPrincipal extends JFrame {
             panelProducto.actualizarPrecio(subtotal);
             panelProducto.actualizarCantidad(producto.getStockReservado());
             ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
-            panelVenta.getPanelCarrito().repaintPanel(valorCompra);
+            menuPrincipal.getPanelCarrito().repaintPanel(valorCompra);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -346,9 +315,9 @@ public class VentanaPrincipal extends JFrame {
             panelProducto.actualizarPrecio(subtotal);
             panelProducto.actualizarCantidad(producto.getStockReservado());
             ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
-            panelVenta.getPanelCarrito().repaintPanel(valorCompra);
+            menuPrincipal.getPanelCarrito().repaintPanel(valorCompra);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -356,18 +325,21 @@ public class VentanaPrincipal extends JFrame {
     public void eliminarProductoCarrito(Libro producto, PanelProducto panelProducto) {
         try {
             gestionCarrito.eliminarProducto(producto);
-            panelVenta.getPanelCarrito().getListPanelesProductos().remove(panelProducto);
-            panelVenta.getPanelCarrito().eliminarPanelProducto(panelProducto);
+            menuPrincipal.getPanelCarrito().getListPanelesProductos().remove(panelProducto);
+            menuPrincipal.getPanelCarrito().eliminarPanelProducto(panelProducto);
             ValorCompra valorCompra = gestionCarrito.calculoResumenCompra();
-            panelVenta.getPanelCarrito().repaintPanel(valorCompra);
+            menuPrincipal.getPanelCarrito().repaintPanel(valorCompra);
         } catch (IOException | IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panelVenta.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelCarrito(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void activarCancelarEliminarLibro() {
-        panelVenta.activarPanelGestionLibro();
+        menuPrincipal.activarPanelGestionLibro();
     }
 
+    public void activarPanelConfirmCompra() {
+        menuPrincipal.activarPanelConfirmCompra();
+    }
     //TODO implementar que cuando inicie la app se muestre la interfaz de Catalogo con un usuario 'user_default' y que haya un boton arriba de cerrar sesión que sea el de iniciar sesión...:) y pues también la lógica obviamente
 }

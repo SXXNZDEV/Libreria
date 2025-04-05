@@ -4,28 +4,59 @@ import co.edu.uptc.negocio.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa el panel del carrito de compras en la interfaz gráfica.
+ * Permite visualizar los productos agregados al carrito y gestionar su presentación.
+ */
 public class PanelCarrito extends JPanel {
 
+    /** Etiqueta que muestra el título del panel. */
     private JLabel labelTitulo;
+
+    /** Contenedor con barra de desplazamiento para los productos en el carrito. */
     private JScrollPane scrollPane;
+
+    /** Panel que contiene los productos agregados al carrito. */
     private JPanel panelProductos;
-    private ArrayList<PanelProducto> listPanelesProductos;//
+
+    /** Lista de paneles individuales para cada producto en el carrito. */
+    private ArrayList<PanelProducto> listPanelesProductos;
+
+    /** Restricciones para la disposición general de los componentes en el panel. */
     private GridBagConstraints gbcGeneral;
+
+    /** Referencia a la ventana principal de la aplicación. */
     private VentanaPrincipal ventanaPrincipal;
+
+    /** Restricciones para la disposición de los productos dentro del panel. */
     private GridBagConstraints gbcPanelProductos;
+
+    /** Panel que muestra el resumen de la compra. */
     private PanelResumenCompra panelResumenCompra;
 
+    /**
+     * Obtiene la lista de paneles de productos en el carrito.
+     * @return Lista de paneles de productos.
+     */
     public ArrayList<PanelProducto> getListPanelesProductos() {
         return listPanelesProductos;
     }
 
+    /**
+     * Elimina un panel de producto del carrito.
+     * @param panelProducto Panel del producto a eliminar.
+     */
     public void eliminarPanelProducto(PanelProducto panelProducto) {
         panelProductos.remove(panelProducto);
     }
 
+    /**
+     * Constructor del panel del carrito.
+     * @param ventanaPrincipal Referencia a la ventana principal de la aplicación.
+     * @param evento Manejador de eventos de la aplicación.
+     */
     public PanelCarrito(VentanaPrincipal ventanaPrincipal, Evento evento) {
         listPanelesProductos = new ArrayList<>();
         gbcGeneral = new GridBagConstraints();
@@ -35,6 +66,9 @@ public class PanelCarrito extends JPanel {
         this.ventanaPrincipal = ventanaPrincipal;
     }
 
+    /**
+     * Agrega los componentes iniciales al panel.
+     */
     public void agregarPaneles() {
         setLayout(new GridBagLayout());
 
@@ -51,6 +85,10 @@ public class PanelCarrito extends JPanel {
         add(labelTitulo, gbcGeneral);
     }
 
+    /**
+     * Agrega los productos al panel del carrito.
+     * @param librosCarrito Lista de libros que están en el carrito.
+     */
     public void anadirProductosPanel(ArrayList<Libro> librosCarrito) {
         listPanelesProductos = new ArrayList<>();
 
@@ -71,7 +109,6 @@ public class PanelCarrito extends JPanel {
             gbcPanelProductos.weightx = 1.0;
             for (Libro libro : librosCarrito) {
                 PanelProducto panelProducto = new PanelProducto(ventanaPrincipal, libro);
-
                 gbcPanelProductos.gridy++;
                 panelProductos.add(panelProducto, gbcPanelProductos);
                 listPanelesProductos.add(panelProducto);
@@ -96,11 +133,9 @@ public class PanelCarrito extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         add(scrollPane, gbcGeneral);
 
-
         gbcGeneral.weighty = 0.1;
         gbcGeneral.gridy = 2;
         gbcGeneral.gridx = 0;
-
         gbcGeneral.insets = new Insets(0, 10, 0, 10);
         gbcGeneral.anchor = GridBagConstraints.SOUTH;
         gbcGeneral.fill = GridBagConstraints.HORIZONTAL;
@@ -109,6 +144,9 @@ public class PanelCarrito extends JPanel {
         repaint();
     }
 
+    /**
+     * Verifica si hay productos en el carrito y actualiza el panel en caso de estar vacío.
+     */
     private void validarExistenciaProductos() {
         if (!listPanelesProductos.isEmpty()) return;
         gbcPanelProductos.weighty = 1.0;
@@ -117,6 +155,10 @@ public class PanelCarrito extends JPanel {
         panelProductos.add(label, gbcPanelProductos);
     }
 
+    /**
+     * Actualiza la vista del panel del carrito.
+     * @param valorCompra Información actualizada del valor de la compra.
+     */
     public void repaintPanel(ValorCompra valorCompra) {
         modificarValores(valorCompra);
         validarExistenciaProductos();
@@ -125,8 +167,13 @@ public class PanelCarrito extends JPanel {
         repaint();
     }
 
+    /**
+     * Modifica los valores del resumen de compra.
+     * @param valorCompra Información del valor de la compra.
+     */
     public void modificarValores(ValorCompra valorCompra) {
         panelResumenCompra.modificarValor(valorCompra);
         repaint();
     }
 }
+

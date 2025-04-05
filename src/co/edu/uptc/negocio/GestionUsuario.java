@@ -2,21 +2,54 @@ package co.edu.uptc.negocio;
 
 import java.io.IOException;
 
+/**
+ * Clase encargada de gestionar los usuarios.
+ */
 public class GestionUsuario {
 
+    /**
+     * Instancia de Manejo de usuarios con JSON
+     */
     private ManejoUsuarioJSON manejoUsuarioJSON;
+
+    /**
+     * Instancia de Expresión regular
+     */
     private Expresion expresion;
+
+    /**
+     * Instancia de Usuario
+     */
     private Usuario usuarioLogin;
+
+    /**
+     * Instancia de Administrador
+     */
     private Administrador administrador;
 
+
+    /**
+     * Método que devuelve el usuario logueado
+     *
+     * @return usuario logueado
+     */
     public Usuario userLogin() {
-        return manejoUsuarioJSON.getUsuarioLogin();
+        Usuario usuario = manejoUsuarioJSON.getUsuarioLogin();
+        return usuario;
     }
 
+    /**
+     * Método que devuelve la instancia de ManejoUsuarioJSON
+     *
+     * @return instancia de ManejoUsuarioJSON
+     */
     public ManejoUsuarioJSON getManejoUsuarioJSON() {
         return manejoUsuarioJSON;
     }
 
+    /**
+     * Constructor de la clase
+     */
     public GestionUsuario() {
         manejoUsuarioJSON = new ManejoUsuarioJSON();
         expresion = new Expresion();
@@ -24,21 +57,23 @@ public class GestionUsuario {
         administrador = new Administrador();
     }
 
-    public void registrarUsuario(String nombre, String direccionEnvio, String telefono, String tipoCliente, String correo, String contrasena) throws IllegalArgumentException {
-        //Le falta validar los datos que se están ingresando
-        expresion.validarDatosUsuario(nombre, direccionEnvio, telefono, correo, contrasena);
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setDireccionEnvio(direccionEnvio);
-        usuario.setTelefono(Long.parseLong(telefono));
-        usuario.setTipoCliente(tipoCliente);
-        usuario.getCuenta().setCorreo(correo);
-        usuario.getCuenta().setContrasena(contrasena);
+    /**
+     * Registra un usuario en la base de datos
+     * @throws IllegalArgumentException si alguno de los datos del usuario no cumple con las reglas
+     */
+    public void registrarUsuario(Usuario usuario) throws IllegalArgumentException {
+        expresion.validarDatosUsuario(usuario);
         usuario.getCuenta().setLog(false);
         manejoUsuarioJSON.crearUsuario(usuario);
     }
 
-    public void iniciarSesion(String correo, String contrasena) throws IllegalArgumentException{
+    /**
+     * Inicia sesión del usuario
+     * @param correo correo del usuario
+     * @param contrasena constrasena del usuario
+     * @throws IllegalArgumentException si alguno de los datos del usuario no cumple con las reglas
+     */
+    public void iniciarSesion(String correo, String contrasena) throws IllegalArgumentException {
         validarCamposVaciosLogin(correo, contrasena);
         Usuario usuario = new Usuario();
         usuario.getCuenta().setCorreo(correo);
@@ -46,7 +81,13 @@ public class GestionUsuario {
         manejoUsuarioJSON.validarDatosLogin(usuario);
     }
 
-    public void validarCamposVaciosLogin(String correo, String contrasena) throws IllegalArgumentException{
+    /**
+     * Valida si los datos del usuario están vacios
+     * @param correo correo del usuario
+     * @param contrasena contraseña del usuario
+     * @throws IllegalArgumentException si alguno de los datos del inicio de sesión no cumple con las reglas
+     */
+    public void validarCamposVaciosLogin(String correo, String contrasena) throws IllegalArgumentException {
         if (correo.isBlank() && contrasena.isBlank()) {
             throw new IllegalArgumentException("Complete los campos de texto.");
         } else if (correo.isBlank()) {
@@ -56,15 +97,34 @@ public class GestionUsuario {
         }
     }
 
+    /**
+     * Valida si el correo del administrador es el del usuario logueado
+     * @return retorna true si el correo del administrador es el del usuario logueado
+     */
     public boolean validarLoginAdmin() {
         return manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals(administrador.getCORREO());
     }
 
-    public void modificarUsuario(Usuario usuario) throws IOException, IllegalArgumentException{
-        expresion.validarDatosUsuario(usuario.getNombre(), usuario.getDireccionEnvio(), String.valueOf(usuario.getTelefono()), usuario.getCuenta().getCorreo(), usuario.getCuenta().getContrasena());
+    /**
+     * Modifica los datos del usuario logueado
+     * @param usuario usuario a modificar
+     * @throws IOException si ocurre algún error cuando no se escribe el usuario en el JSON
+     * @throws IllegalArgumentException si alguno de los datos del usuario no cumple con las reglas
+     */
+    public void modificarUsuario(Usuario usuario) throws IOException, IllegalArgumentException {
+        expresion.validarDatosUsuario(usuario);
         manejoUsuarioJSON.modificarUsuario(usuario);
     }
 
+    public void modificarUsuarioCarrito(Usuario usuario) throws IOException, IllegalArgumentException {
+        expresion.validarDatosUsuario(usuario);
+        manejoUsuarioJSON.modificarUsuarioCarrito(usuario);
+    }
+
+    /**
+     * Cierra sesión del usuario logueado
+     * @throws IOException si ocurre algún error cuando no se escribe el usuario en el JSON
+     */
     public void cerrarSesion() throws IOException {
         manejoUsuarioJSON.getUsuarioLogin().getCuenta().setLog(false);
         manejoUsuarioJSON.modificarUsuario(manejoUsuarioJSON.getUsuarioLogin());

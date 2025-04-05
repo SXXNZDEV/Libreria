@@ -3,28 +3,77 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase que representa el panel de Inicio de Sesión en la interfaz gráfica.
+ */
 public class PanelInicioSesion extends JPanel {
 
-    private JTextField txtCorreo, txtContrasena;
-    private JLabel labelTitulo, labelIniciarSesion, labelTexto, labelCorreo, labelContrasena;
-    private JButton botonContinuar, botonCancelar, botonCrearCuenta;
+    /** Campo de texto para ingresar el correo del usuario. */
+    private JTextField txtCorreo;
 
+    /** Campo de texto para ingresar la contraseña del usuario. */
+    private JTextField txtContrasena;
+
+    /** Etiqueta del título del panel. */
+    private JLabel labelTitulo;
+
+    /** Etiqueta para el mensaje de inicio de sesión. */
+    private JLabel labelIniciarSesion;
+
+    /** Etiqueta para mostrar un texto informativo. */
+    private JLabel labelTexto;
+
+    /** Etiqueta para indicar el campo de correo. */
+    private JLabel labelCorreo;
+
+    /** Etiqueta para indicar el campo de contraseña. */
+    private JLabel labelContrasena;
+
+    /** Botón para continuar con el proceso de inicio de sesión. */
+    private JButton botonContinuar;
+
+    /** Botón para cancelar la acción y regresar a la pantalla anterior. */
+    private JButton botonCancelar;
+
+    /** Botón para crear una nueva cuenta de usuario. */
+    private JButton botonCrearCuenta;
+
+    /**
+     * Obtiene el campo de texto donde se ingresa la contraseña.
+     * @return Campo de texto de la contraseña.
+     */
     public JTextField getTxtContrasena() {
         return txtContrasena;
     }
 
+    /**
+     * Obtiene el campo de texto donde se ingresa el correo.
+     * @return Campo de texto del correo.
+     */
     public JTextField getTxtCorreo() {
         return txtCorreo;
     }
 
+    /**
+     * Establece el campo de texto del correo.
+     * @param txtCorreo Nuevo campo de texto para el correo.
+     */
     public void setTxtCorreo(JTextField txtCorreo) {
         this.txtCorreo = txtCorreo;
     }
 
+    /**
+     * Establece el campo de texto de la contraseña.
+     * @param txtContrasena Nuevo campo de texto para la contraseña.
+     */
     public void setTxtContrasena(JTextField txtContrasena) {
         this.txtContrasena = txtContrasena;
     }
 
+    /**
+     * Constructor del panel de inicio de sesión.
+     * @param evento Manejador de eventos de la aplicación.
+     */
     public PanelInicioSesion(Evento evento) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

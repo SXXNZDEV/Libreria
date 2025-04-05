@@ -9,58 +9,76 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Clase encargada de gestionar los libros del catálogo.
+ */
 public class GestionLibro {
 
+    /**
+     * Instancia Manejo de Libros con JSON
+     */
     private ManejoLibroJSON manejoLibroJSON;
+
+    /**
+     * Expresión regular
+     */
     private Expresion expresion;
 
+    /**
+     * Constructor de la clase
+     */
     public GestionLibro() {
         manejoLibroJSON = new ManejoLibroJSON();
         expresion = new Expresion();
     }
 
+    /**
+     * Método que devuelve la instancia Manejo de Libros con JSON
+     * @return instancia Manejo de Libros con JSON
+     */
     public ManejoLibroJSON getManejoLibroJSON() {
         return manejoLibroJSON;
     }
 
+    /**
+     * Método que actualiza la instancia Manejo de Libros con JSON
+     * @param manejoLibroJSON instancia Manejo de Libros con JSON
+     */
     public void setManejoLibroJSON(ManejoLibroJSON manejoLibroJSON) {
         this.manejoLibroJSON = manejoLibroJSON;
     }
 
-    public void registrarLibro(String isbn, String titulo, String autor, String anioPublicacion, String categoria, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible, TipoLibro tipoLibro) throws IllegalArgumentException, IOException {
-        Libro libro = new Libro();
-        expresion.validarDatosObligatorios(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
-        expresion.validarFormatoDatosLibro(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
-        libro.setIsbn(isbn);
-        libro.setTitulo(titulo);
-        libro.setAutor(autor);
-        libro.setAnioPublicacion(anioPublicacion.isBlank() ? 0 : Integer.parseInt(anioPublicacion));
-        libro.setCategoria(categoria);
-        libro.setEditorial(editorial);
-        libro.setNumeroPaginas(numeroPaginas.isBlank() ? 0 : Integer.parseInt(numeroPaginas));
-        libro.setPrecioVenta(Double.parseDouble(precioVenta));
-        libro.setStockDisponible(Integer.parseInt(cantidadDisponible));
-        libro.setTipoLibro(tipoLibro);
+    /**
+     * Método que registra un libro en el catálogo
+     * @param libro libro a registrar
+     * @throws IllegalArgumentException si alguno de los campos no cumple con las reglas
+     * @throws IOException si ocurre algún error cuando no se escribe el JSON
+     */
+    public void registrarLibro(Libro libro) throws IllegalArgumentException, IOException {
+        expresion.validarDatosObligatorios(libro);
+        expresion.validarFormatoDatosLibro(libro);
         manejoLibroJSON.crearLibro(libro);
     }
 
-    public void modificarLibro(String isbn, String titulo, String autor, String anioPublicacion, String categoria, String editorial, String numeroPaginas, String precioVenta, String cantidadDisponible, TipoLibro tipoLibro) throws IllegalArgumentException, IOException {
-        Libro libro = new Libro();
-        expresion.validarDatosObligatorios(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
-        expresion.validarFormatoDatosLibro(isbn, titulo, autor, anioPublicacion, editorial, numeroPaginas, precioVenta, cantidadDisponible);
-        libro.setIsbn(isbn);
-        libro.setTitulo(titulo);
-        libro.setAutor(autor);
-        libro.setAnioPublicacion(anioPublicacion.isBlank() ? 0 : Integer.parseInt(anioPublicacion));
-        libro.setCategoria(categoria);
-        libro.setEditorial(editorial);
-        libro.setNumeroPaginas(numeroPaginas.isBlank() ? 0 : Integer.parseInt(numeroPaginas));
-        libro.setPrecioVenta(Double.parseDouble(precioVenta));
-        libro.aumentarCantidad(Integer.parseInt(cantidadDisponible));
-        libro.setTipoLibro(tipoLibro);
+    /**
+     * Método que modifica un libro en el catálogo
+     * @param libro libro a modificar
+     * @throws IllegalArgumentException si alguno de los campos no cumple con las reglas
+     * @throws IOException si ocurre algún error cuando no se escribe el JSON
+     */
+    public void modificarLibro(Libro libro) throws IllegalArgumentException, IOException {
+        expresion.validarDatosObligatorios(libro);
+        expresion.validarFormatoDatosLibro(libro);
         manejoLibroJSON.modificarLibro(libro);
     }
 
+
+    /**
+     * Método que elimina un libr del catálogo
+     * @param listaLibros lista de libros a eliminar
+     * @throws IllegalArgumentException si alguno de los libros no está en el catálogo
+     * @throws IOException si ocurre algún error cuando no se escribe el JSON
+     */
     public void eliminarLibros(ArrayList<PanelLibroEliminar> listaLibros) throws IllegalArgumentException, IOException{
         Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
         ArrayList<PanelLibroEliminar> listaLibrosLocal = (ArrayList<PanelLibroEliminar>) listaLibros.clone();
@@ -76,6 +94,10 @@ public class GestionLibro {
         manejoLibroJSON.escribirLibros(catalogo);
     }
 
+    /**
+     * Método que devuelve un array con los títulos de los libros que se encuentran en el catálogo
+     * @return array con los títulos de los libros que se encuentran en el catálogo
+     */
     public String[] obtenerUsuarios() {
         ArrayList<String> libros = new ArrayList<>();
         String[] arrayLibros;
@@ -91,6 +113,11 @@ public class GestionLibro {
         return arrayLibros;
     }
 
+    /**
+     * Método que devuelve el libro que se encuentra en el catálogo con el título dado
+     * @param tituloLibro título del libro que se busca
+     * @return libro del catálogo
+     */
     public Libro buscarLibro(String tituloLibro) {
         for (ArrayList<Libro> catalogo : manejoLibroJSON.getMapLibros().values()) {
             for (Libro libroCatalogo : catalogo) {
@@ -102,6 +129,11 @@ public class GestionLibro {
         return null;
     }
 
+    /**
+     * MMétodo que devuelve true si el libro existe en el catálogo
+     * @param libro libro qe se busca
+     * @return true si el libro existe en el catálogo
+     */
     public boolean existeLibro(Libro libro) {
         for (ArrayList<Libro> libros : manejoLibroJSON.getMapLibros().values()) {
             for (Libro libroCatalogo : libros) {
@@ -113,6 +145,11 @@ public class GestionLibro {
         return false;
     }
 
+    /**
+     * Verifica si el libro tiene stock disponible en el catálogo
+     * @param libroParametro libro a validar el stock disponible
+     * @return true si el stock disponible es mayor a 0
+     */
     public boolean validarExistencia(Libro libroParametro) {
         for (ArrayList<Libro> libros : manejoLibroJSON.getMapLibros().values()) {
             for (Libro libro : libros) {
@@ -124,6 +161,12 @@ public class GestionLibro {
         return false;
     }
 
+    /**
+     * Devuelve la posición del libro en el Map del catálogo
+     * @param libroParametro libro a buscar
+     * @param catalogo libros disponibles en el catálogo
+     * @return posición del libro en el Map del catálogo
+     */
     public int obtenerPosicionLibro(Libro libroParametro, Map<String,ArrayList<Libro>> catalogo) {
         int index = 0;
         for (ArrayList<Libro> libros : catalogo.values()) {

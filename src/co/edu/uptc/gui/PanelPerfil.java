@@ -3,36 +3,77 @@ package co.edu.uptc.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase que representa el panel de perfil de un usuario en la interfaz gráfica.
+ * Permite visualizar los datos del usuario y gestionar su actualización.
+ */
 public class PanelPerfil extends JPanel {
 
+    /** Etiqueta para el título de la ventana o panel. */
     private JLabel labelTitulo;
+
+    /** Etiqueta para mostrar el nombre del usuario. */
     private JLabel labelNombre;
+
+    /** Etiqueta para mostrar el correo electrónico del usuario. */
     private JLabel labelCorreo;
+
+    /** Etiqueta para mostrar el número de teléfono del usuario. */
     private JLabel labelTelefono;
+
+    /** Etiqueta para mostrar la dirección de envío del usuario. */
     private JLabel labelDireccionEnvio;
+
+    /** Etiqueta para mostrar el tipo de usuario. */
     private JLabel labelTipoUsuario;
+
+    /** Botón para actualizar los datos del usuario. */
     private JButton botonActualizacionDatos;
 
+    /**
+     * Establece el nombre del usuario en la etiqueta correspondiente.
+     * @param nombre Nombre del usuario.
+     */
     public void setLabelNombre(String nombre) {
         labelNombre.setText(nombre);
     }
 
+    /**
+     * Establece el correo electrónico del usuario en la etiqueta correspondiente.
+     * @param correo Correo electrónico del usuario.
+     */
     public void setLabelCorreo(String correo) {
         labelCorreo.setText(correo);
     }
 
+    /**
+     * Establece el número de teléfono del usuario en la etiqueta correspondiente.
+     * @param telefono Número de teléfono del usuario.
+     */
     public void setLabelTelefono(String telefono) {
         labelTelefono.setText(telefono);
     }
 
+    /**
+     * Establece la dirección de envío del usuario en la etiqueta correspondiente.
+     * @param direccionEnvio Dirección de envío del usuario.
+     */
     public void setLabelDireccionEnvio(String direccionEnvio) {
         labelDireccionEnvio.setText(direccionEnvio);
     }
 
+    /**
+     * Establece el tipo de usuario en la etiqueta correspondiente.
+     * @param tipoUsuario Tipo de usuario (ejemplo: Cliente, Administrador).
+     */
     public void setLabelTipoUsuario(String tipoUsuario) {
         labelTipoUsuario.setText(tipoUsuario);
     }
 
+    /**
+     * Constructor del panel de perfil de un usuario.
+     * @param evento Manejador de eventos de la aplicación.
+     */
     public PanelPerfil(Evento evento) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -73,6 +114,9 @@ public class PanelPerfil extends JPanel {
         add(botonActualizacionDatos, gbc);
     }
 
+    /**
+     * Inicializa los atributos del panel de perfil de un usuario.
+     */
     public void inicializarAtributos() {
         labelTitulo = new JLabel("Mi Perfil");
         labelNombre = new JLabel("Nombre:");
@@ -83,6 +127,9 @@ public class PanelPerfil extends JPanel {
         botonActualizacionDatos = new JButton("Actualizar Datos");
     }
 
+    /**
+     * Personaliza el formato de los textos del panel.
+     */
     public void cambiarFont() {
         Font fontTitulo = new Font("Arial", Font.BOLD, 40);
         labelTitulo.setFont(fontTitulo);
