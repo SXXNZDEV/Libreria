@@ -1,4 +1,4 @@
-package co.edu.uptc.gui;
+package co.edu.uptc.negocio;
 
 /**
  * Representa el valor de una compra, incluyendo subtotal, impuestos y total.

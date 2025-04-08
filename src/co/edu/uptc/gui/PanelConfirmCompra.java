@@ -11,12 +11,26 @@ public class PanelConfirmCompra extends JDialog {
     private JButton botonContinuar;
     private JButton botonCancelar;
     private GridBagConstraints gbc;
+    private ButtonGroup buttonGroup;
+
+    public boolean seleccionEfectivo() {
+        return botonEfectivo.isSelected();
+    }
+
+    public boolean seleccionTarjeta() {
+        return botonTarjeta.isSelected();
+    }
 
     public PanelConfirmCompra(Evento evento) {
         setTitle("Confirmar Compra");
         revalidate();
         repaint();
         preferenciasPanel();
+
+        botonContinuar.addActionListener(evento);
+        botonContinuar.setActionCommand(evento.ACEPTAR_CONFIRMAR_COMPRA);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_CONFIRMAR_COMPRA);
 
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridx = 0;
@@ -66,6 +80,9 @@ public class PanelConfirmCompra extends JDialog {
         botonContinuar = new JButton("Continuar");
         botonEfectivo  = new JRadioButton("Efectivo");
         botonTarjeta = new JRadioButton("Tarjeta");
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(botonEfectivo);
+        buttonGroup.add(botonTarjeta);
     }
 
     public void visibilizar() {

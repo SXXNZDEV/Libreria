@@ -48,6 +48,37 @@ public class Carrito {
         libros.add(libroGuardar);
     }
 
+    public void trasladarLibros(Libro libro) {
+        if (buscarLibro(libro)) {
+            return;
+        }
+        Libro libroGuardar = new Libro();
+        libroGuardar.setIsbn(libro.getIsbn());
+        libroGuardar.setAutor(libro.getAutor());
+        libroGuardar.setEditorial(libro.getEditorial());
+        libroGuardar.setCategoria(libro.getCategoria());
+        libroGuardar.setTipoLibro(libro.getTipoLibro());
+        libroGuardar.setTitulo(libro.getTitulo());
+        libroGuardar.setAnioPublicacion(libro.getAnioPublicacion());
+        libroGuardar.setNumeroPaginas(libro.getNumeroPaginas());
+        libroGuardar.setPrecioVenta(libro.getPrecioVenta());
+        libroGuardar.setStockDisponible(0);
+        libroGuardar.setStockReservado(libro.getStockReservado());
+        libros.add(libroGuardar);
+    }
+
+    public boolean buscarLibro(Libro libroParametro) {
+        for (Libro libro : libros) {
+            if (libro.getIsbn().equals(libroParametro.getIsbn())) {
+                libro.aumentarCantidad(libroParametro.getStockReservado());
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
     /**
      * Método que actualiza el los atributos del libro en el carrito
      * @param librosArrayList arrayList de libros del carrito

@@ -245,18 +245,16 @@ public class PanelRegistrarUsuario extends JDialog {
      *
      * @return Objeto Usuario con los datos contenidos en los JTextFields.
      */
-    public Usuario obtenerDatos() {
+    public Usuario obtenerDatos() throws RuntimeException {
         Usuario usuario = new Usuario();
-        try {
-            usuario.setNombre(getTxtNombre());
-            usuario.setDireccionEnvio(getTxtDireccion());
-            usuario.setTelefono(Long.parseLong(getTxtTelefono()));
-            usuario.setTipoCliente(getCbTipoCliente());
-            usuario.getCuenta().setCorreo(getTxtCorreo());
-            usuario.getCuenta().setContrasena(getTxtContrasena());
-            return usuario;
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Verifica que el teléfono no contenga:\n-Caracteres especiales\n-Espacios\n-Signos de puntación");
-        }
+
+        usuario.setNombre(getTxtNombre());
+        usuario.setDireccionEnvio(getTxtDireccion());
+        usuario.setTelefono(Long.parseLong(getTxtTelefono().matches("^[0-9]+$") ? getTxtTelefono() : "0"));
+        usuario.setTipoCliente(getCbTipoCliente());
+        usuario.getCuenta().setCorreo(getTxtCorreo());
+        usuario.getCuenta().setContrasena(getTxtContrasena());
+        return usuario;
+
     }
 }

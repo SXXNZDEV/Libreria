@@ -9,9 +9,9 @@
       "editorial": "",
       "numeroPaginas": 400,
       "precioVenta": 32000.0,
-      "stockDisponible": 30,
+      "stockDisponible": 21,
       "stockReservado": 0,
-      "tipoLibro": "FISICO"
+      "tipoLibro": "DIGITAL"
     }
   ],
   "No Ficción": [
@@ -24,21 +24,21 @@
       "editorial": "",
       "numeroPaginas": 200,
       "precioVenta": 23000.0,
-      "stockDisponible": 32,
-      "stockReservado": 0,
+      "stockDisponible": 28,
+      "stockReservado": 2,
       "tipoLibro": "DIGITAL"
     }
   ],
   "Misterio": [
     {
-      "isbn": "9782322212341",
-      "titulo": "Libro 2",
-      "autor": "Santiago Rx",
+      "isbn": "9786666754564",
+      "titulo": "El precio",
+      "autor": "Segundo F",
       "anioPublicacion": 0,
       "categoria": "Misterio",
       "editorial": "",
-      "numeroPaginas": 234,
-      "precioVenta": 400000.0,
+      "numeroPaginas": 300,
+      "precioVenta": 32000.0,
       "stockDisponible": 23,
       "stockReservado": 0,
       "tipoLibro": "FISICO"
@@ -55,21 +55,20 @@
       "stockDisponible": 20,
       "stockReservado": 0,
       "tipoLibro": "DIGITAL"
+    },
+    {
+      "isbn": "9782322212341",
+      "titulo": "Libro 2",
+      "autor": "Santiago Rx",
+      "anioPublicacion": 0,
+      "categoria": "Misterio",
+      "editorial": "",
+      "numeroPaginas": 234,
+      "precioVenta": 400000.0,
+      "stockDisponible": 20,
+      "stockReservado": 0,
+      "tipoLibro": "FISICO"
     }
   ],
-  "Ciencia": [
-    {
-      "isbn": "9786664738475",
-      "titulo": "Libro 1",
-      "autor": "Pedro P",
-      "anioPublicacion": 0,
-      "categoria": "Ciencia",
-      "editorial": "",
-      "numeroPaginas": 500,
-      "precioVenta": 34000.0,
-      "stockDisponible": 40,
-      "stockReservado": 0,
-      "tipoLibro": "DIGITAL"
-    }
-  ]
+  "Ciencia": []
 }

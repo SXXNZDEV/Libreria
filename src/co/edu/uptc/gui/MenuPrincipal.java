@@ -56,6 +56,11 @@ public class MenuPrincipal extends JPanel {
     private JButton botonRegistrarUsuario;
 
     /**
+     * Boton para iniciar ir a la ventana Iniciar Sesión
+     */
+    private JButton botonIniciarSesion;
+
+    /**
      * Panel que muestra el catálogo de libros.
      */
     private PanelCatalogo panelCatalogo;
@@ -243,6 +248,10 @@ public class MenuPrincipal extends JPanel {
         return panelCarrito;
     }
 
+    public PanelConfirmCompra getPanelConfirmCompra() {
+        return panelConfirmCompra;
+    }
+
     /**
      * Constructor del menú principal, inicializa los paneles y los agrega al cardLayout.
      *
@@ -296,6 +305,7 @@ public class MenuPrincipal extends JPanel {
         botonCarrito = new JButton("Mi carrito");
         botonCompras = new JButton("Mis compras");
         botonPerfil = new JButton("Perfil");
+        botonIniciarSesion = new JButton("Iniciar Sesión");
         botonCerrarSesion = new JButton("Cerrar Sesión");
         botonGestionarLibros = new JButton("Gestionar Libros");
         botonRegistrarUsuario = new JButton("Registrar Usuario");
@@ -316,6 +326,8 @@ public class MenuPrincipal extends JPanel {
         botonGestionarLibros.setActionCommand(evento.GESTIONAR_LIBROS);
         botonRegistrarUsuario.addActionListener(evento);
         botonRegistrarUsuario.setActionCommand(evento.VENTANA_REGISTRAR_USUARIO);
+        botonIniciarSesion.addActionListener(evento);
+        botonIniciarSesion.setActionCommand(evento.ACTIVAR_INICIAR_SESION);
 
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -344,10 +356,38 @@ public class MenuPrincipal extends JPanel {
         return panelIzquierda;
     }
 
+    public void usuarioNull() {
+        botonCompras.setVisible(false);
+        botonPerfil.setVisible(false);
+        botonCerrarSesion.setVisible(false);
+        labelNombreUsuario.setVisible(false);
+        botonIniciarSesion.setVisible(true);
+        botonGestionarLibros.setVisible(false);
+        botonRegistrarUsuario.setVisible(false);
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.gridy = 9;
+        panelIzquierda.add(botonIniciarSesion, gbc);
+        panelIzquierda.revalidate();
+        panelIzquierda.repaint();
+    }
+
+    public void usuarioIniciaSesion() {
+
+        botonCompras.setVisible(true);
+        botonPerfil.setVisible(true);
+        botonCerrarSesion.setVisible(true);
+        labelNombreUsuario.setVisible(true);
+        botonIniciarSesion.setVisible(false);
+        panelIzquierda.revalidate();
+        panelIzquierda.repaint();
+    }
+
     /**
      * Agrega botones de administrador si se encuentra logueado.
      */
     public void anadirFuncionesAdmin() {
+        botonGestionarLibros.setVisible(true);
+        botonRegistrarUsuario.setVisible(true);
         gbc.weighty = 0;
         gbc.gridy = 5;
         panelIzquierda.add(botonGestionarLibros, gbc);
@@ -466,10 +506,6 @@ public class MenuPrincipal extends JPanel {
     }
 
     public void activarPanelConfirmCompra() {
-        if (panelCarrito.getListPanelesProductos().isEmpty()) {
-            JOptionPane.showMessageDialog(panelCarrito, "No hay productos en el carrito para comprar \nSeleccionalos en la sección catálogo.", "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
         panelConfirmCompra.visibilizar();
     }
 }

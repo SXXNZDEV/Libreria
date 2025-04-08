@@ -1,7 +1,5 @@
 package co.edu.uptc.negocio;
 
-import co.edu.uptc.gui.ValorCompra;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -64,6 +62,12 @@ public class GestionCarrito {
      */
     public ManejoUsuarioJSON getManejoUsuarioJSON() {
         return manejoUsuarioJSON;
+    }
+
+    public void agregarProductos(Carrito carrito) {
+        for (Libro libro : carrito.getLibros()) {
+            this.carrito.agregarLibroCarrito(libro);
+        }
     }
 
     /**
@@ -202,9 +206,8 @@ public class GestionCarrito {
 
         if (index >= 0) {
             Libro libroModificar = encontrarLibro(producto, catalogo);
-            libroModificar.eliminarReserva();
+            libroModificar.eliminarReserva(producto.getStockReservado());
             manejoLibroJSON.escribirLibros(catalogo);
-
             librosCarrito.remove(index);
 
             manejoUsuarioJSON.escribirUsuarioLogin();

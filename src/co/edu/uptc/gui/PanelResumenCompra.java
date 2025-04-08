@@ -1,5 +1,7 @@
 package co.edu.uptc.gui;
 
+import co.edu.uptc.negocio.ValorCompra;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;

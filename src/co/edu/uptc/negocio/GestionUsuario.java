@@ -1,6 +1,7 @@
 package co.edu.uptc.negocio;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Clase encargada de gestionar los usuarios.
@@ -61,7 +62,11 @@ public class GestionUsuario {
      * Registra un usuario en la base de datos
      * @throws IllegalArgumentException si alguno de los datos del usuario no cumple con las reglas
      */
-    public void registrarUsuario(Usuario usuario) throws IllegalArgumentException {
+    public void registrarUsuario(Usuario usuario) throws RuntimeException {
+        if (manejoUsuarioJSON.buscarUsuario(manejoUsuarioJSON.getListaUsuarios(), usuario) != null) {
+            throw new IllegalArgumentException("El correo '" + usuario.getCuenta().getCorreo() + "' ya está vinculado a otra cuenta");
+        }
+        expresion.validarDatosObligatoriosUser(usuario);
         expresion.validarDatosUsuario(usuario);
         usuario.getCuenta().setLog(false);
         manejoUsuarioJSON.crearUsuario(usuario);
@@ -101,8 +106,12 @@ public class GestionUsuario {
      * Valida si el correo del administrador es el del usuario logueado
      * @return retorna true si el correo del administrador es el del usuario logueado
      */
-    public boolean validarLoginAdmin() {
+    public boolean isAdminLogin() {
         return manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals(administrador.getCORREO());
+    }
+
+    public boolean isGenericoLogin() {
+        return manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals("");
     }
 
     /**
@@ -131,5 +140,17 @@ public class GestionUsuario {
         manejoUsuarioJSON.setUsuarioLogin(null);
     }
 
+    public void cerrarSesionUsuario() throws RuntimeException, IOException{
+        manejoUsuarioJSON.getUsuarioLogin().getCuenta().setLog(false);
+        manejoUsuarioJSON.escribirUsuario();
+        asignarUsuarioGenerico();
+        manejoUsuarioJSON.escribirUsuarioLogin();
+    }
 
+    public void asignarUsuarioGenerico() throws IOException{
+        manejoUsuarioJSON.leerListaUsuarios();
+        manejoUsuarioJSON.setUsuarioLogin(manejoUsuarioJSON.getListaUsuarios().get(0));
+        manejoUsuarioJSON.getListaUsuarios().get(0).getCarrito().setLibros(new ArrayList<>());
+        manejoUsuarioJSON.escribirUsuarioLogin();
+    }
 }

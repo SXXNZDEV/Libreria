@@ -20,8 +20,7 @@ public class VentanaPrincipal extends JFrame {
     private GestionCatalogo gestionCatalogo;
     private EventoLista eventoLista;
     private GestionCarrito gestionCarrito;
-    private EventoCantidad eventoCantidad;
-    private CalculadoraIVA calculadoraIVA;
+    private EventoCerrarFrame eventoCerrarFrame;
 
 
     public VentanaPrincipal() {
@@ -37,20 +36,37 @@ public class VentanaPrincipal extends JFrame {
         gestionCatalogo = new GestionCatalogo();
         gestionCarrito = new GestionCarrito(gestionUsuario.getManejoUsuarioJSON());
         panelCL = new JPanel(cardLayout);
-        calculadoraIVA = new CalculadoraIVA();
+        eventoCerrarFrame = new EventoCerrarFrame(this);
 
         menuPrincipal = new MenuPrincipal(evento, eventoLista, this);
         panelInicioSesion = new PanelInicioSesion(evento);
+        addWindowListener(eventoCerrarFrame);
 
-        panelCL.add(panelInicioSesion, "Iniciar Sesion");
         panelCL.add(menuPrincipal, "Panel Venta");
+        panelCL.add(panelInicioSesion, "Iniciar Sesion");
 
+        iniciaAplicacion();
         add(panelCL, BorderLayout.CENTER);
         setResizable(false);
         setSize(800, 500);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void iniciaAplicacion() {
+        try {
+            gestionUsuario.asignarUsuarioGenerico();
+            menuPrincipal.usuarioNull();
+            menuPrincipal.getPanelCatalogo().crearPanelesLibros(gestionCatalogo.listarLibros());
+            menuPrincipal.activarPanelCatalogo();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelModificarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void activarIniciarSesion() {
+        cardLayout.show(panelCL, "Iniciar Sesion");
     }
 
     public static void main(String[] args) {
@@ -66,7 +82,7 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarFuncionRegresar() {
-        System.exit(0);
+        cardLayout.show(panelCL, "Panel Venta");
     }
 
     public void activarPanelVenta() {
@@ -79,9 +95,11 @@ public class VentanaPrincipal extends JFrame {
             cardLayout.show(panelCL, "Panel Venta");
             menuPrincipal.activarPanelCatalogo();
             menuPrincipal.setLabelNombreUsuario(gestionUsuario.userLogin().getNombre());
-            if (gestionUsuario.validarLoginAdmin()) {
+            if (gestionUsuario.isAdminLogin()) {
+                menuPrincipal.usuarioIniciaSesion();
                 menuPrincipal.anadirFuncionesAdmin();
             } else {
+                menuPrincipal.usuarioIniciaSesion();
                 menuPrincipal.quitarFuncionesAdmin();
             }
         } catch (IllegalArgumentException | IOException e) {
@@ -91,8 +109,10 @@ public class VentanaPrincipal extends JFrame {
 
     public void activarCerrarSesion() {
         try {
-            gestionUsuario.cerrarSesion();
-            cardLayout.first(panelCL);
+            gestionUsuario.cerrarSesionUsuario();
+            cardLayout.show(panelCL, "Iniciar Sesion");
+            menuPrincipal.usuarioNull();
+            menuPrincipal.activarPanelCatalogo();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(menuPrincipal, e.getMessage(), "Cerrar Sesión", JOptionPane.ERROR_MESSAGE);
         }
@@ -211,7 +231,7 @@ public class VentanaPrincipal extends JFrame {
             JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarUsuario(), "Usuario Registrado Exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
             menuPrincipal.getPanelRegistrarUsuario().limpiarTxt();
             menuPrincipal.getPanelRegistrarUsuario().setVisible(false);
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarUsuario(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -268,6 +288,7 @@ public class VentanaPrincipal extends JFrame {
         try {
             Libro libro = menuPrincipal.getPanelRegistrarLibro().obtenerDatos();
             gestionLibro.registrarLibro(libro);
+            JOptionPane.showMessageDialog(this, "El libro ha sido registrado", "Libro Registrado", JOptionPane.INFORMATION_MESSAGE);
             limpiarTxtFieldsLibro();
             menuPrincipal.getPanelRegistrarLibro().setVisible(false);
         } catch (RuntimeException | IOException e) {
@@ -339,7 +360,53 @@ public class VentanaPrincipal extends JFrame {
     }
 
     public void activarPanelConfirmCompra() {
+        if (gestionUsuario.isGenericoLogin()) ;
+        if (menuPrincipal.getPanelCarrito().getListPanelesProductos().isEmpty()) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelCarrito(), "No hay productos en el carrito para comprar \nSeleccionalos en la sección catálogo.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if (gestionUsuario.userLogin().getCuenta().getCorreo().equals("user_default")) {
+            int respuesta = JOptionPane.showConfirmDialog(this, "No ha iniciado sesión, ¿Desea Iniciar Sesión?", "Inicie Sesión", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            switch (respuesta) {
+                case JOptionPane.YES_OPTION:
+                    cardLayout.show(panelCL, "Iniciar Sesion");
+                case JOptionPane.NO_OPTION:
+                    return;
+            }
+        }
+
         menuPrincipal.activarPanelConfirmCompra();
     }
+
+    public void aceptarConfirmarCompra() {
+        if (menuPrincipal.getPanelConfirmCompra().seleccionEfectivo()) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelConfirmCompra(), "Se pagará con efectivo", "Información", JOptionPane.WARNING_MESSAGE);
+        }
+        if (menuPrincipal.getPanelConfirmCompra().seleccionTarjeta()) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelConfirmCompra(), "Se pagará con Tarjeta de Crédito", "Información", JOptionPane.WARNING_MESSAGE);
+        }
+        menuPrincipal.getPanelConfirmCompra().setVisible(false);
+    }
+
+    public void cancelarConfirmarCompra() {
+        menuPrincipal.getPanelConfirmCompra().setVisible(false);
+    }
+
+    public void cerrarSesionUsuario() {
+        try {
+            if (gestionUsuario.userLogin().getCuenta().getCorreo().equals("user_defaul")) {
+                for (Libro libro : gestionUsuario.userLogin().getCarrito().getLibros()) {
+                    gestionCarrito.eliminarProducto(libro);
+                    if (gestionUsuario.userLogin().getCarrito().getLibros().isEmpty()) {
+                        break;
+                    }
+                }
+            }
+            gestionUsuario.cerrarSesionUsuario();
+        } catch (IOException | RuntimeException e) {
+            JOptionPane.showMessageDialog(menuPrincipal.getPanelRegistrarLibro(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     //TODO implementar que cuando inicie la app se muestre la interfaz de Catalogo con un usuario 'user_default' y que haya un boton arriba de cerrar sesión que sea el de iniciar sesión...:) y pues también la lógica obviamente
 }

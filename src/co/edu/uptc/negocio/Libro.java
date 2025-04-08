@@ -311,10 +311,10 @@ public class Libro {
     /**
      * Elimina la cantidad reservada del stock reservado y la agrega al stock disponible
      */
-    public void eliminarReserva() {
-        if (stockReservado > 0) {
-            stockDisponible += stockReservado;
-            stockReservado = 0;
+    public void eliminarReserva(int stockAgregar) {
+        if (stockAgregar > 0) {
+            stockDisponible += stockAgregar;
+            stockReservado -= stockAgregar;
         }
     }
 

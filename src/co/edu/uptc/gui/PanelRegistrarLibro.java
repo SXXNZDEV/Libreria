@@ -8,78 +8,125 @@ import java.awt.*;
 
 public class PanelRegistrarLibro extends JDialog {
 
-    /** Etiqueta que muestra el título de la ventana o panel. */
+    /**
+     * Etiqueta que muestra el título de la ventana o panel.
+     */
     private JLabel labelTitulo;
 
-    /** Etiqueta que muestra el ISBN del libro. */
+    /**
+     * Etiqueta que muestra el ISBN del libro.
+     */
     private JLabel labelISBN;
 
-    /** Etiqueta que muestra el nombre del libro. */
+    /**
+     * Etiqueta que muestra el nombre del libro.
+     */
     private JLabel labelNombre;
 
-    /** Etiqueta que muestra el autor del libro. */
+    /**
+     * Etiqueta que muestra el autor del libro.
+     */
     private JLabel labelAutor;
 
-    /** Etiqueta que muestra el año de publicación del libro. */
+    /**
+     * Etiqueta que muestra el año de publicación del libro.
+     */
     private JLabel labelAnoPublicacion;
 
-    /** Etiqueta que muestra la categoría del libro. */
+    /**
+     * Etiqueta que muestra la categoría del libro.
+     */
     private JLabel labelCategoria;
 
-    /** Etiqueta que muestra la editorial del libro. */
+    /**
+     * Etiqueta que muestra la editorial del libro.
+     */
     private JLabel labelEditorial;
 
-    /** Etiqueta que muestra el número de páginas del libro. */
+    /**
+     * Etiqueta que muestra el número de páginas del libro.
+     */
     private JLabel labelNumeroPaginas;
 
-    /** Etiqueta que muestra el precio del libro. */
+    /**
+     * Etiqueta que muestra el precio del libro.
+     */
     private JLabel labelPrecio;
 
-    /** Etiqueta que muestra la cantidad de ejemplares disponibles. */
+    /**
+     * Etiqueta que muestra la cantidad de ejemplares disponibles.
+     */
     private JLabel labelCantidad;
 
-    /** Etiqueta que muestra el formato del libro (físico o digital). */
+    /**
+     * Etiqueta que muestra el formato del libro (físico o digital).
+     */
     private JLabel labelFormato;
 
-    /** Campo de texto para ingresar el ISBN del libro. */
+    /**
+     * Campo de texto para ingresar el ISBN del libro.
+     */
     private JTextField txtISBN;
 
-    /** Campo de texto para ingresar el nombre del libro. */
+    /**
+     * Campo de texto para ingresar el nombre del libro.
+     */
     private JTextField txtNombre;
 
-    /** Campo de texto para ingresar el nombre del autor del libro. */
+    /**
+     * Campo de texto para ingresar el nombre del autor del libro.
+     */
     private JTextField txtAutor;
 
-    /** Campo de texto para ingresar el año de publicación del libro. */
+    /**
+     * Campo de texto para ingresar el año de publicación del libro.
+     */
     private JTextField txtAnoPublicacion;
 
-    /** Menú desplegable para seleccionar la categoría del libro. */
+    /**
+     * Menú desplegable para seleccionar la categoría del libro.
+     */
     private JComboBox txtCategoria;
 
-    /** Campo de texto para ingresar la editorial del libro. */
+    /**
+     * Campo de texto para ingresar la editorial del libro.
+     */
     private JTextField txtEditorial;
 
-    /** Campo de texto para ingresar el número de páginas del libro. */
+    /**
+     * Campo de texto para ingresar el número de páginas del libro.
+     */
     private JTextField txtNumeroPaginas;
 
-    /** Campo de texto para ingresar el precio del libro. */
+    /**
+     * Campo de texto para ingresar el precio del libro.
+     */
     private JTextField txtPrecio;
 
-    /** Campo de texto para ingresar la cantidad de ejemplares disponibles. */
+    /**
+     * Campo de texto para ingresar la cantidad de ejemplares disponibles.
+     */
     private JTextField txtCantidad;
 
-    /** Menú desplegable para seleccionar el formato del libro (físico o digital). */
+    /**
+     * Menú desplegable para seleccionar el formato del libro (físico o digital).
+     */
     private JComboBox txtFormato;
 
-    /** Botón para agregar el libro al sistema o carrito. */
+    /**
+     * Botón para agregar el libro al sistema o carrito.
+     */
     private JButton botonAgregar;
 
-    /** Botón para cancelar la operación actual. */
+    /**
+     * Botón para cancelar la operación actual.
+     */
     private JButton botonCancelar;
 
 
     /**
      * Obtiene el ISBN ingresado en el campo de texto.
+     *
      * @return ISBN como una cadena de texto.
      */
     public String getTxtIsbn() {
@@ -88,6 +135,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene el nombre del libro ingresado.
+     *
      * @return Nombre del libro como una cadena de texto.
      */
     public String getTxtNombre() {
@@ -96,6 +144,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene el nombre del autor del libro.
+     *
      * @return Autor del libro como una cadena de texto.
      */
     public String getTxtAutor() {
@@ -104,6 +153,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene el año de publicación del libro.
+     *
      * @return Año de publicación como una cadena de texto.
      */
     public String getTxtAnoPublicacion() {
@@ -112,6 +162,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene la categoría seleccionada del libro.
+     *
      * @return Categoría del libro como una cadena de texto.
      */
     public String getTxtCategoria() {
@@ -120,6 +171,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene la editorial del libro.
+     *
      * @return Editorial del libro como una cadena de texto.
      */
     public String getTxtEditorial() {
@@ -128,6 +180,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene el número de páginas del libro.
+     *
      * @return Número de páginas como una cadena de texto.
      */
     public String getTxtNumeroPaginas() {
@@ -136,6 +189,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene el precio del libro.
+     *
      * @return Precio del libro como una cadena de texto.
      */
     public String getTxtPrecio() {
@@ -144,6 +198,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene la cantidad disponible del libro.
+     *
      * @return Cantidad del libro como una cadena de texto.
      */
     public String getTxtCantidad() {
@@ -152,15 +207,16 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Obtiene el formato del libro (Físico o Digital).
+     *
      * @return Formato del libro como un objeto TipoLibro.
      */
     public TipoLibro getTxtFormato() {
-        return txtFormato.getSelectedItem().toString().equals(String.valueOf(TipoLibro.FISICO)) ?
-                TipoLibro.FISICO : TipoLibro.DIGITAL;
+        return txtFormato.getSelectedItem().toString().equals(String.valueOf(TipoLibro.FISICO)) ? TipoLibro.FISICO : TipoLibro.DIGITAL;
     }
 
     /**
      * Establece el ISBN en el campo de texto.
+     *
      * @param texto ISBN del libro.
      */
     public void setTxtIsbn(String texto) {
@@ -169,6 +225,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece el nombre del libro en el campo de texto.
+     *
      * @param texto Nombre del libro.
      */
     public void setTxtNombre(String texto) {
@@ -177,6 +234,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece el nombre del autor del libro.
+     *
      * @param texto Nombre del autor.
      */
     public void setTxtAutor(String texto) {
@@ -185,6 +243,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece el año de publicación en el campo de texto.
+     *
      * @param texto Año de publicación.
      */
     public void setTxtAnoPublicacion(String texto) {
@@ -193,6 +252,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece la categoría del libro en el JComboBox.
+     *
      * @param index Categoría del libro.
      */
     public void setTxtCategoria(String index) {
@@ -201,6 +261,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece la editorial del libro en el campo de texto.
+     *
      * @param texto Nombre de la editorial.
      */
     public void setTxtEditorial(String texto) {
@@ -209,6 +270,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece el número de páginas del libro en el campo de texto.
+     *
      * @param texto Número de páginas.
      */
     public void setTxtNumeroPaginas(String texto) {
@@ -217,6 +279,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece el precio del libro en el campo de texto.
+     *
      * @param texto Precio del libro.
      */
     public void setTxtPrecio(String texto) {
@@ -225,6 +288,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece la cantidad disponible del libro en el campo de texto.
+     *
      * @param texto Cantidad del libro.
      */
     public void setTxtCantidad(String texto) {
@@ -233,6 +297,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Establece el formato del libro (Físico o Digital) en el JComboBox.
+     *
      * @param index Formato del libro.
      */
     public void setTxtFormato(String index) {
@@ -241,6 +306,7 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Constructor del panel de registro de libros.
+     *
      * @param evento Manejador de eventos de la aplicación.
      */
     public PanelRegistrarLibro(Evento evento) {
@@ -352,7 +418,7 @@ public class PanelRegistrarLibro extends JDialog {
         txtPrecio = new JTextField(10);
         txtCantidad = new JTextField(5);
 
-        String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia", "Historia"};
+        String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia"};
         txtCategoria = new JComboBox<>(categorias);
 
         String[] formatos = {String.valueOf(TipoLibro.DIGITAL), String.valueOf(TipoLibro.FISICO)};
@@ -378,24 +444,23 @@ public class PanelRegistrarLibro extends JDialog {
 
     /**
      * Guarda los datos del libro en un objeto libro y lo retorna.
+     *
      * @return Objeto Libro con los datos contenidos en los JTextFields.
      */
-    public Libro obtenerDatos() throws RuntimeException {
+    public Libro obtenerDatos() {
         Libro libro = new Libro();
-        try {
-            libro.setIsbn(getTxtIsbn());
-            libro.setTitulo(getTxtNombre());
-            libro.setAutor(getTxtAutor());
-            libro.setAnioPublicacion(getTxtAnoPublicacion().isBlank() ? 0 : Integer.parseInt(getTxtAnoPublicacion()));
-            libro.setCategoria(getTxtCategoria());
-            libro.setEditorial(getTxtEditorial());
-            libro.setNumeroPaginas(getTxtNumeroPaginas().isBlank() ? 0 : Integer.parseInt(getTxtNumeroPaginas()));
-            libro.setPrecioVenta(getTxtPrecio().isBlank() ? 0 : Integer.parseInt(getTxtPrecio()));
-            libro.setStockDisponible(getTxtCantidad().isBlank() ? 0 : Integer.parseInt(getTxtCantidad()));
-            libro.setTipoLibro(getTxtFormato());
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Verifica que los datos no tengan espacios de más ni caracteres especiales\nAño Publicacion, #Paginas, Precio y cantidad deben ser numeros");
-        }
+
+        libro.setIsbn(getTxtIsbn());
+        libro.setTitulo(getTxtNombre());
+        libro.setAutor(getTxtAutor());
+        libro.setCategoria(getTxtCategoria());
+        libro.setEditorial(getTxtEditorial());
+        libro.setTipoLibro(getTxtFormato());
+        libro.setAnioPublicacion(getTxtAnoPublicacion().matches("^[0-9]{4}$") ? Integer.parseInt(getTxtAnoPublicacion()) : 0);
+        libro.setNumeroPaginas(getTxtNumeroPaginas().matches("^[0-9]{1,3}$") ? Integer.parseInt(getTxtNumeroPaginas()) : 0);
+        libro.setPrecioVenta(getTxtPrecio().matches("^[0-9]+$") ? Integer.parseInt(getTxtPrecio()) : 0);
+        libro.setStockDisponible(getTxtCantidad().matches("^[0-9]+$") ? Integer.parseInt(getTxtCantidad()) : 0);
+
         return libro;
     }
 }

@@ -123,6 +123,15 @@ public class ManejoUsuarioJSON {
         file = new File(ruta);
     }
 
+    public void leerListaUsuarios() throws IOException{
+        listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {
+        });
+    }
+
+    public void escribirUsuario() throws IOException{
+        objectMapper.writeValue(file, listaUsuarios);
+    }
+
     /**
      * Agrega un nuevo usuario al archivo JSON si no está registrado previamente.
      *
@@ -136,9 +145,6 @@ public class ManejoUsuarioJSON {
             } else {
                 listaUsuarios = objectMapper.readValue(file, new TypeReference<ArrayList<Usuario>>() {
                 });
-            }
-            if (buscarUsuario(listaUsuarios, usuario) != null) {
-                throw new IllegalArgumentException("El correo '" + usuario.getCuenta().getCorreo() + "' ya está vinculado a otra cuenta");
             }
             listaUsuarios.add(usuario);
             objectMapper.writeValue(file, listaUsuarios);
@@ -271,11 +277,21 @@ public class ManejoUsuarioJSON {
                 throw new IllegalArgumentException("Contraseña incorrecta");
             }
             usuarioEncontrado.getCuenta().setLog(true);
+            agregarLibros(listaUsuarios.get(0), usuarioEncontrado);
+            listaUsuarios.get(0).getCarrito().setLibros(new ArrayList<>());
             usuarioLogin = usuarioEncontrado;
             objectMapper.writeValue(file, listaUsuarios);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return true;
+    }
+
+    private void agregarLibros(Usuario usuario, Usuario usuarioEncontrado) {
+        if (!usuario.getCarrito().getLibros().isEmpty()) {
+            for (Libro libro : usuario.getCarrito().getLibros()) {
+                usuarioEncontrado.getCarrito().trasladarLibros(libro);
+            }
+        }
     }
 }

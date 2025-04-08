@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
  */
 public class Evento implements ActionListener {
 
+    public final static String ACTIVAR_INICIAR_SESION = "Activar Iniciar Sesion";
+
     /** Acción para iniciar sesión. */
     public final static String INICIAR_SESION = "Iniciar Sesion";
 
@@ -84,10 +86,19 @@ public class Evento implements ActionListener {
     /** Acción para realizar una compra. */
     public final static String COMPRAR = "Comprar";
 
+    public final static String EVALUAR_EXPRESION = "Evaluar Expresion";
+
+    public final static String ACTIVAR_PANEL_EVALUAR = "Activar Panel Evaluar";
+
     /**
      * Accion para acceder al panel de confirmar la compra
      */
     public final static String ACTIVAR_PANEL_CONFIRMAR = "Activar Panel Confirmar Compra";
+
+
+    public final static String CANCELAR_CONFIRMAR_COMPRA = "Cancelar Confirmar Compra";
+
+    public final static String ACEPTAR_CONFIRMAR_COMPRA = "Aceptar Confirmar Compra";
 
     /** Referencia a la VentanaPrincipal. */
     private VentanaPrincipal ventana;
@@ -109,6 +120,7 @@ public class Evento implements ActionListener {
         String eventoStr = e.getActionCommand();
 
         switch (eventoStr) {
+            case ACTIVAR_INICIAR_SESION -> ventana.activarIniciarSesion();
             case INICIAR_SESION -> ventana.activarPanelInicioSesion();
             case GESTIONAR_LIBROS -> ventana.activarPanelGestionLibros();
             case SALIR -> ventana.activarFuncionRegresar();
@@ -134,6 +146,8 @@ public class Evento implements ActionListener {
             case FUNCION_ELIMINAR_LIBRO -> ventana.activarFuncionEliminarLibros();
             case CANCELAR_ELIMINAR_LIBRO -> ventana.activarCancelarEliminarLibro();
             case ACTIVAR_PANEL_CONFIRMAR -> ventana.activarPanelConfirmCompra();
+            case ACEPTAR_CONFIRMAR_COMPRA -> ventana.aceptarConfirmarCompra();
+            case CANCELAR_CONFIRMAR_COMPRA -> ventana.cancelarConfirmarCompra();
             //case COMPRAR -> ventana.activarFuncionComprar();
         }
     }

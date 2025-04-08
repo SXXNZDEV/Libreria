@@ -106,7 +106,6 @@ public class PanelInicioSesion extends JPanel {
         botonCrearCuenta.addActionListener(evento);
         botonCrearCuenta.setActionCommand(evento.VENTANA_REGISTRAR_USUARIO);
 
-
         labelTitulo.setFont(letra);
         labelIniciarSesion.setFont(new Font("Arial", Font.BOLD, 15));
 
