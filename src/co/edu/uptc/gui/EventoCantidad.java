@@ -27,7 +27,7 @@ public class EventoCantidad implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
 
     /** Referencia de Libro. */
-    private Libro producto;
+    private String isbnProducto;
 
     /**
      * Constructor de la clase.
@@ -35,9 +35,9 @@ public class EventoCantidad implements ActionListener {
      * @param producto Instancia de Libro.
      * @param panelProducto Instancia de PanelProducto.
      */
-    public EventoCantidad(VentanaPrincipal ventanaPrincipal, Libro producto, PanelProducto panelProducto) {
+    public EventoCantidad(VentanaPrincipal ventanaPrincipal, String isbnProducto, PanelProducto panelProducto) {
         this.ventanaPrincipal = ventanaPrincipal;
-        this.producto = producto;
+        this.isbnProducto = isbnProducto;
         this.panelProducto = panelProducto;
     }
 
@@ -48,9 +48,9 @@ public class EventoCantidad implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String evento = e.getActionCommand();
         switch (evento) {
-            case SUMAR -> ventanaPrincipal.sumarProductoCarrito(producto, panelProducto);
-            case DISMINUIR -> ventanaPrincipal.disminuirProductoCarrito(producto, panelProducto);
-            case ELIMINAR -> ventanaPrincipal.eliminarProductoCarrito(producto, panelProducto);
+            case SUMAR -> ventanaPrincipal.sumarProductoCarrito(isbnProducto, panelProducto);
+            case DISMINUIR -> ventanaPrincipal.disminuirProductoCarrito(isbnProducto, panelProducto);
+            case ELIMINAR -> ventanaPrincipal.eliminarProductoCarrito(isbnProducto, panelProducto);
         }
     }
 }

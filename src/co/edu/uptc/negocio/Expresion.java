@@ -104,6 +104,11 @@ public class Expresion {
         }
     }
 
+    /**
+     * Valida los datos obligatorios del usuario.
+     * @param usuario usuario para validar los datos.
+     * @throws RuntimeException si algún campo de texto que es obligatorio está vacío.
+     */
     public void validarDatosObligatoriosUser(Usuario usuario) throws RuntimeException {
         if (usuario.getNombre().isBlank() || String.valueOf(usuario.getTelefono()).isBlank() || usuario.getDireccionEnvio().isBlank() || usuario.getCuenta().getCorreo().isBlank() || usuario.getCuenta().getContrasena().isBlank()) {
             throw new IllegalArgumentException("Los campos con * son obligatorios.\n");

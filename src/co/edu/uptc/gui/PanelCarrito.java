@@ -102,6 +102,39 @@ public class PanelCarrito extends JPanel {
         gbcPanelProductos.insets = new Insets(5, 5, 5, 5);
         gbcPanelProductos.gridy = 0;
 
+        agregarLibroPanel(librosCarrito);
+
+        gbcGeneral.gridy = 1;
+        gbcGeneral.gridheight = 1;
+        gbcGeneral.weighty = 1;
+        gbcGeneral.fill = GridBagConstraints.BOTH;
+
+        agregarJScroll();
+
+        gbcGeneral.weighty = 0.1;
+        gbcGeneral.gridy = 2;
+        gbcGeneral.gridx = 0;
+        gbcGeneral.insets = new Insets(0, 10, 0, 10);
+        gbcGeneral.anchor = GridBagConstraints.SOUTH;
+        gbcGeneral.fill = GridBagConstraints.HORIZONTAL;
+        add(panelResumenCompra, gbcGeneral);
+        revalidate();
+        repaint();
+    }
+
+    private void agregarJScroll() {
+        if (scrollPane != null) {
+            remove(scrollPane);
+        }
+
+        scrollPane = new JScrollPane(panelProductos);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.setPreferredSize(new Dimension(200, 300));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        add(scrollPane, gbcGeneral);
+    }
+
+    private void agregarLibroPanel(ArrayList<Libro> librosCarrito) {
         if (librosCarrito.isEmpty()) {
             validarExistenciaProductos();
         } else {
@@ -117,31 +150,6 @@ public class PanelCarrito extends JPanel {
             gbcPanelProductos.weighty = 4;
             panelProductos.add(new JLabel(), gbcPanelProductos);
         }
-
-        gbcGeneral.gridy = 1;
-        gbcGeneral.gridheight = 1;
-        gbcGeneral.weighty = 1;
-        gbcGeneral.fill = GridBagConstraints.BOTH;
-
-        if (scrollPane != null) {
-            remove(scrollPane);
-        }
-
-        scrollPane = new JScrollPane(panelProductos);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-        scrollPane.setPreferredSize(new Dimension(200, 300));
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        add(scrollPane, gbcGeneral);
-
-        gbcGeneral.weighty = 0.1;
-        gbcGeneral.gridy = 2;
-        gbcGeneral.gridx = 0;
-        gbcGeneral.insets = new Insets(0, 10, 0, 10);
-        gbcGeneral.anchor = GridBagConstraints.SOUTH;
-        gbcGeneral.fill = GridBagConstraints.HORIZONTAL;
-        add(panelResumenCompra, gbcGeneral);
-        revalidate();
-        repaint();
     }
 
     /**

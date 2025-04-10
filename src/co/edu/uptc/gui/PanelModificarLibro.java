@@ -288,13 +288,7 @@ public class PanelModificarLibro extends JDialog {
         gbc.insets = new Insets(5, 10, 5, 10);
 
         inicializarAtributos();
-        labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
-
-        botonModificar.addActionListener(evento);
-        botonModificar.setActionCommand(evento.MODIFICAR_LIBRO);
-        botonCancelar.addActionListener(evento);
-        botonCancelar.setActionCommand(evento.CANCELAR_MODIFICACION_LIBRO);
-        cbLibros.addItemListener(eventoLista);
+        asignarAccionBoton(evento, eventoLista);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -369,10 +363,38 @@ public class PanelModificarLibro extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    private void asignarAccionBoton(Evento evento, EventoLista eventoLista) {
+        botonModificar.addActionListener(evento);
+        botonModificar.setActionCommand(evento.MODIFICAR_LIBRO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_MODIFICACION_LIBRO);
+        cbLibros.addItemListener(eventoLista);
+    }
+
     /**
      * Inicializa los atributos del panel de modificación de libros.
      */
     public void inicializarAtributos() {
+        initJLabels();
+        initTxt();
+        initCb();
+        initBotones();
+    }
+
+    private void initBotones() {
+        botonModificar = new JButton("Modificar");
+        botonCancelar = new JButton("Salir");
+    }
+
+    private void initCb() {
+        cbLibros = new JComboBox<>(); //Lo agregue para el que se elija, los JTextField se llenen con la informacion de cada libro.
+        String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia"}; //TODO hacer clase enum para separar que esto tenga sentido
+        txtCategoria = new JComboBox<>(categorias);
+        String[] formatos = {String.valueOf(TipoLibro.DIGITAL), String.valueOf(TipoLibro.FISICO)};
+        txtFormato = new JComboBox<>(formatos);
+    }
+
+    private void initJLabels() {
         labelLibro = new JLabel("Libro: ");
         labelTitulo = new JLabel("Modificar Libro");
         labelISBN = new JLabel("ISBN*:");
@@ -385,7 +407,10 @@ public class PanelModificarLibro extends JDialog {
         labelPrecio = new JLabel("Precio*:");
         labelCantidad = new JLabel("Cantidad*:");
         labelFormato = new JLabel("Formato*:");
+        labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
+    }
 
+    private void initTxt() {
         txtISBN = new JTextField(20);
         txtISBN.setEditable(false);
         txtISBN.setBackground(Color.WHITE);
@@ -396,19 +421,7 @@ public class PanelModificarLibro extends JDialog {
         txtNumeroPaginas = new JTextField(5);
         txtPrecio = new JTextField(10);
         txtCantidad = new JTextField(5);
-
-        cbLibros = new JComboBox<>(); //Lo agregue para el que se elija, los JTextField se llenen con la informacion de cada libro.
-
         cbLibros.setPreferredSize(new Dimension(80, 30));
-
-        String[] categorias = {"Ficción", "No Ficción", "Misterio", "Ciencia"};
-        txtCategoria = new JComboBox<>(categorias);
-
-        String[] formatos = {String.valueOf(TipoLibro.DIGITAL), String.valueOf(TipoLibro.FISICO)};
-        txtFormato = new JComboBox<>(formatos);
-
-        botonModificar = new JButton("Modificar");
-        botonCancelar = new JButton("Salir");
     }
 
     public Libro obtenerDatos() throws RuntimeException{
@@ -428,5 +441,18 @@ public class PanelModificarLibro extends JDialog {
         } catch (RuntimeException e) {
             throw new RuntimeException("Verifica que los datos no tengan espacios de más ni caracteres especiales\nAño Publicacion, #Paginas, Precio y cantidad deben ser numero");
         }
+    }
+
+    public void llenarCampos(Libro libro) {
+        setISBN(libro.getIsbn());
+        setNombre(libro.getTitulo());
+        setAutor(libro.getAutor());
+        setAnoPublicacion(libro.getAnioPublicacion() == 0 ? "" : String.valueOf(libro.getAnioPublicacion()));
+        setCategoria(libro.getCategoria());
+        setEditorial(libro.getEditorial());
+        setNumeroPaginas(libro.getNumeroPaginas() == 0 ? "" : String.valueOf(libro.getNumeroPaginas()));
+        setPrecio(String.valueOf((int) libro.getPrecioVenta()));
+        setCantidad(String.valueOf(libro.getStockDisponible()));
+        setFormato(libro.getTipoLibro());
     }
 }

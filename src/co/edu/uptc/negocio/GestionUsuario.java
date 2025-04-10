@@ -111,7 +111,7 @@ public class GestionUsuario {
     }
 
     public boolean isGenericoLogin() {
-        return manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals("");
+        return manejoUsuarioJSON.getUsuarioLogin().getCuenta().getCorreo().equals("user_default");
     }
 
     /**

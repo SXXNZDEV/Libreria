@@ -18,7 +18,7 @@ public class EventoCatalogo implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
 
     /** Referencia de Libro. */
-    private Libro libro;
+    private String isbnLibro;
 
     /** Referencia de PanelLibro. */
     private PanelLibro panelLibro;
@@ -29,9 +29,9 @@ public class EventoCatalogo implements ActionListener {
      * @param libro referencia de Libro.
      * @param panelLibro referencia de PanelLibro.
      */
-    public EventoCatalogo(VentanaPrincipal ventanaPrincipal, Libro libro, PanelLibro panelLibro) {
+    public EventoCatalogo(VentanaPrincipal ventanaPrincipal, String isbnLibro, PanelLibro panelLibro) {
         this.ventanaPrincipal = ventanaPrincipal;
-        this.libro = libro;
+        this.isbnLibro = isbnLibro;
         this.panelLibro = panelLibro;
     }
 
@@ -43,7 +43,7 @@ public class EventoCatalogo implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String evento = e.getActionCommand();
         switch (evento){
-            case AGREGAR_LIBRO -> ventanaPrincipal.anadirProductosCarrito(libro, 1, panelLibro);
+            case AGREGAR_LIBRO -> ventanaPrincipal.anadirProductosCarrito(isbnLibro, 1, panelLibro);
         }
     }
 }

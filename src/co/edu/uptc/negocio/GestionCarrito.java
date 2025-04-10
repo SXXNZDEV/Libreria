@@ -1,5 +1,6 @@
 package co.edu.uptc.negocio;
 
+import javax.swing.border.LineBorder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class GestionCarrito {
 
     /**
      * Constructor de la clase
+     *
      * @param manejoUsuarioJSON Instancia deManejo de usuarios con JSON
      */
     public GestionCarrito(ManejoUsuarioJSON manejoUsuarioJSON) {
@@ -42,6 +44,7 @@ public class GestionCarrito {
 
     /**
      * Método que devuelve el carrito del usuario
+     *
      * @return carrito del usuario
      */
     public Carrito getCarrito() {
@@ -50,6 +53,7 @@ public class GestionCarrito {
 
     /**
      * Método que actualiza el carrito del usuario
+     *
      * @param carrito carrito del usuario
      */
     public void setCarrito(Carrito carrito) {
@@ -58,6 +62,7 @@ public class GestionCarrito {
 
     /**
      * Método que devuelve la instancia de Manejo de usuarios con JSON
+     *
      * @return instancia de Manejo de usuarios con JSON
      */
     public ManejoUsuarioJSON getManejoUsuarioJSON() {
@@ -72,39 +77,72 @@ public class GestionCarrito {
 
     /**
      * Método que agrega los libros al carrito del usuario
-     * @param libro libro a agregar al carrito
+     *
+     * @param isbnLibro libro a agregar al carrito
      * @param cantidad cantidad de libros a agregar al carrito
      * @throws IllegalArgumentException si el libro no existe en el catálogo
-     * @throws IOException si ocurre algún error cuando no se escribe el usuario en el JSON
+     * @throws IOException              si ocurre algún error cuando no se escribe el usuario en el JSON
      */
-    public void anadirLibrosCarrito(Libro libro, int cantidad) throws IllegalArgumentException, IOException {
+    public void anadirLibrosCarrito(String isbnLibro, int cantidad) throws IllegalArgumentException, IOException {
         Usuario usuarioLogin = manejoUsuarioJSON.getUsuarioLogin();
-        Libro libroCatalogo = validarDisponibilidadLibros(libro.getIsbn(), cantidad);
-        if (libroCatalogo != null) {
-            Libro libroCarrito = existeProductoCarrito(libro.getIsbn(), usuarioLogin);
-            if (libroCarrito != null) {
-                if (libroCatalogo.getStockDisponible() == 0) throw new IllegalArgumentException("Libro Agotado");
-                libroCatalogo.reservarLibro();
-                libroCarrito.aumentarCantidad(1);
-                manejoUsuarioJSON.modificarUsuarioCarrito(usuarioLogin);
-                manejoLibroJSON.modificarLibro(libroCatalogo);
-                return;
-            }
-            usuarioLogin.getCarrito().agregarLibroCarrito(libroCatalogo);
-            libroCatalogo.reservarLibro();
-            manejoUsuarioJSON.modificarUsuarioCarrito(usuarioLogin);
-            manejoLibroJSON.modificarLibro(libroCatalogo);
-            return;
+        Libro libroCatalogo = validarDisponibilidadLibros(isbnLibro, cantidad);
+        if (libroCatalogo == null) {
+            throw new IllegalArgumentException("No se pudo realizar la acción de añadir libros al carrito");
         }
-        throw new IllegalArgumentException("No se pudo realizar la operación de añadir libros al carrito");
+
+        Libro libroCarrito = existeProductoCarrito(isbnLibro, usuarioLogin);
+        if (libroCarrito != null) {
+            anadirProductoExistente(libroCarrito, libroCatalogo, usuarioLogin);
+        } else {
+            anadirProductoNuevo(usuarioLogin, libroCatalogo);
+        }
     }
 
     /**
-     * Método que valida si el libro está disponible en el catálogo
-     * @param isbn isbn del libro
-     * @param cantidadSolicitada cantidad solicitada
-     * @return libro disponible
-     * @throws IllegalArgumentException si el libro no está disponible
+     * Suma productos si ya existen en el carrito del usuario.
+     * @param libroCarrito libro del carrito existente en el carrito para aumentar su cantidad.
+     * @param libroCatalogo libro del catalogo a modificar.
+     * @param usuarioLogin usuario logueado.
+     * @throws IllegalArgumentException si no hay mas disponibilidad del libro en el catálogo.
+     * @throws IOException si llega a ocurrir algun error al serializar los datos.
+     */
+    public void anadirProductoExistente(Libro libroCarrito, Libro libroCatalogo, Usuario usuarioLogin) throws IllegalArgumentException, IOException {
+        if (libroCatalogo.getStockDisponible() == 0) throw new IllegalArgumentException("Libro Agotado");
+        libroCatalogo.reservarLibro();
+        libroCarrito.aumentarCantidad(1);
+        actualizarDatos(usuarioLogin, libroCatalogo);
+    }
+
+    /**
+     * Agrega un libro al carrito.
+     * @param usuarioLogin usuario logueado.
+     * @param libroCatalogo libro del catalogo para agregar al carrito.
+     * @throws IOException si ocurre algún error al serializar los datos.
+     * @throws IllegalArgumentException si no encuentra el usuario logueado.
+     */
+    public void anadirProductoNuevo(Usuario usuarioLogin, Libro libroCatalogo) throws IOException, IllegalArgumentException {
+        usuarioLogin.getCarrito().agregarLibroCarrito(libroCatalogo);
+        libroCatalogo.reservarLibro();
+        actualizarDatos(usuarioLogin, libroCatalogo);
+    }
+
+    /**
+     * Actualiza los dato en la lista de los usuarios, serializando los datos.
+     * @param usuarioLogin usuario logueado.
+     * @param libroCatalogo libro del catalogo.
+     * @throws IOException si ocurre algún error al serializar los datos.
+     */
+    public void actualizarDatos(Usuario usuarioLogin, Libro libroCatalogo) throws IOException {
+        manejoUsuarioJSON.modificarUsuarioCarrito(usuarioLogin);
+        manejoLibroJSON.modificarLibro(libroCatalogo);
+    }
+
+    /**
+     * Metodo que valida si el libro está disponible en el catálogo.
+     * @param isbn isbn del libro.
+     * @param cantidadSolicitada cantidad solicitada.
+     * @return libro disponible.
+     * @throws IllegalArgumentException si el libro no está disponible.
      */
     public Libro validarDisponibilidadLibros(String isbn, int cantidadSolicitada) throws IllegalArgumentException {
         Map<String, ArrayList<Libro>> mapLibros = manejoLibroJSON.leerLibro();
@@ -121,6 +159,7 @@ public class GestionCarrito {
 
     /**
      * Método que verifica si el libro ya está en el carrito
+     *
      * @param isbn isbn del libro
      * @return libro encontrado en el carrito
      * @throws IOException si ocurre algún error cuando no se lee el usuario en el JSON
@@ -137,6 +176,7 @@ public class GestionCarrito {
 
     /**
      * Método que devuelve el arrayList de libros del carrito del usuario
+     *
      * @return arrayList de libros del carrito del usuario
      */
     public ArrayList<Libro> listarLibros() {
@@ -145,88 +185,123 @@ public class GestionCarrito {
 
     /**
      * Método que suma la cantidad de un libro en el carrito
-     * @param producto libro a sumar
+     *
+     * @param isbnProducto libro a sumar
      * @return subtotal del producto
      * @throws IOException si ocurre algún error cuando no se lee el usuario en el JSON
      */
-    public double sumarProducto(Libro producto) throws IOException {
+    public ResumenProductoDTO sumarProducto(String isbnProducto) throws IOException {
         ArrayList<Libro> librosCarrito = manejoUsuarioJSON.getUsuarioLogin().getCarrito().getLibros();
         Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
-        int index = librosCarrito.indexOf(producto);
+        int index = buscarIndexProducto(isbnProducto, librosCarrito);
 
         if (index >= 0) {
-            Libro libroModificar = encontrarLibro(producto, catalogo);
+            Libro libroModificar = encontrarLibro(isbnProducto, catalogo);
             if (libroModificar.getStockDisponible() == 0) throw new IllegalArgumentException("Libro agotado.");
 
             libroModificar.reservarLibro();
             librosCarrito.get(index).aumentarCantidad(1);
 
-            manejoUsuarioJSON.escribirUsuarioLogin();
-            manejoLibroJSON.escribirLibros(catalogo);
-
-            return calculadoraIVA.subtotalProducto(producto, librosCarrito);
+            return actualizarProductoCarrito(librosCarrito.get(index), librosCarrito, catalogo, index);
         }
-        return 0;
+        return null;
+    }
+
+    public int buscarIndexProducto(String isbnProducto, ArrayList<Libro> librosCarrito) {
+        int index = 0;
+        for (Libro libro : librosCarrito) {
+            if (libro.getIsbn().equals(isbnProducto)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    /**
+     * Retorna el subtotal y la cantidad reservada de un producto en el carrito.
+     * @param productoCarrito producto actualizar.
+     * @param librosCarrito lista de libros del carrito del usuario.
+     * @param catalogo catalogo disponible en la tienda.
+     * @param index posición en la que se encuentra el producto en el carrito del usuario.
+     * @return El resumen del producto.
+     * @throws IOException si al serializar los datos ocurre algún error.
+     */
+    public ResumenProductoDTO actualizarProductoCarrito(Libro productoCarrito, ArrayList<Libro> librosCarrito, Map<String, ArrayList<Libro>> catalogo, int index) throws IOException {
+        actualizarCantidadProducto(catalogo);
+
+        ResumenProductoDTO resumenProductoDTO = new ResumenProductoDTO();
+        resumenProductoDTO.setSubtotal(calculadoraIVA.subtotalProducto(productoCarrito, librosCarrito));
+        resumenProductoDTO.setCantidadReservada(librosCarrito.get(index).getStockReservado());
+        return resumenProductoDTO;
+    }
+
+    /**
+     * Actualiza la cantidad de los productos del catalogo y actualiza el usuario logueado.
+     * @param catalogo catalogo existente en la tienda.
+     * @throws IOException si ocurre alguna excepción al serializar los datos.
+     */
+    private void actualizarCantidadProducto(Map<String, ArrayList<Libro>> catalogo) throws IOException {
+        manejoUsuarioJSON.escribirUsuarioLogin();
+        manejoLibroJSON.escribirLibros(catalogo);
     }
 
     /**
      * Método que disminuye la cantidad de un libro en el carrito
-     * @param producto libro a disminuir
+     *
+     * @param isbnProducto libro a disminuir
      * @return subtotal del producto
      * @throws IOException si ocurre algún error cuando no se lee el usuario en el JSON
      */
-    public double disminuirProducto(Libro producto) throws IOException {
+    public ResumenProductoDTO disminuirProducto(String isbnProducto) throws IOException {
         ArrayList<Libro> librosCarrito = manejoUsuarioJSON.getUsuarioLogin().getCarrito().getLibros();
         Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
-        int index = librosCarrito.indexOf(producto);
+        int index = buscarIndexProducto(isbnProducto, librosCarrito);
 
         if (index >= 0) {
-            Libro libroModificar = encontrarLibro(producto, catalogo);
+            Libro libroModificar = encontrarLibro(isbnProducto, catalogo);
+            if (libroModificar.getStockDisponible() == 0) throw new IllegalArgumentException("Libro agotado.");
             libroModificar.cancelarReserva();
             librosCarrito.get(index).disminuirCantidadUnidad();
 
-            manejoUsuarioJSON.escribirUsuarioLogin();
-            manejoLibroJSON.escribirLibros(catalogo);
-
-            return calculadoraIVA.subtotalProducto(producto, librosCarrito);
+            return actualizarProductoCarrito(librosCarrito.get(index), librosCarrito, catalogo, index);
         }
-        return 0;
+        return null;
     }
 
     /**
      * Método que elimina el libro del carrito
-     * @param producto libro a eliminar
+     *
+     * @param isbnProducto libro a eliminar
      * @return subtotal del producto
      * @throws IOException si ocurre algún error cuando no se lee el usuario en el JSON
      */
-    public double eliminarProducto(Libro producto) throws IOException {
+    public void eliminarProducto(String isbnProducto) throws IOException {
         ArrayList<Libro> librosCarrito = manejoUsuarioJSON.getUsuarioLogin().getCarrito().getLibros();
         Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
-        int index = librosCarrito.indexOf(producto);
+        int index = buscarIndexProducto(isbnProducto, librosCarrito);
 
         if (index >= 0) {
-            Libro libroModificar = encontrarLibro(producto, catalogo);
-            libroModificar.eliminarReserva(producto.getStockReservado());
+            Libro libroModificar = encontrarLibro(isbnProducto, catalogo);
+            libroModificar.eliminarReserva(librosCarrito.get(index).getStockReservado());
             manejoLibroJSON.escribirLibros(catalogo);
             librosCarrito.remove(index);
 
-            manejoUsuarioJSON.escribirUsuarioLogin();
-            manejoLibroJSON.escribirLibros(catalogo);
-            return calculadoraIVA.subtotalProducto(producto, librosCarrito);
+            actualizarCantidadProducto(catalogo);
         }
-        return 0;
     }
 
     /**
      * Método que busca un libro en el catálogo
-     * @param libro libro a buscar
+     *
+     * @param isbnProducto libro a buscar
      * @param catalogo catálogo de libros para buscar
      * @return libro encontrado
      */
-    public Libro encontrarLibro(Libro libro, Map<String, ArrayList<Libro>> catalogo) {
+    public Libro encontrarLibro(String isbnProducto, Map<String, ArrayList<Libro>> catalogo) {
         for (ArrayList<Libro> libros : catalogo.values()) {
             for (Libro libroCatalogo : libros) {
-                if (libro.getIsbn().equals(libroCatalogo.getIsbn())) {
+                if (libroCatalogo.getIsbn().equals(isbnProducto)) {
                     return libroCatalogo;
                 }
             }
@@ -236,6 +311,7 @@ public class GestionCarrito {
 
     /**
      * Método que calcula el valor total del carrito
+     *
      * @return valor total del carrito
      */
     public ValorCompra calculoResumenCompra() {

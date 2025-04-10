@@ -163,12 +163,7 @@ public class PanelModificarUsuario extends JDialog {
 
         gbc.insets = new Insets(5, 10, 5, 10);
         inicializarAtributos();
-        labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-
-        botonActualizar.addActionListener(evento);
-        botonActualizar.setActionCommand(evento.ACEPTAR_ACTUALIZAR_USUARIO);
-        botonCancelar.addActionListener(evento);
-        botonCancelar.setActionCommand(evento.CANCELAR_ACTUALIZAR_USUARIO);
+        asignarAccionBoton(evento);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -218,6 +213,13 @@ public class PanelModificarUsuario extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    private void asignarAccionBoton(Evento evento) {
+        botonActualizar.addActionListener(evento);
+        botonActualizar.setActionCommand(evento.ACEPTAR_ACTUALIZAR_USUARIO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_ACTUALIZAR_USUARIO);
+    }
+
     /**
      * Inicializa los atributos del panel de actualización de datos del usuario.
      */
@@ -238,6 +240,7 @@ public class PanelModificarUsuario extends JDialog {
         labelTitulo = new JLabel("Actualizar Información Usuario");
         botonActualizar = new JButton("Actualizar");
         botonCancelar = new JButton("Cancelar");
+        labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
     }
 
     public Usuario obtenerDatos() {
@@ -253,5 +256,23 @@ public class PanelModificarUsuario extends JDialog {
         } catch (RuntimeException e) {
             throw new RuntimeException("Verifica que el teléfono no contenga:\n-Caracteres especiales\n-Espacios\n-Signos de puntación");
         }
+    }
+
+    public void llenarCampos(Usuario usuario) {
+        setTxtNombre(usuario.getNombre());
+        setTxtCorreo(usuario.getCuenta().getCorreo());
+        setTxtContrasena(usuario.getCuenta().getContrasena());
+        setTxtDireccion(usuario.getDireccionEnvio());
+        setTxtTelefono(String.valueOf(usuario.getTelefono()));
+        setCbTipoCliente(usuario.getTipoCliente());
+    }
+
+    public void limpiarTxt() {
+        setTxtNombre("");
+        setTxtTelefono("");
+        setTxtDireccion("");
+        setCbTipoCliente("");
+        setTxtCorreo("");
+        setTxtContrasena("");
     }
 }

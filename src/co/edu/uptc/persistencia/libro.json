@@ -9,8 +9,8 @@
       "editorial": "",
       "numeroPaginas": 400,
       "precioVenta": 32000.0,
-      "stockDisponible": 21,
-      "stockReservado": 0,
+      "stockDisponible": 14,
+      "stockReservado": 10,
       "tipoLibro": "DIGITAL"
     }
   ],
@@ -24,25 +24,12 @@
       "editorial": "",
       "numeroPaginas": 200,
       "precioVenta": 23000.0,
-      "stockDisponible": 28,
-      "stockReservado": 2,
+      "stockDisponible": 0,
+      "stockReservado": 30,
       "tipoLibro": "DIGITAL"
     }
   ],
   "Misterio": [
-    {
-      "isbn": "9786666754564",
-      "titulo": "El precio",
-      "autor": "Segundo F",
-      "anioPublicacion": 0,
-      "categoria": "Misterio",
-      "editorial": "",
-      "numeroPaginas": 300,
-      "precioVenta": 32000.0,
-      "stockDisponible": 23,
-      "stockReservado": 0,
-      "tipoLibro": "FISICO"
-    },
     {
       "isbn": "9786664325234",
       "titulo": "Libro 6",
@@ -66,6 +53,19 @@
       "numeroPaginas": 234,
       "precioVenta": 400000.0,
       "stockDisponible": 20,
+      "stockReservado": 0,
+      "tipoLibro": "FISICO"
+    },
+    {
+      "isbn": "9786666754564",
+      "titulo": "El precio",
+      "autor": "Segundo F",
+      "anioPublicacion": 0,
+      "categoria": "Misterio",
+      "editorial": "",
+      "numeroPaginas": 300,
+      "precioVenta": 32000.0,
+      "stockDisponible": 23,
       "stockReservado": 0,
       "tipoLibro": "FISICO"
     }

@@ -154,10 +154,7 @@ public class PanelRegistrarUsuario extends JDialog {
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
 
-        botonRegistrar.addActionListener(evento);
-        botonRegistrar.setActionCommand(evento.REGISTRAR_USUARIO);
-        botonCancelar.addActionListener(evento);
-        botonCancelar.setActionCommand(evento.CANCELAR_REGISTRO_USUARIO);
+        asignarAccionBoton(evento);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -203,8 +200,15 @@ public class PanelRegistrarUsuario extends JDialog {
 
         setResizable(false);
         setModal(true);
-        setSize(600, 350);
+        setSize(400, 300);
         setLocationRelativeTo(null);
+    }
+
+    private void asignarAccionBoton(Evento evento) {
+        botonRegistrar.addActionListener(evento);
+        botonRegistrar.setActionCommand(evento.REGISTRAR_USUARIO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_REGISTRO_USUARIO);
     }
 
     /**

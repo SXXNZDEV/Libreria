@@ -114,9 +114,7 @@ public class PanelCatalogo extends JPanel {
 
         for (ArrayList<Libro> libroArrayList : mapLibros.values()) {
             for (Libro libro : libroArrayList) {
-                PanelLibro panelLibro = new PanelLibro(ventanaPrincipal, libro);
-                panelLibro.setPreferredSize(new Dimension(270, 150));
-                anadirLibrosPanel(panelLibro);
+                anadirPanelLibro(libro);
             }
         }
 
@@ -127,6 +125,12 @@ public class PanelCatalogo extends JPanel {
         }
         revalidate();
         repaint();
+    }
+
+    private void anadirPanelLibro(Libro libro) {
+        PanelLibro panelLibro = new PanelLibro(ventanaPrincipal, libro);
+        panelLibro.setPreferredSize(new Dimension(270, 150));
+        anadirLibrosPanel(panelLibro);
     }
 
     /**

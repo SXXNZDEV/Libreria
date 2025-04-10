@@ -79,8 +79,7 @@ public class PanelPerfil extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
 
         inicializarAtributos();
-        botonActualizacionDatos.addActionListener(evento);
-        botonActualizacionDatos.setActionCommand(evento.ACTUALIZAR_DATOS_USUARIO);
+        asignarAccionBoton(evento);
 
         gbc.gridy = 0;
         gbc.gridx = 0;
@@ -94,9 +93,7 @@ public class PanelPerfil extends JPanel {
         cambiarFont();
         add(labelTitulo, gbc);
         gbc.gridy = 3;
-
         gbc.weighty = 0;
-
         add(labelNombre, gbc);
         gbc.gridy = 4;
         add(labelCorreo, gbc);
@@ -112,6 +109,11 @@ public class PanelPerfil extends JPanel {
         gbc.anchor = GridBagConstraints.SOUTHEAST;
         gbc.fill = GridBagConstraints.NONE;
         add(botonActualizacionDatos, gbc);
+    }
+
+    private void asignarAccionBoton(Evento evento) {
+        botonActualizacionDatos.addActionListener(evento);
+        botonActualizacionDatos.setActionCommand(evento.ACTUALIZAR_DATOS_USUARIO);
     }
 
     /**

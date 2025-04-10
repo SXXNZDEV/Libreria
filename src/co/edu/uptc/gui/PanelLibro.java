@@ -51,7 +51,7 @@ public class PanelLibro extends JPanel {
 
         modificarAtributos(libro);
         personalizar();
-        this.eventoCatalogo = new EventoCatalogo(ventanaPrincipal, libro, this);
+        this.eventoCatalogo = new EventoCatalogo(ventanaPrincipal, libro.getIsbn(), this);
 
         botonAgregar.addActionListener(eventoCatalogo);
         botonAgregar.setActionCommand(eventoCatalogo.AGREGAR_LIBRO);

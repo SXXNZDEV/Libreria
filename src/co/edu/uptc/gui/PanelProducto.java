@@ -34,7 +34,7 @@ public class PanelProducto extends JPanel {
     private NumberFormat format;
 
     /** Referencia al producto (libro) asociado a este panel. */
-    private Libro producto;
+    private String isbnProducto;
 
     /** Evento que maneja las acciones de aumentar, disminuir y eliminar el producto. */
     private EventoCantidad eventoCantidad;
@@ -53,22 +53,11 @@ public class PanelProducto extends JPanel {
         //Map<String, ArrayList<Libro>> catalogo = librosDisp;
         format = NumberFormat.getCurrencyInstance();
         format.setMinimumFractionDigits(1);
-        this.producto = producto;
-        this.eventoCantidad = new EventoCantidad(ventanaPrincipal, producto, this);
+        this.isbnProducto = producto.getIsbn();
+        this.eventoCantidad = new EventoCantidad(ventanaPrincipal, producto.getIsbn(), this);
 
-        labelNombreProducto = new JLabel(producto.getTitulo());
-        botonAumentar = new JButton("+");
-        botonDisminuir = new JButton("-");
-        labelCantidad = new JLabel(String.valueOf(producto.getStockReservado()));
-        botonEliminar = new JButton("Eliminar");
-        labelPrecio = new JLabel(format.format(producto.getPrecioVenta() * producto.getStockReservado()));
-
-        botonAumentar.addActionListener(eventoCantidad);
-        botonAumentar.setActionCommand(EventoCantidad.SUMAR);
-        botonDisminuir.addActionListener(eventoCantidad);
-        botonDisminuir.setActionCommand(EventoCantidad.DISMINUIR);
-        botonEliminar.addActionListener(eventoCantidad);
-        botonEliminar.setActionCommand(EventoCantidad.ELIMINAR);
+        initAtributos(producto);
+        asignarAccionBoton();
 
         gbc.gridy = 0;
         gbc.gridx = 0;
@@ -98,6 +87,24 @@ public class PanelProducto extends JPanel {
         add(botonEliminar, gbc);
         botonDisminuir.setVisible(producto.getStockReservado() > 1);
         repaint();
+    }
+
+    private void initAtributos(Libro producto) {
+        labelNombreProducto = new JLabel(producto.getTitulo());
+        botonAumentar = new JButton("+");
+        botonDisminuir = new JButton("-");
+        labelCantidad = new JLabel(String.valueOf(producto.getStockReservado()));
+        botonEliminar = new JButton("Eliminar");
+        labelPrecio = new JLabel(format.format(producto.getPrecioVenta() * producto.getStockReservado()));
+    }
+
+    private void asignarAccionBoton() {
+        botonAumentar.addActionListener(eventoCantidad);
+        botonAumentar.setActionCommand(EventoCantidad.SUMAR);
+        botonDisminuir.addActionListener(eventoCantidad);
+        botonDisminuir.setActionCommand(EventoCantidad.DISMINUIR);
+        botonEliminar.addActionListener(eventoCantidad);
+        botonEliminar.setActionCommand(EventoCantidad.ELIMINAR);
     }
 
     /**

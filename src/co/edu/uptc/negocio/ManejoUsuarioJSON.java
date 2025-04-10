@@ -169,13 +169,7 @@ public class ManejoUsuarioJSON {
             });
             Usuario usuarioBuscado = buscarUsuario(listaUsuarios, usuarioBuscar);
             if (usuarioBuscado == null) throw new IllegalArgumentException("Usuario no encontrado");
-            usuarioBuscado.setNombre(usuarioBuscar.getNombre());
-            usuarioBuscado.getCuenta().setCorreo(usuarioBuscar.getCuenta().getCorreo());
-            usuarioBuscado.getCuenta().setContrasena(usuarioBuscar.getCuenta().getContrasena());
-            usuarioBuscado.getCuenta().setLog(usuarioBuscar.getCuenta().isLog());
-            usuarioBuscado.setDireccionEnvio(usuarioBuscar.getDireccionEnvio());
-            usuarioBuscado.setTelefono(usuarioBuscar.getTelefono());
-            usuarioBuscado.setTipoCliente(usuarioBuscar.getTipoCliente());
+            actualizarDatosUsuario(usuarioBuscado, usuarioBuscar);
             objectMapper.writeValue(file, listaUsuarios);
             usuarioLogin = usuarioBuscado;
         } catch (IOException e) {
@@ -192,13 +186,7 @@ public class ManejoUsuarioJSON {
             });
             Usuario usuarioBuscado = buscarUsuario(listaUsuarios, usuarioBuscar);
             if (usuarioBuscado == null) throw new IllegalArgumentException("Usuario no encontrado");
-            usuarioBuscado.setNombre(usuarioBuscar.getNombre());
-            usuarioBuscado.getCuenta().setCorreo(usuarioBuscar.getCuenta().getCorreo());
-            usuarioBuscado.getCuenta().setContrasena(usuarioBuscar.getCuenta().getContrasena());
-            usuarioBuscado.getCuenta().setLog(usuarioBuscar.getCuenta().isLog());
-            usuarioBuscado.setDireccionEnvio(usuarioBuscar.getDireccionEnvio());
-            usuarioBuscado.setTelefono(usuarioBuscar.getTelefono());
-            usuarioBuscado.setTipoCliente(usuarioBuscar.getTipoCliente());
+            actualizarDatosUsuario(usuarioBuscado, usuarioBuscar);
             usuarioBuscado.setCarrito(usuarioBuscar.getCarrito());
             objectMapper.writeValue(file, listaUsuarios);
             usuarioLogin = usuarioBuscado;
@@ -207,6 +195,20 @@ public class ManejoUsuarioJSON {
         }
     }
 
+    /**
+     * Reemplaza los datos del usuario.
+     * @param usuarioBuscado usuario a reemplazar los datos.
+     * @param usuarioBuscar usuario que contiene los datos para reemplazar.
+     */
+    public void actualizarDatosUsuario(Usuario usuarioBuscado, Usuario usuarioBuscar) {
+        usuarioBuscado.setNombre(usuarioBuscar.getNombre());
+        usuarioBuscado.getCuenta().setCorreo(usuarioBuscar.getCuenta().getCorreo());
+        usuarioBuscado.getCuenta().setContrasena(usuarioBuscar.getCuenta().getContrasena());
+        usuarioBuscado.getCuenta().setLog(usuarioBuscar.getCuenta().isLog());
+        usuarioBuscado.setDireccionEnvio(usuarioBuscar.getDireccionEnvio());
+        usuarioBuscado.setTelefono(usuarioBuscar.getTelefono());
+        usuarioBuscado.setTipoCliente(usuarioBuscar.getTipoCliente());
+    }
 
     /**
      * Escribe el usuario actualmente autenticado en el archivo JSON.

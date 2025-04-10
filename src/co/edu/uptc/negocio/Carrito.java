@@ -48,6 +48,10 @@ public class Carrito {
         libros.add(libroGuardar);
     }
 
+    /**
+     * Pasa los libros del user_default al usuario que inicia sesión
+     * @param libro libro a asignar al usuario que se loguea
+     */
     public void trasladarLibros(Libro libro) {
         if (buscarLibro(libro)) {
             return;
@@ -67,6 +71,11 @@ public class Carrito {
         libros.add(libroGuardar);
     }
 
+    /**
+     * Retorna {@code true} si encuentra el libro en el carrito del usuario
+     * @param libroParametro libro para buscar.
+     * @return {@code true} si encuentra el libro, false si no lo encuentra.
+     */
     public boolean buscarLibro(Libro libroParametro) {
         for (Libro libro : libros) {
             if (libro.getIsbn().equals(libroParametro.getIsbn())) {

@@ -315,14 +315,10 @@ public class PanelRegistrarLibro extends JDialog {
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(5, 10, 5, 10);
-
         inicializarAtributos();
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 30));
 
-        botonAgregar.addActionListener(evento);
-        botonAgregar.setActionCommand(evento.REGISTRAR_LIBRO);
-        botonCancelar.addActionListener(evento);
-        botonCancelar.setActionCommand(evento.CANCELAR_REGISTRO_LIBRO);
+        asignarEventoBoton(evento);
 
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -392,6 +388,13 @@ public class PanelRegistrarLibro extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    private void asignarEventoBoton(Evento evento) {
+        botonAgregar.addActionListener(evento);
+        botonAgregar.setActionCommand(evento.REGISTRAR_LIBRO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_REGISTRO_LIBRO);
+    }
+
     /**
      * Inicializa los atributos del panel de registro de libros.
      */
@@ -431,15 +434,15 @@ public class PanelRegistrarLibro extends JDialog {
     /**
      * Vacia la información de los JTextFields.
      */
-    public void limpiarTxt() {
-        txtNombre.setText("");
-        txtISBN.setText("");
-        txtCantidad.setText("");
-        txtPrecio.setText("");
-        txtEditorial.setText("");
-        txtNumeroPaginas.setText("");
-        txtAnoPublicacion.setText("");
-        txtAutor.setText("");
+    public void limpiarTxtFieldsLibro() {
+        setTxtNombre("");
+        setTxtIsbn("");
+        setTxtAutor("");
+        setTxtAnoPublicacion("");
+        setTxtEditorial("");
+        setTxtNumeroPaginas("");
+        setTxtPrecio("");
+        setTxtCantidad("");
     }
 
     /**

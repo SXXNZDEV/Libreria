@@ -136,6 +136,17 @@ public class MenuPrincipal extends JPanel {
     private JPanel panelIzquierda;
 
     /**
+     * Evento para actualizar los datos del usuario.
+     */
+    private EventoLista eventoLista;
+
+    private JPanel panelClPrincipal;
+
+    private CardLayout clPrincipal;
+
+    private PanelInicioSesion panelInicioSesion;
+
+    /**
      * Panel para confirmar la compra
      */
     private PanelConfirmCompra panelConfirmCompra;
@@ -259,11 +270,12 @@ public class MenuPrincipal extends JPanel {
      * @param eventoLista Manejador de eventos de la lista de libros a modificar en el comboBox.
      * @param ventanaPrincipal Referencia de ventanas de la aplicación.
      */
-    public MenuPrincipal(Evento evento, EventoLista eventoLista, VentanaPrincipal ventanaPrincipal) {
+    public MenuPrincipal(Evento evento, VentanaPrincipal ventanaPrincipal) {
         setLayout(new BorderLayout());
         panelIzquierda = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
 
+        eventoLista = new EventoLista(ventanaPrincipal);
         panelCatalogo = new PanelCatalogo(ventanaPrincipal);
         panelPerfil = new PanelPerfil(evento);
         panelCarrito = new PanelCarrito(ventanaPrincipal, evento);
@@ -277,6 +289,9 @@ public class MenuPrincipal extends JPanel {
         panelEliminarLibro = new PanelEliminarLibro(ventanaPrincipal, evento);
         panelConfirmCompra = new PanelConfirmCompra(evento);
         panelGestionLibro = new PanelGestionLibro(evento);
+        panelInicioSesion = new PanelInicioSesion(evento);
+        clPrincipal = new CardLayout();
+        panelClPrincipal = new JPanel(clPrincipal);
 
         cardLayout = new CardLayout();
         panelCL = new JPanel(cardLayout);
@@ -291,6 +306,30 @@ public class MenuPrincipal extends JPanel {
         add(panelCL, BorderLayout.CENTER);
     }
 
+    public PanelInicioSesion getPanelInicioSesion() {
+        return panelInicioSesion;
+    }
+
+    public JPanel getPanelClPrincipal() {
+        return panelClPrincipal;
+    }
+
+    public void activarIniciarSesion() {
+        clPrincipal.show(panelClPrincipal, "Iniciar Sesion");
+    }
+
+    public void vistaPanelVenta() {
+        clPrincipal.show(panelClPrincipal, "Panel Venta");
+    }
+
+    public void agregarVentanaCl(MenuPrincipal menuPrincipal) {
+        panelClPrincipal.add(menuPrincipal, "Panel Venta");
+    }
+
+    public void agregarInicioSesion() {
+        panelClPrincipal.add(panelInicioSesion, "Iniciar Sesion");
+    }
+
     /**
      * Crea el panel que contiene el menú, las opciones de navegación y los botones de acción.
      * @param evento Manejador de eventos principal de la aplicación.
@@ -299,35 +338,9 @@ public class MenuPrincipal extends JPanel {
     public JPanel panelIzquierda(Evento evento) {
         panelIzquierda = new JPanel(new GridBagLayout());
 
-        labelTituloMenu = new JLabel("Librería Virtual", SwingUtilities.CENTER);
-        labelNombreUsuario = new JLabel("", SwingUtilities.CENTER);
-        botonCatalogo = new JButton("Catalogo");
-        botonCarrito = new JButton("Mi carrito");
-        botonCompras = new JButton("Mis compras");
-        botonPerfil = new JButton("Perfil");
-        botonIniciarSesion = new JButton("Iniciar Sesión");
-        botonCerrarSesion = new JButton("Cerrar Sesión");
-        botonGestionarLibros = new JButton("Gestionar Libros");
-        botonRegistrarUsuario = new JButton("Registrar Usuario");
-
+        initAtributos();
+        asignarAccionBotones(evento);
         labelNombreUsuario.setForeground(new Color(255, 0, 0));
-
-        botonCatalogo.addActionListener(evento);
-        botonCatalogo.setActionCommand(evento.CATALOGO);
-        botonPerfil.addActionListener(evento);
-        botonPerfil.setActionCommand(evento.PERFIL);
-        botonCarrito.addActionListener(evento);
-        botonCarrito.setActionCommand(evento.CARRITO);
-        botonCerrarSesion.addActionListener(evento);
-        botonCerrarSesion.setActionCommand(evento.CERRAR_SESION);
-        botonCompras.addActionListener(evento);
-        botonCompras.setActionCommand(evento.COMPRAS);
-        botonGestionarLibros.addActionListener(evento);
-        botonGestionarLibros.setActionCommand(evento.GESTIONAR_LIBROS);
-        botonRegistrarUsuario.addActionListener(evento);
-        botonRegistrarUsuario.setActionCommand(evento.VENTANA_REGISTRAR_USUARIO);
-        botonIniciarSesion.addActionListener(evento);
-        botonIniciarSesion.setActionCommand(evento.ACTIVAR_INICIAR_SESION);
 
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -354,6 +367,38 @@ public class MenuPrincipal extends JPanel {
         panelIzquierda.add(botonCerrarSesion, gbc);
         panelIzquierda.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
         return panelIzquierda;
+    }
+
+    private void asignarAccionBotones(Evento evento) {
+        botonCatalogo.addActionListener(evento);
+        botonCatalogo.setActionCommand(evento.CATALOGO);
+        botonPerfil.addActionListener(evento);
+        botonPerfil.setActionCommand(evento.PERFIL);
+        botonCarrito.addActionListener(evento);
+        botonCarrito.setActionCommand(evento.CARRITO);
+        botonCerrarSesion.addActionListener(evento);
+        botonCerrarSesion.setActionCommand(evento.CERRAR_SESION);
+        botonCompras.addActionListener(evento);
+        botonCompras.setActionCommand(evento.COMPRAS);
+        botonGestionarLibros.addActionListener(evento);
+        botonGestionarLibros.setActionCommand(evento.GESTIONAR_LIBROS);
+        botonRegistrarUsuario.addActionListener(evento);
+        botonRegistrarUsuario.setActionCommand(evento.VENTANA_REGISTRAR_USUARIO);
+        botonIniciarSesion.addActionListener(evento);
+        botonIniciarSesion.setActionCommand(evento.ACTIVAR_INICIAR_SESION);
+    }
+
+    private void initAtributos() {
+        labelTituloMenu = new JLabel("Librería Virtual", SwingUtilities.CENTER);
+        labelNombreUsuario = new JLabel("", SwingUtilities.CENTER);
+        botonCatalogo = new JButton("Catalogo");
+        botonCarrito = new JButton("Mi carrito");
+        botonCompras = new JButton("Mis compras");
+        botonPerfil = new JButton("Perfil");
+        botonIniciarSesion = new JButton("Iniciar Sesión");
+        botonCerrarSesion = new JButton("Cerrar Sesión");
+        botonGestionarLibros = new JButton("Gestionar Libros");
+        botonRegistrarUsuario = new JButton("Registrar Usuario");
     }
 
     public void usuarioNull() {

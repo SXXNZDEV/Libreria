@@ -27,10 +27,7 @@ public class PanelConfirmCompra extends JDialog {
         repaint();
         preferenciasPanel();
 
-        botonContinuar.addActionListener(evento);
-        botonContinuar.setActionCommand(evento.ACEPTAR_CONFIRMAR_COMPRA);
-        botonCancelar.addActionListener(evento);
-        botonCancelar.setActionCommand(evento.CANCELAR_CONFIRMAR_COMPRA);
+        asignarAccionBoton(evento);
 
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridx = 0;
@@ -62,6 +59,13 @@ public class PanelConfirmCompra extends JDialog {
         setModal(true);
         setVisible(false);
         repaint();
+    }
+
+    private void asignarAccionBoton(Evento evento) {
+        botonContinuar.addActionListener(evento);
+        botonContinuar.setActionCommand(evento.ACEPTAR_CONFIRMAR_COMPRA);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_CONFIRMAR_COMPRA);
     }
 
     private void preferenciasPanel() {

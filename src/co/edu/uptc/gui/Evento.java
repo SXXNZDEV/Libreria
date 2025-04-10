@@ -11,9 +11,6 @@ public class Evento implements ActionListener {
 
     public final static String ACTIVAR_INICIAR_SESION = "Activar Iniciar Sesion";
 
-    /** Acción para iniciar sesión. */
-    public final static String INICIAR_SESION = "Iniciar Sesion";
-
     /** Acción para gestionar libros. */
     public final static String GESTIONAR_LIBROS = "Gestionar Libros";
 
@@ -86,18 +83,13 @@ public class Evento implements ActionListener {
     /** Acción para realizar una compra. */
     public final static String COMPRAR = "Comprar";
 
-    public final static String EVALUAR_EXPRESION = "Evaluar Expresion";
-
-    public final static String ACTIVAR_PANEL_EVALUAR = "Activar Panel Evaluar";
-
-    /**
-     * Accion para acceder al panel de confirmar la compra
-     */
+    /**Accion para acceder al panel de confirmar la compra */
     public final static String ACTIVAR_PANEL_CONFIRMAR = "Activar Panel Confirmar Compra";
 
-
+    /**Accion para acceder al salir del panel de confirmar compra */
     public final static String CANCELAR_CONFIRMAR_COMPRA = "Cancelar Confirmar Compra";
 
+    /**Accion para confirmar la compra */
     public final static String ACEPTAR_CONFIRMAR_COMPRA = "Aceptar Confirmar Compra";
 
     /** Referencia a la VentanaPrincipal. */
@@ -121,7 +113,6 @@ public class Evento implements ActionListener {
 
         switch (eventoStr) {
             case ACTIVAR_INICIAR_SESION -> ventana.activarIniciarSesion();
-            case INICIAR_SESION -> ventana.activarPanelInicioSesion();
             case GESTIONAR_LIBROS -> ventana.activarPanelGestionLibros();
             case SALIR -> ventana.activarFuncionRegresar();
             case VENTANA_REGISTRAR_LIBRO -> ventana.activarPanelRegistrarLibros();
@@ -138,7 +129,7 @@ public class Evento implements ActionListener {
             case COMPRAS -> ventana.activarPanelCompras();
             case ELIMINAR_LIBRO -> ventana.activarEliminarLibros();
             case ACTUALIZAR_DATOS_USUARIO -> ventana.activarModificarDatosUsuario();
-            case ACEPTAR_ACTUALIZAR_USUARIO -> ventana.activarAceptarActualizarUser();
+            case ACEPTAR_ACTUALIZAR_USUARIO -> ventana.activarAceptarModificarUsuario();
             case CANCELAR_ACTUALIZAR_USUARIO -> ventana.activarCancelarActualizarUser();
             case REGISTRAR_USUARIO -> ventana.activarFuncionRegistrarUsuario();
             case REGISTRAR_LIBRO -> ventana.activarFuncionRegistrarLibro();

@@ -1,10 +1,7 @@
 package co.edu.uptc.negocio;
 
-import co.edu.uptc.gui.PanelEliminarLibro;
-import co.edu.uptc.gui.PanelLibro;
 import co.edu.uptc.gui.PanelLibroEliminar;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -79,26 +76,51 @@ public class GestionLibro {
      * @throws IllegalArgumentException si alguno de los libros no está en el catálogo
      * @throws IOException si ocurre algún error cuando no se escribe el JSON
      */
-    public void eliminarLibros(ArrayList<PanelLibroEliminar> listaLibros) throws IllegalArgumentException, IOException{
+    /*public void eliminarLibros(ArrayList<PanelLibroEliminar> listaLibros) throws IllegalArgumentException, IOException{
         Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
         ArrayList<PanelLibroEliminar> listaLibrosLocal = (ArrayList<PanelLibroEliminar>) listaLibros.clone();
         if (listaLibros.isEmpty()) throw new IllegalArgumentException("No hay libros registrados para eliminar");
         for (PanelLibroEliminar pl : listaLibrosLocal) {
             if (existeLibro(pl.getLibro()) && pl.isSelected()) {
-                int index = obtenerPosicionLibro(pl.getLibro(), catalogo);
-                catalogo.get(pl.getLibro().getCategoria()).remove(index);
+                int index = eliminarLibroPosicion(pl.getLibro(), catalogo);
                 listaLibros.remove(pl);
             }
 
         }
         manejoLibroJSON.escribirLibros(catalogo);
+    }*/
+
+    //TODO revisar este metodo, puede ocasionar errores
+    public void eliminarLibro(ArrayList<String> isbnLibros) throws IllegalArgumentException, IOException{
+        Map<String, ArrayList<Libro>> catalogo = manejoLibroJSON.leerLibro();
+        if (isbnLibros.isEmpty()) throw new RuntimeException("No hay libros registrados para eliminar");
+        for (String isbn : isbnLibros) {
+            if (existeLibro(isbn)) {
+                Libro libro = new Libro();
+                libro.setIsbn(isbn);
+                eliminarLibroPosicion(libro, catalogo);
+            }
+        }
+        manejoLibroJSON.escribirLibros(catalogo);
     }
+
+    public boolean existeLibro(String isbn) {
+        for (ArrayList<Libro> libros : manejoLibroJSON.getMapLibros().values()) {
+            for (Libro libroCatalogo : libros) {
+                if (libroCatalogo.getIsbn().equals(isbn)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Método que devuelve un array con los títulos de los libros que se encuentran en el catálogo
      * @return array con los títulos de los libros que se encuentran en el catálogo
      */
-    public String[] obtenerUsuarios() {
+    public String[] obtenerLibros() {
         ArrayList<String> libros = new ArrayList<>();
         String[] arrayLibros;
         for (ArrayList<Libro> catalogo : manejoLibroJSON.getMapLibros().values()) {
@@ -147,13 +169,13 @@ public class GestionLibro {
 
     /**
      * Verifica si el libro tiene stock disponible en el catálogo
-     * @param libroParametro libro a validar el stock disponible
+     * @param isbnLibro isbn para validar que el libro que lo contenga tenga disponibilidad para ser vendido.
      * @return true si el stock disponible es mayor a 0
      */
-    public boolean validarExistencia(Libro libroParametro) {
+    public boolean validarExistencia(String isbnLibro) {
         for (ArrayList<Libro> libros : manejoLibroJSON.getMapLibros().values()) {
             for (Libro libro : libros) {
-                if (libro.getIsbn().equals(libroParametro.getIsbn())) {
+                if (libro.getIsbn().equals(isbnLibro)) {
                     return libro.getStockDisponible() > 0;
                 }
             }
@@ -167,17 +189,17 @@ public class GestionLibro {
      * @param catalogo libros disponibles en el catálogo
      * @return posición del libro en el Map del catálogo
      */
-    public int obtenerPosicionLibro(Libro libroParametro, Map<String,ArrayList<Libro>> catalogo) {
+    public void eliminarLibroPosicion(Libro libroParametro, Map<String,ArrayList<Libro>> catalogo) {
         int index = 0;
         for (ArrayList<Libro> libros : catalogo.values()) {
             for (Libro libro : libros) {
                 if (libro.getIsbn().equals(libroParametro.getIsbn())) {
-                    return index;
+                    libros.remove(index);
+                    return;
                 }
                 index++;
             }
             index = 0;
         }
-        return -1;
     }
 }

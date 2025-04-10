@@ -59,6 +59,28 @@ public class PanelEliminarLibro extends JPanel {
         return listPanelesLibros;
     }
 
+    public ArrayList<String> isbnLibros() {
+        ArrayList<String> titulosLibros = new ArrayList<>();
+        if (listPanelesLibros.isEmpty()) return null;
+        for (PanelLibroEliminar panelLibroEliminar: listPanelesLibros) {
+            if (panelLibroEliminar.isSelected()) {
+                titulosLibros.add(panelLibroEliminar.getLibro().getIsbn());
+            }
+        }
+        return titulosLibros;
+    }
+
+    public void eliminarPanelesSeleccionados() {
+        int index = 0;
+        if (listPanelesLibros.isEmpty()) return;
+        for (PanelLibroEliminar panelLibroEliminar: listPanelesLibros) {
+            if (panelLibroEliminar.isSelected()) {
+                listPanelesLibros.remove(index);
+            }
+            index++;
+        }
+    }
+
     /**
      * Elimina un panel de libro del panel de eliminación.
      * @param panelProducto Panel del libro a eliminar.
@@ -75,16 +97,8 @@ public class PanelEliminarLibro extends JPanel {
     public PanelEliminarLibro(VentanaPrincipal ventanaPrincipal, Evento evento) {
         initAtributos(ventanaPrincipal);
         GridBagConstraints gbc = new GridBagConstraints();
-        personalizarFont();
-        setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(400, 200));
-
-        botonEliminar.addActionListener(evento);
-        botonEliminar.setActionCommand(evento.FUNCION_ELIMINAR_LIBRO);
-
-        botonCancelar.addActionListener(evento);
-        botonCancelar.setActionCommand(evento.CANCELAR_ELIMINAR_LIBRO);
-
+        ajustarPreferenciasPanel();
+        asignarAccionBoton(evento);
         validarExistenciaProductos();
 
         gbc.weightx = 1.0;
@@ -101,13 +115,7 @@ public class PanelEliminarLibro extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridy = 1;
-        panelLibros.setBorder(new LineBorder(Color.WHITE));
-        panelLibros.setBackground(Color.WHITE);
-        scrollPanelLibros = new JScrollPane(panelLibros);
-        scrollPanelLibros.getVerticalScrollBar().setUnitIncrement(15);
-        scrollPanelLibros.setBackground(Color.WHITE);
-        scrollPanelLibros.setBorder(new LineBorder(Color.WHITE));
-        add(scrollPanelLibros, gbc);
+        ajustarPanelLibros(gbc);
 
         gbc.gridy = 2;
         gbc.gridwidth = 2;
@@ -124,6 +132,29 @@ public class PanelEliminarLibro extends JPanel {
 
         gbc.gridx = 1;
         add(botonCancelar, gbc);
+    }
+
+    private void ajustarPanelLibros(GridBagConstraints gbc) {
+        panelLibros.setBorder(new LineBorder(Color.WHITE));
+        panelLibros.setBackground(Color.WHITE);
+        scrollPanelLibros = new JScrollPane(panelLibros);
+        scrollPanelLibros.getVerticalScrollBar().setUnitIncrement(15);
+        scrollPanelLibros.setBackground(Color.WHITE);
+        scrollPanelLibros.setBorder(new LineBorder(Color.WHITE));
+        add(scrollPanelLibros, gbc);
+    }
+
+    private void ajustarPreferenciasPanel() {
+        personalizarFont();
+        setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(400, 200));
+    }
+
+    private void asignarAccionBoton(Evento evento) {
+        botonEliminar.addActionListener(evento);
+        botonEliminar.setActionCommand(evento.FUNCION_ELIMINAR_LIBRO);
+        botonCancelar.addActionListener(evento);
+        botonCancelar.setActionCommand(evento.CANCELAR_ELIMINAR_LIBRO);
     }
 
     /**
@@ -177,9 +208,7 @@ public class PanelEliminarLibro extends JPanel {
 
         for (ArrayList<Libro> libroArrayList : mapLibros.values()) {
             for (Libro libro : libroArrayList) {
-                PanelLibroEliminar panelLibro = new PanelLibroEliminar(ventanaPrincipal, libro);
-                panelLibro.setPreferredSize(new Dimension(180, 120));
-                anadirLibrosPanel(panelLibro);
+                agregarPanelLibro(libro);
             }
         }
 
@@ -191,6 +220,12 @@ public class PanelEliminarLibro extends JPanel {
 
         revalidate();
         repaint();
+    }
+
+    private void agregarPanelLibro(Libro libro) {
+        PanelLibroEliminar panelLibro = new PanelLibroEliminar(ventanaPrincipal, libro);
+        panelLibro.setPreferredSize(new Dimension(180, 120));
+        anadirLibrosPanel(panelLibro);
     }
 
     /**
